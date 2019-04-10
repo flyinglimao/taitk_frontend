@@ -1,0 +1,10 @@
+.panel {
+    background: white;
+}
+.tile {
+    margin: .75em 0;
+}
+
+.hide {
+    display: none;
+}

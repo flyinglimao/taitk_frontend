@@ -1,0 +1,74 @@
+<div class="container">
+  <div class="columns">
+    <div class="column col-8 col-xl-8 col-lg-8 col-md-10 col-sm-10 col-xs-10 col-mx-auto">
+      <div class="container">
+        <div class=" columns">
+          <div class="column">
+            <div class="text-center">
+              <a class="btn btn-primary edit-action">新增</a>
+              <a class="btn edit-action mt-1" [class.hide]="editing" (click)="startEdit()">編輯</a>
+              <a class="btn btn-success edit-action mt-1" [class.hide]="!editing" (click)="finishEdit()">完成</a>
+              <a class="btn btn-error edit-action mt-1" [class.hide]="!editing" (click)="discardEdit()">放棄</a>
+            </div>
+            <div class="accordion">
+              <input type="radio" name="category-accordion" id="category-1" hidden="hidden">
+              <label for="category-1" class="accordion-header">
+                <i class="icon icon-arrow-right mr-1"></i>
+                分類 1
+              </label>
+              <div class="accordion-body">
+                <ul class="menu menu-nav">
+                  <li class="menu-item"><a href="#">演算法1</a></li>
+                  <li class="menu-item"><a href="#">演算法2</a></li>
+                  <li class="menu-item"><a href="#">演算法3</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="accordion">
+              <input type="radio" name="category-accordion" id="category-2" hidden="hidden">
+              <label for="category-2" class="accordion-header">
+                <i class="icon icon-arrow-right mr-1"></i>
+                分類 2
+              </label>
+              <div class="accordion-body">
+                  <ul class="menu menu-nav">
+                    <li class="menu-item"><a href="#">演算法1</a></li>
+                    <li class="menu-item"><a href="#">演算法2</a></li>
+                    <li class="menu-item"><a href="#">演算法3</a></li>
+                  </ul>
+              </div>
+            </div>
+            <div class="accordion">
+              <input type="radio" name="category-accordion" id="category-3" hidden="hidden">
+              <label for="category-3" class="accordion-header">
+                <i class="icon icon-arrow-right mr-1"></i>
+                分類 3
+              </label>
+              <div class="accordion-body">
+                  <ul class="menu menu-nav">
+                    <li class="menu-item"><a href="#">演算法1</a></li>
+                    <li class="menu-item"><a href="#">演算法2</a></li>
+                    <li class="menu-item"><a href="#">演算法3</a></li>
+                  </ul>
+              </div>
+            </div>
+          </div>
+          <div class="divider-vert"></div>
+          <div class="column col-9">
+            <app-algorithm-form></app-algorithm-form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal modal-sm" [class.active]="discardPrompt">
+  <a class="modal-overlay" aria-label="close"></a>
+  <div class="modal-container text-center">
+    <div class="modal-body">
+      <p>你確定要放棄本次編輯嗎？</p>
+      <button class="btn btn-primary" (click)="discardEditConfirm()">確定</button>
+      <button class="btn mx-1" (click)="discardEditCancel()">返回</button>
+    </div>
+  </div>
+</div>
