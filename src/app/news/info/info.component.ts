@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class NewsInfoComponent implements OnInit {
   @Input()
-  post: object;
+  post: any;
   constructor() { }
 
   ngOnInit() {
