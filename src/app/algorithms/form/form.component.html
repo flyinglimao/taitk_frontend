@@ -1,26 +1,26 @@
-<div class="panel bg-light">
+<div class="panel bg-light" [class.hide]="jsonMode">
   <div class="panel-header text-center">
-    <div class="panel-title h3" [class.hide]="editing">ADSA</div>
+    <div class="panel-title h3" [class.hide]="editing">{{ algorithmData.abbreviation }}</div>
     <div class="panel-title" [class.hide]="!editing">
-      <input type="text" class="form-input text-center" value="ADSA" placeholder="簡稱">
+      <input type="text" class="form-input text-center" [(ngModel)]="algorithmData.abbreviation" placeholder="簡稱">
     </div>
   </div>
   <div class="panel-body">
     <div class="tile tile-centered">
       <div class="tile-content">
         <div class="tile-title text-bold">全稱</div>
-        <div class="tile-subtitle" [class.hide]="editing">Adversarial Domain Separation and Adaptation</div>
+        <div class="tile-subtitle" [class.hide]="editing">{{ algorithmData.fullTitle }}</div>
         <div class="tile-subtitle" [class.hide]="!editing">
-          <input type="text" class="form-input" value="Adversarial Domain Separation and Adaptation">
+          <input type="text" class="form-input" [(ngModel)]="algorithmData.fullTitle">
         </div>
       </div>
     </div>
     <div class="tile tile-centered">
       <div class="tile-content">
         <div class="tile-title text-bold">類別</div>
-        <div class="tile-subtitle" [class.hide]="editing">類別一</div>
+        <div class="tile-subtitle" [class.hide]="editing">{{ algorithmData.category }}</div>
         <div class="tile-subtitle" [class.hide]="!editing">
-          <input type="text" class="form-input" value="類別一">
+          <input type="text" class="form-input" [(ngModel)]="algorithmData.category">
         </div>
       </div>
     </div>
@@ -28,18 +28,21 @@
       <div class="tile-content">
         <div class="tile-title text-bold">作者</div>
         <div class="tile-subtitle">
-          <span class="chip">
-            Jen-Tzung Chien
-            <a aria-label="close" role="button" class="btn btn-clear" [class.hide]="!editing"></a>
+          <span class="chip" *ngFor="let author of algorithmData.authors">
+            {{ author }}
+            <a aria-label="close" role="button" class="btn btn-clear" [class.hide]="!editing"
+              (click)="deleteAuthor(author)"></a>
           </span>
-          <span class="chip">
-            Yu-Hsiu Chen
-            <a aria-label="close" role="button" class="btn btn-clear" [class.hide]="!editing"></a>
+          <span class="chip" [class.hide]="!newAuthorInput || !editing">
+            <form (submit)="newAuthorSubmit()">
+              <input class="author-input" autofocus type="text" [(ngModel)]="newAuthorName"
+                [ngModelOptions]="{standalone: true}" #authorInput>
+            </form>
           </span>
         </div>
       </div>
       <div class="tile-action" [class.hide]="!editing">
-        <button class="btn btn-link btn-action">
+        <button class="btn btn-link btn-action" (click)="newAuthor()">
           <i class="icon icon-plus"></i>
         </button>
       </div>
@@ -48,12 +51,26 @@
       <div class="tile-content">
         <div class="tile-title text-bold">功能</div>
         <div class="tile-subtitle" [class.hide]="editing">
-          Domain Adaptation, Pattern Classification
+          {{ algorithmData.features }}
         </div>
         <div class="tile-subtitle">
-          <textarea class="form-input" [class.hide]="!editing">Domain Adaptation, Pattern Classification</textarea>
+          <textarea class="form-input" [class.hide]="!editing" [(ngModel)]="algorithmData.features"></textarea>
         </div>
       </div>
     </div>
   </div>
+</div>
+<div class="panel bg-light" [class.hide]="!jsonMode">
+  <div class="panel-header"></div>
+  <div class="panel-body">
+    <div class="form-group">
+      <textarea [(ngModel)]="algorithmJSON" class="form-input json-textarea">
+    </textarea>
+    </div>
+  </div>
+  <div class="panel-footer"></div>
+</div>
+<div class="toast toast-error json-error" [class.hide]="!jsonErrorToast">
+  <button class="btn btn-clear float-right" (click)="jsonErrorToast=false"></button>
+  JSON 格式有誤，請檢查後重試。（或者 <a (click)="recoveryForm()">重設</a>）
 </div>

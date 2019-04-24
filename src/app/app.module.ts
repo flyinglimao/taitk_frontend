@@ -16,6 +16,7 @@ import { NewsPostComponent } from './news/post/post.component';
 import { ItemComponent } from './tasks/item/item.component';
 import { LoginComponent } from './login/login.component';
 import { AlgorithmFormComponent } from './algorithms/form/form.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { AlgorithmFormComponent } from './algorithms/form/form.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

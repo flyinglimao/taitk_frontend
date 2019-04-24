@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AlgorithmFormComponent } from './form/form.component';
 
 @Component({
   selector: 'app-algorithms',
@@ -9,6 +10,11 @@ export class AlgorithmsComponent implements OnInit {
 
   editing: boolean = false;
   discardPrompt: boolean = false;
+  jsonMode: boolean = false;
+
+  @ViewChild('form')
+  private form: AlgorithmFormComponent;
+
   
   constructor() { }
 
@@ -20,6 +26,8 @@ export class AlgorithmsComponent implements OnInit {
   }
 
   finishEdit() {
+    if (!this.form.switchEditMode(false)) return;
+    this.jsonMode = false;
     this.editing = false;
   }
   
@@ -34,6 +42,15 @@ export class AlgorithmsComponent implements OnInit {
   discardEditConfirm() {
     this.discardPrompt = false;
     this.editing = false;
+    this.jsonMode = false;
+    // TODO: recovery data
+    this.form.recoveryForm();
+    this.form.switchEditMode(false);
+  }
+
+  switchEditMode(json: boolean = false) {
+    if(!this.form.switchEditMode(json)) return;
+    this.jsonMode = json;
   }
 
 }

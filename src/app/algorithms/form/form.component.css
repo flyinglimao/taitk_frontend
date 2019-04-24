@@ -11,3 +11,20 @@
 .hide {
     display: none;
 }
+
+.json-textarea {
+    height: calc(70vh - 150px);
+}
+
+.author-input {
+    border: none;
+    background: none;
+}
+
+.json-error {
+    position: relative;
+    width: 80%;
+    left: 10%;
+    top: -100%;
+    transform: translateY(-33%);
+}
