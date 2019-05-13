@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlgorithmFormComponent } from './form/form.component';
+import { UserService } from '../user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-algorithms',
@@ -16,9 +18,15 @@ export class AlgorithmsComponent implements OnInit {
   private form: AlgorithmFormComponent;
 
   
-  constructor() { }
+  constructor(
+    private userService: UserService,
+    private router: Router,
+  ) { }
 
   ngOnInit() {
+    if (!this.userService.logined) {
+      this.router.navigateByUrl('/login');
+    }
   }
 
   startEdit() {

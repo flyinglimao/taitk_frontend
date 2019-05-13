@@ -67,6 +67,12 @@ export class AlgorithmFormComponent implements OnInit {
     return false;
   }
 
+  newAuthorDiscard() {
+    this.newAuthorInput = false;
+    this.newAuthorName = '';
+  }
+
+
   recoveryForm() {
     this.jsonErrorToast = false;
     this.algorithmJSON = JSON.stringify(this.algorithmData, null, 4);

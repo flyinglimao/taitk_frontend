@@ -3,10 +3,15 @@
     <div class="column col-8 col-xl-8 col-lg-8 col-md-10 col-sm-10 col-xs-10 col-mx-auto">
       <header class="navbar">
         <section class="navbar-section">
-          <a routerLink="" class="navbar-brand mr-2"><img src="https://taitk.org/app-assets/images/logo5.png" alt="TAITK Server"></a>
+          <a routerLink="" class="navbar-brand mr-2"><img src="assets/logo.png" alt="TAITK Server"></a>
         </section>
-        <section class="navbar-section">
+        <section class="navbar-section" *ngIf="!userService.logined">
           <a routerLink="login" class="btn btn-link text-light">登入</a>
+          <a routerLink="algorithms" *ngIf="!userService.logined"></a>
+        </section>
+        <section class="navbar-section" *ngIf="userService.logined">
+          <a routerLink="algorithms" class="btn btn-link text-light">{{ userService.name }}</a>
+          <a (click)="logout()" class="btn btn-link text-light">登出</a>
         </section>
       </header>
     </div>

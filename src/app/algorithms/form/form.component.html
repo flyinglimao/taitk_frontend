@@ -37,6 +37,8 @@
             <form (submit)="newAuthorSubmit()">
               <input class="author-input" autofocus type="text" [(ngModel)]="newAuthorName"
                 [ngModelOptions]="{standalone: true}" #authorInput>
+                <a aria-label="close" role="button" class="btn btn-clear" [class.hide]="!editing"
+                  (click)="newAuthorDiscard()"></a>
             </form>
           </span>
         </div>
