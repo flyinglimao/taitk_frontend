@@ -9,6 +9,8 @@ export class UserService {
   private _token: string = '';
   private _name: string = '';
   private _logined: boolean = false;
+  private inited: boolean = false;
+  private initedCallback: Array<Function> = [];
 
   get name() {
     return this._name;
@@ -22,7 +24,43 @@ export class UserService {
     return this._token;
   }
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {
+    if (localStorage.getItem('token')) {
+      let request = httpClient.get(`${environment.api}auth/status`, {params: {
+        token: localStorage.getItem('token')
+      }});
+      let self = this;
+      request.subscribe(
+        function (data: {
+          success: boolean,
+          error: string,
+          name: string,
+        }) {
+          if (data.success) {
+            self._token = localStorage.getItem('token');
+            self._logined = true;
+            self._name = data.name;
+          } else {
+            console.log(data);
+            localStorage.removeItem('token');
+          }
+          self.inited = true;
+          self.initedCallback.forEach(cb => cb())
+        },
+        function (err) {
+          console.log(err);
+          localStorage.removeItem('token')
+          self.inited = true;
+          self.initedCallback.forEach(cb => cb())
+        }
+      );
+    }
+  }
+
+  public registerInitedCallback(callback: Function) {
+    if (this.inited) callback();
+    else this.initedCallback.push(callback)
+  }
 
   public login(email: string, password: string) {
     let self = this;
@@ -38,6 +76,7 @@ export class UserService {
           self._token = data.token;
           self._logined = true;
           self._name = data.name;
+          localStorage.setItem('token', data.token);
           resolve(data.name);
         } else {
           reject(data.reason);

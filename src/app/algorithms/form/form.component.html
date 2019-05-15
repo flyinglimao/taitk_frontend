@@ -35,7 +35,7 @@
           </span>
           <span class="chip" [class.hide]="!newAuthorInput || !editing">
             <form (submit)="newAuthorSubmit()">
-              <input class="author-input" autofocus type="text" [(ngModel)]="newAuthorName"
+              <input class="chip-input" autofocus type="text" [(ngModel)]="newAuthorName"
                 [ngModelOptions]="{standalone: true}" #authorInput>
                 <a aria-label="close" role="button" class="btn btn-clear" [class.hide]="!editing"
                   (click)="newAuthorDiscard()"></a>
@@ -51,12 +51,128 @@
     </div>
     <div class="tile tile-centered">
       <div class="tile-content">
-        <div class="tile-title text-bold">功能</div>
+        <div class="tile-title text-bold">標籤</div>
+        <div class="tile-subtitle">
+          <span class="chip" *ngFor="let tag of algorithmData.tags">
+            {{ tag }}
+            <a aria-label="close" role="button" class="btn btn-clear" [class.hide]="!editing"
+              (click)="deleteTag(tag)"></a>
+          </span>
+          <span class="chip" [class.hide]="!newTagInput || !editing">
+            <form (submit)="newTagSubmit()">
+              <input class="chip-input" autofocus type="text" [(ngModel)]="newTagName"
+                [ngModelOptions]="{standalone: true}" #tagInput>
+                <a aria-label="close" role="button" class="btn btn-clear" [class.hide]="!editing"
+                  (click)="newTagDiscard()"></a>
+            </form>
+          </span>
+        </div>
+      </div>
+      <div class="tile-action" [class.hide]="!editing">
+        <button class="btn btn-link btn-action" (click)="newTag()">
+          <i class="icon icon-plus"></i>
+        </button>
+      </div>
+    </div>
+    <div class="tile tile-centered">
+      <div class="tile-content">
+        <div class="tile-title text-bold">功能描述</div>
         <div class="tile-subtitle" [class.hide]="editing">
           {{ algorithmData.features }}
         </div>
         <div class="tile-subtitle">
           <textarea class="form-input" [class.hide]="!editing" [(ngModel)]="algorithmData.features"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="tile tile-centered">
+      <div class="tile-content">
+        <div class="tile-title text-bold">輸入類型</div>
+        <div class="tile-subtitle" [class.hide]="editing"><code>audio/*</code></div>
+        <div class="tile-subtitle" [class.hide]="!editing">
+          <input type="text" class="form-input" value="audio/plain">
+        </div>
+      </div>
+    </div>
+    <div class="tile tile-centered">
+      <div class="tile-content">
+        <div class="tile-title text-bold">輸出類型</div>
+        <div class="tile-subtitle" [class.hide]="editing"><code>text/json</code></div>
+        <div class="tile-subtitle" [class.hide]="!editing">
+          <input type="text" class="form-input" value="text/json">
+        </div>
+      </div>
+    </div>
+    <div class="tile tile-centered">
+      <div class="tile-content">
+        <div class="tile-title text-bold">參考連結</div>
+        <ng-container *ngFor="let link of algorithmData.links">
+          <div class="tile-subtitle" [class.hide]="editing">{{ link }}</div>
+          <div class="tile-subtitle" [class.hide]="!editing">
+            <input type="text" class="form-input" [(ngModel)]="link">
+          </div>
+        </ng-container>
+        <div class="tile-subtitle" [class.hide]="!editing">
+          <button class="btn btn-link btn-action" (click)="algorithmData.links.push('')">
+            新增
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="tile tile-centered">
+      <div class="tile-content">
+        <div class="tile-title text-bold">資料集</div>
+        <div class="tile-content">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>名稱</th>
+                <th>連結</th>
+                <th>授權</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>WordNet</td>
+                <td>https://wordnet.princeton.edu/</td>
+                <td>Free/Due</td>
+              </tr>
+              <tr>
+                <td>中文語篇樹庫（CDTB）</td>
+                <td>www.cs.brandeis.edu/~clp/cdtb/</td>
+                <td>Free/Due</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="tile tile-centered">
+      <div class="tile-content">
+        <div class="tile-title text-bold">參數</div>
+        <div class="tile-content">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>標籤</th>
+                <th>說明</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>--demo -d</td>
+                <td>畫出HTML圖檔</td>
+              </tr>
+              <tr>
+                <td>-r=<u>RANGE</u></td>
+                <td>調整樹的深度 RANGE: 介於 0~100 的一個數字</td>
+              </tr>
+              <tr>
+                <td>-eg[=<u>EXAMPLE</u>]</td>
+                <td>範例標籤與說明 EXAMPLE: 任意字串，預設值為 <u>example</u></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

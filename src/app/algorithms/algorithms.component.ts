@@ -24,9 +24,11 @@ export class AlgorithmsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (!this.userService.logined) {
-      this.router.navigateByUrl('/login');
-    }
+    this.userService.registerInitedCallback(()=> {
+      if (!this.userService.logined) {
+        this.router.navigateByUrl('/login');
+      }
+    })
   }
 
   startEdit() {

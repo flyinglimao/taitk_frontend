@@ -11,22 +11,30 @@ export class AlgorithmFormComponent implements OnInit {
 
   @ViewChild('authorInput')
   authorInput: ElementRef;
+  @ViewChild('tagInput')
+  tagInput: ElementRef;
 
   jsonMode: boolean = false;
   newAuthorInput: boolean = false;
   newAuthorName: string = '';
+  newTagInput: boolean = false;
+  newTagName: string = '';
   algorithmData: {
     abbreviation: string,
     fullTitle: string,
     category: string,
     authors: Array<string>,
+    tags: Array<string>,
     features: string,
+    links: Array<string>,
   } = {
     abbreviation: 'ADSA',
     fullTitle: 'Adversarial Domain Separation and Adaptation',
     category: '類別一',
     authors: ['Jen-Tzung Chien', 'Yu-Hsiu Chen'],
+    tags: ['Chinese discourse parser', '中文語篇剖析器'],
     features: 'Domain Adaptation, Pattern Classification',
+    links: ['https://github.com/abccaba2000/discourse-parser'],
   }
   algorithmJSON: string;
   jsonErrorToast: boolean = false;
@@ -34,9 +42,11 @@ export class AlgorithmFormComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.algorithmJSON = JSON.stringify(this.algorithmData, null, 4);
   }
 
   switchEditMode(json: boolean) {
+    this.algorithmData.links = this.algorithmData.links.filter(e => e.length);
     if (!json) {
       try {
         this.algorithmData = JSON.parse(this.algorithmJSON);
@@ -72,6 +82,26 @@ export class AlgorithmFormComponent implements OnInit {
     this.newAuthorName = '';
   }
 
+  deleteTag(tag: string) {
+    this.algorithmData.tags.splice(this.algorithmData.tags.indexOf(tag), 1);
+  }
+
+  newTag() {
+    this.newTagInput = true;
+  }
+
+  newTagSubmit() {
+    this.newTagInput = false;
+    this.algorithmData.tags.push(this.newTagName);
+    this.newTagName = '';
+    this.tagInput.nativeElement.focus();
+    return false;
+  }
+
+  newTagDiscard() {
+    this.newTagInput = false;
+    this.newTagName = '';
+  }
 
   recoveryForm() {
     this.jsonErrorToast = false;

@@ -1,5 +1,6 @@
 .panel {
     background: white;
+    margin-bottom: 16px;
 }
 .tile {
     margin: .75em 0;
@@ -16,7 +17,7 @@
     height: calc(70vh - 150px);
 }
 
-.author-input {
+.chip-input {
     border: none;
     background: none;
 }
@@ -27,4 +28,8 @@
     left: 10%;
     top: -100%;
     transform: translateY(-33%);
+}
+
+.form-input {
+    margin-top: 3px;
 }

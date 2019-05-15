@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('password', self.password);
         localStorage.setItem('remeber', 'true');
       }
-      self.router.navigateByUrl('/news');
+      self.router.navigateByUrl('/algorithms');
     }).catch (function (reason) {
       self.errorToast = '登入失敗，錯誤訊息：' + reason;
     });
@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
       website: this.website,
       avatar: this.avatar,
     }).then(function (name: string) {
-      self.router.navigateByUrl('/news');
+      self.router.navigateByUrl('/algorithms');
     }).catch (function (reason) {
       self.errorToast = '登入失敗，錯誤訊息：' + reason;
     });
