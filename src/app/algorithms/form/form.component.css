@@ -1,14 +1,26 @@
+table {
+    table-layout: fixed;
+}
+
+table td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .panel {
     background: white;
     margin-bottom: 16px;
 }
+
 .tile {
     margin: .75em 0;
 }
-.panel-title > input {
+
+.panel-title>input {
     font-size: 1.4rem;
     border: none;
 }
+
 .hide {
     display: none;
 }

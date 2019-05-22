@@ -27,15 +27,19 @@ export class AlgorithmFormComponent implements OnInit {
     tags: Array<string>,
     features: string,
     links: Array<string>,
+    inputType: string,
+    outputType: string,
   } = {
-    abbreviation: 'ADSA',
-    fullTitle: 'Adversarial Domain Separation and Adaptation',
-    category: '類別一',
-    authors: ['Jen-Tzung Chien', 'Yu-Hsiu Chen'],
-    tags: ['Chinese discourse parser', '中文語篇剖析器'],
-    features: 'Domain Adaptation, Pattern Classification',
-    links: ['https://github.com/abccaba2000/discourse-parser'],
-  }
+    abbreviation: '',
+    fullTitle: '',
+    category: '',
+    authors: [],
+    tags: [],
+    features: '',
+    links: [],
+    inputType: '',
+    outputType: '',
+  };
   algorithmJSON: string;
   jsonErrorToast: boolean = false;
 
@@ -43,6 +47,19 @@ export class AlgorithmFormComponent implements OnInit {
 
   ngOnInit() {
     this.algorithmJSON = JSON.stringify(this.algorithmData, null, 4);
+  }
+
+  renderUnderLine(raw: string) {
+    raw = raw.replace(/&/g, '&amp;');
+    raw = raw.replace(/</g, '&lt;');
+    raw = raw.replace(/>/g, '&gt;');
+    raw = raw.replace(/\\_/g, '&lowbar;');
+    raw = raw.replace(/\\\\/g, '&bsol;');
+    raw.match(/_\S*_/g).forEach(match => {
+      let content = match.match(/_(\S*)_/)[1]
+      raw = raw.replace(match, '<u>' + content + '</u>');
+    });
+    return raw;
   }
 
   switchEditMode(json: boolean) {
@@ -66,14 +83,19 @@ export class AlgorithmFormComponent implements OnInit {
   }
 
   newAuthor() {
+    if (this.newAuthorInput && this.newAuthorName) {
+      this.newAuthorSubmit();
+    }
     this.newAuthorInput = true;
   }
 
   newAuthorSubmit() {
     this.newAuthorInput = false;
-    this.algorithmData.authors.push(this.newAuthorName);
-    this.newAuthorName = '';
-    this.authorInput.nativeElement.focus();
+    if (this.newAuthorName) {
+      this.algorithmData.authors.push(this.newAuthorName);
+      this.newAuthorName = '';
+      this.authorInput.nativeElement.focus(); 
+    }
     return false;
   }
 
@@ -87,14 +109,19 @@ export class AlgorithmFormComponent implements OnInit {
   }
 
   newTag() {
+    if (this.newTagInput && this.newTagName) {
+      this.newTagSubmit();
+    } 
     this.newTagInput = true;
   }
 
   newTagSubmit() {
     this.newTagInput = false;
-    this.algorithmData.tags.push(this.newTagName);
-    this.newTagName = '';
-    this.tagInput.nativeElement.focus();
+    if (this.newTagName) {
+      this.algorithmData.tags.push(this.newTagName);
+      this.newTagName = '';
+      this.tagInput.nativeElement.focus();
+    }
     return false;
   }
 
