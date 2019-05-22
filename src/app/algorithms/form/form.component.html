@@ -1,26 +1,26 @@
 <div class="panel bg-light" *ngIf="!jsonMode">
     <div class="panel-header text-center">
-        <div class="panel-title h3" *ngIf="!editing">{{ algorithmData.abbreviation }}</div>
+        <div class="panel-title h3" *ngIf="!editing">{{ algorithmForm.abbreviation }}</div>
         <div class="panel-title" *ngIf="editing">
-            <input type="text" class="form-input text-center" [(ngModel)]="algorithmData.abbreviation" placeholder="簡稱 ex. AV-SpNET">
+            <input type="text" class="form-input text-center" [(ngModel)]="algorithmForm.abbreviation" placeholder="簡稱 ex. AV-SpNET">
         </div>
     </div>
     <div class="panel-body">
         <div class="tile tile-centered">
             <div class="tile-content">
                 <div class="tile-title text-bold">全稱</div>
-                <div class="tile-subtitle" *ngIf="!editing">{{ algorithmData.fullTitle }}</div>
+                <div class="tile-subtitle" *ngIf="!editing">{{ algorithmForm.fullTitle }}</div>
                 <div class="tile-subtitle" *ngIf="editing">
-                    <input type="text" class="form-input" [(ngModel)]="algorithmData.fullTitle" placeholder="ex. Arousal Valence Speech Front-End Network">
+                    <input type="text" class="form-input" [(ngModel)]="algorithmForm.fullTitle" placeholder="ex. Arousal Valence Speech Front-End Network">
                 </div>
             </div>
         </div>
         <div class="tile tile-centered">
             <div class="tile-content">
                 <div class="tile-title text-bold">類別</div>
-                <div class="tile-subtitle" *ngIf="!editing">{{ algorithmData.category }}</div>
+                <div class="tile-subtitle" *ngIf="!editing">{{ algorithmForm.category }}</div>
                 <div class="tile-subtitle" *ngIf="editing">
-                    <input type="text" class="form-input" [(ngModel)]="algorithmData.category" placeholder="ex. SER">
+                    <input type="text" class="form-input" [(ngModel)]="algorithmForm.category" placeholder="ex. SER">
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
             <div class="tile-content">
                 <div class="tile-title text-bold">作者</div>
                 <div class="tile-subtitle">
-                    <span class="chip" *ngFor="let author of algorithmData.authors">
+                    <span class="chip" *ngFor="let author of algorithmForm.authors">
             {{ author }}
             <a aria-label="close" role="button" class="btn btn-clear" *ngIf="editing"
               (click)="deleteAuthor(author)"></a>
@@ -53,7 +53,7 @@
             <div class="tile-content">
                 <div class="tile-title text-bold">標籤</div>
                 <div class="tile-subtitle">
-                    <span class="chip" *ngFor="let tag of algorithmData.tags">
+                    <span class="chip" *ngFor="let tag of algorithmForm.tags">
             {{ tag }}
             <a aria-label="close" role="button" class="btn btn-clear" *ngIf="editing"
               (click)="deleteTag(tag)"></a>
@@ -78,42 +78,42 @@
             <div class="tile-content">
                 <div class="tile-title text-bold">功能描述</div>
                 <div class="tile-subtitle" *ngIf="!editing">
-                    {{ algorithmData.features }}
+                    {{ algorithmForm.features }}
                 </div>
                 <div class="tile-subtitle">
-                    <textarea class="form-input" *ngIf="editing" [(ngModel)]="algorithmData.features" placeholder="Speech Emotion Recognition (SER) across diverse application domains is still challenging due to the …"></textarea>
+                    <textarea class="form-input" *ngIf="editing" [(ngModel)]="algorithmForm.features" placeholder="Speech Emotion Recognition (SER) across diverse application domains is still challenging due to the …"></textarea>
                 </div>
             </div>
         </div>
         <div class="tile tile-centered">
             <div class="tile-content">
                 <div class="tile-title text-bold">輸入類型</div>
-                <div class="tile-subtitle" *ngIf="!editing"><code>{{ algorithmData.inputType }}</code></div>
+                <div class="tile-subtitle" *ngIf="!editing"><code>{{ algorithmForm.inputType }}</code></div>
                 <div class="tile-subtitle" *ngIf="editing">
-                    <input type="text" class="form-input" [(ngModel)]="algorithmData.inputType" placeholder="ex. audio/*">
+                    <input type="text" class="form-input" [(ngModel)]="algorithmForm.inputType" placeholder="ex. audio/*">
                 </div>
             </div>
         </div>
         <div class="tile tile-centered">
             <div class="tile-content">
                 <div class="tile-title text-bold">輸出類型</div>
-                <div class="tile-subtitle" *ngIf="!editing"><code>{{ algorithmData.outputType }}</code></div>
+                <div class="tile-subtitle" *ngIf="!editing"><code>{{ algorithmForm.outputType }}</code></div>
                 <div class="tile-subtitle" *ngIf="editing">
-                    <input type="text" class="form-input" [(ngModel)]="algorithmData.outputType" placeholder="ex. text/json">
+                    <input type="text" class="form-input" [(ngModel)]="algorithmForm.outputType" placeholder="ex. text/json">
                 </div>
             </div>
         </div>
         <div class="tile tile-centered">
             <div class="tile-content">
                 <div class="tile-title text-bold">參考連結</div>
-                <ng-container *ngFor="let link of algorithmData.links">
+                <ng-container *ngFor="let link of algorithmForm.links">
                     <div class="tile-subtitle" *ngIf="!editing">{{ link }}</div>
                     <div class="tile-subtitle" *ngIf="editing">
                         <input type="text" class="form-input" [(ngModel)]="link">
                     </div>
                 </ng-container>
                 <div class="tile-subtitle" *ngIf="editing">
-                    <button class="btn btn-link btn-action" (click)="algorithmData.links.push('')">新增</button>
+                    <button class="btn btn-link btn-action" (click)="algorithmForm.links.push('')">新增</button>
                 </div>
             </div>
         </div>

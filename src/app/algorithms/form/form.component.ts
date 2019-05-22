@@ -8,6 +8,20 @@ import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 export class AlgorithmFormComponent implements OnInit {
   @Input()
   editing: boolean;
+  @Input()
+  algorithmData: {
+    abbreviation: string,
+    fullTitle: string,
+    category: string,
+    authors: Array<{name: string, id: number, algorithm_id: number}>,
+    tags: Array<{tag: string, id: number, algorithm_id: number}>,
+    features: string,
+    links: Array<{link: string, description: string, id: number, algorithm_id: number}>,
+    parameters: Array<{label: string, description: string, id: number, algorithm_id: number}>,
+    datasets: Array<{name: string, link: string, license: string, id: number, algorithm_id: number}>,
+    inputType: string,
+    outputType: string,
+  };
 
   @ViewChild('authorInput')
   authorInput: ElementRef;
@@ -19,26 +33,30 @@ export class AlgorithmFormComponent implements OnInit {
   newAuthorName: string = '';
   newTagInput: boolean = false;
   newTagName: string = '';
-  algorithmData: {
+  algorithmForm: {
     abbreviation: string,
     fullTitle: string,
     category: string,
-    authors: Array<string>,
-    tags: Array<string>,
+    authors: Array<{name: string, id: number}>,
+    tags: Array<{tag: string, id: number}>,
     features: string,
-    links: Array<string>,
+    links: Array<{link: string, description: string, id: number}>,
+    parameters: Array<{label: string, description: string, id: number}>,
+    datasets: Array<{name: string, link: string, license: string, id: number}>,
     inputType: string,
     outputType: string,
   } = {
-    abbreviation: '',
-    fullTitle: '',
-    category: '',
-    authors: [],
-    tags: [],
-    features: '',
-    links: [],
-    inputType: '',
-    outputType: '',
+    abbreviation: null,
+    fullTitle: null,
+    category: null,
+    authors: null,
+    tags: null,
+    features: null,
+    links: null,
+    parameters: null,
+    datasets: null,
+    inputType: null,
+    outputType: null,
   };
   algorithmJSON: string;
   jsonErrorToast: boolean = false;
@@ -46,7 +64,7 @@ export class AlgorithmFormComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.algorithmJSON = JSON.stringify(this.algorithmData, null, 4);
+    this.algorithmJSON = JSON.stringify(this.algorithmForm, null, 4);
   }
 
   renderUnderLine(raw: string) {
@@ -63,23 +81,26 @@ export class AlgorithmFormComponent implements OnInit {
   }
 
   switchEditMode(json: boolean) {
-    this.algorithmData.links = this.algorithmData.links.filter(e => e.length);
+    this.algorithmForm.links = this.algorithmForm.links.filter(e => e.link.length);
     if (!json) {
       try {
-        this.algorithmData = JSON.parse(this.algorithmJSON);
+        this.algorithmForm = JSON.parse(this.algorithmJSON);
       } catch {
         this.jsonErrorToast = true;
         return false;
       }
     } else {
-      this.algorithmJSON = JSON.stringify(this.algorithmData, null, 4);
+      this.algorithmJSON = JSON.stringify(this.algorithmForm, null, 4);
     }
     this.jsonMode = json;
     return true;
   }
 
-  deleteAuthor(author: string) {
-    this.algorithmData.authors.splice(this.algorithmData.authors.indexOf(author), 1);
+  deleteAuthor(search: string | number) {
+    if (typeof(search) === 'string')
+      this.algorithmForm.authors = this.algorithmForm.authors.filter(e => e.name !== search);
+    else
+      this.algorithmForm.authors = this.algorithmForm.authors.filter(e => e.id !== search);
   }
 
   newAuthor() {
@@ -92,7 +113,7 @@ export class AlgorithmFormComponent implements OnInit {
   newAuthorSubmit() {
     this.newAuthorInput = false;
     if (this.newAuthorName) {
-      this.algorithmData.authors.push(this.newAuthorName);
+      this.algorithmForm.authors.push({name: this.newAuthorName, id: -1});
       this.newAuthorName = '';
       this.authorInput.nativeElement.focus(); 
     }
@@ -104,8 +125,11 @@ export class AlgorithmFormComponent implements OnInit {
     this.newAuthorName = '';
   }
 
-  deleteTag(tag: string) {
-    this.algorithmData.tags.splice(this.algorithmData.tags.indexOf(tag), 1);
+  deleteTag(search: string | number) {
+    if (typeof(search) === 'string')
+      this.algorithmForm.tags = this.algorithmForm.tags.filter(e => e.tag !== search);
+    else
+      this.algorithmForm.tags = this.algorithmForm.tags.filter(e => e.id !== search);
   }
 
   newTag() {
@@ -118,7 +142,7 @@ export class AlgorithmFormComponent implements OnInit {
   newTagSubmit() {
     this.newTagInput = false;
     if (this.newTagName) {
-      this.algorithmData.tags.push(this.newTagName);
+      this.algorithmForm.tags.push({tag: this.newTagName, id: -1});
       this.newTagName = '';
       this.tagInput.nativeElement.focus();
     }
@@ -132,6 +156,6 @@ export class AlgorithmFormComponent implements OnInit {
 
   recoveryForm() {
     this.jsonErrorToast = false;
-    this.algorithmJSON = JSON.stringify(this.algorithmData, null, 4);
+    this.algorithmJSON = JSON.stringify(this.algorithmForm, null, 4);
   }
 }

@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlgorithmFormComponent } from './form/form.component';
 import { UserService } from '../user.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AlgorithmService } from '../algorithm.service';
 
 @Component({
   selector: 'app-algorithms',
@@ -13,22 +14,42 @@ export class AlgorithmsComponent implements OnInit {
   editing: boolean = false;
   discardPrompt: boolean = false;
   jsonMode: boolean = false;
+  algorithms: Array<{id: number, abbreivation: string}> = [];
+  algorithm;
 
   @ViewChild('form')
   private form: AlgorithmFormComponent;
 
-  
   constructor(
     private userService: UserService,
+    private algorithmService: AlgorithmService,
     private router: Router,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
+    let self = this;
     this.userService.registerInitedCallback(()=> {
-      if (!this.userService.logined) {
-        this.router.navigateByUrl('/login');
+      if (!self.userService.logined) {
+        self.router.navigateByUrl('/login');
       }
+      self.algorithmService.list().then((data: Array<{id: number, abbreivation: string}>) => {
+        self.algorithms = data;
+        self.route.paramMap.subscribe(params => {
+          if (+params['algorithm']) {
+            self.loadAlgorithm(+params['algorithm']);
+          } else {
+            self.loadAlgorithm(+data[0].id);
+          }
+        });
+      });
     })
+  }
+
+  loadAlgorithm(id: number) {
+    this.algorithmService.get(id).then(data => {
+      this.algorithm = data;
+    });
   }
 
   startEdit() {

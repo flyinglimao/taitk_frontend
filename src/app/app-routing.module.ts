@@ -9,6 +9,7 @@ import { NewsPostComponent } from './news/post/post.component';
 
 const routes: Routes = [
   { path: 'algorithms', component: AlgorithmsComponent },
+  { path: 'algorithms/:algorithm', component: AlgorithmsComponent },
   { path: 'news', component: NewsComponent },
   { path: 'news/:post', component: NewsPostComponent },
   { path: 'tasks', component: TasksComponent },
