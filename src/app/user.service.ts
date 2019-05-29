@@ -48,7 +48,7 @@ export class UserService {
           self.initedCallback.forEach(cb => cb())
         },
         function (err) {
-          console.log(err);
+          console.error(err);
           localStorage.removeItem('token')
           self.inited = true;
           self.initedCallback.forEach(cb => cb())

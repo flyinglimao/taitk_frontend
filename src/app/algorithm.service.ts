@@ -15,7 +15,7 @@ export class AlgorithmService {
 
   public list(page: number = 1, full: boolean = false) {
     let self = this;
-    let api = `${environment.api}algorithms/?`;
+    let api = `${environment.api}algorithms?`;
     if (this.userService.token) {
       api += `token=${this.userService.token}&`
     }
@@ -52,5 +52,23 @@ export class AlgorithmService {
         }
       );
     });
+  }
+
+  public create(data) {
+    let self = this;
+    let api = `${environment.api}algorithms`;
+    return new Promise(function (resolve, reject) {
+      let request = self.httpClient.post(api, data);
+      request.subscribe(function (data) {
+        if (data['success']) {
+          resolve(data['data']['id']);
+        } else {
+          reject(data['reason']);
+        }
+      }, function (err) {
+        console.error(err);
+        reject(err);
+      })
+    })
   }
 }
