@@ -1,0 +1,13 @@
+.panel {
+    min-height: 100%;
+}
+
+.tile-content {
+    overflow: auto !important;
+}
+
+.btn-clear {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+}

@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { EventEmitter, Component, OnInit, Input, ViewChild, ElementRef, Output } from '@angular/core';
+import { AlgorithmService } from 'src/app/algorithm.service';
 
 @Component({
   selector: 'app-algorithm-form',
@@ -14,32 +15,55 @@ export class AlgorithmFormComponent implements OnInit {
     abbreviation: string,
     title: string,
     category: string,
-    authors: Array<{name: string, id: number, algorithm_id: number}>,
-    tags: Array<{tag: string, id: number, algorithm_id: number}>,
+    authors: Array<{name: string, id: number}>,
+    unit: string,
+    tags: Array<{tag: string, id: number}>,
     features: string,
-    links: Array<{link: string, description: string, id: number, algorithm_id: number}>,
-    parameters: Array<{label: string, description: string, id: number, algorithm_id: number}>,
-    datasets: Array<{name: string, link: string, license: string, id: number, algorithm_id: number}>,
+    links: Array<{link: string, description: string, id: number}>,
+    parameters: Array<{label: string, description: string, id: number, variable: string}>,
+    datasets: Array<{name: string, link: string, license: string, id: number}>,
     input_type: string,
     output_type: string,
+    remote_secret: string,
   } = {
     id: -1,
-    abbreviation: null,
-    title: null,
-    category: null,
-    authors: null,
-    tags: null,
-    features: null,
-    links: null,
-    parameters: null,
-    datasets: null,
-    input_type: null,
-    output_type: null,
+    abbreviation: '',
+    title: '',
+    category: '',
+    authors: [],
+    unit: '',
+    tags: [],
+    features: '',
+    links: [],
+    parameters: [],
+    datasets: [],
+    input_type: '',
+    output_type: '',
+    remote_secret: ''
   };
 
-  @ViewChild('authorInput')
+  @Output()
+  @Input()
+  algorithmDataChange = new EventEmitter<{
+    id: number,
+    abbreviation: string,
+    title: string,
+    category: string,
+    authors: Array<{name: string, id: number, delete: boolean}>,
+    unit: string,
+    tags: Array<{tag: string, id: number, delete: boolean}>,
+    features: string,
+    links: Array<{link: string, description: string, id: number, delete: boolean}>,
+    parameters: Array<{label: string, description: string, id: number, delete: boolean, variable: string}>,
+    datasets: Array<{name: string, link: string, license: string, id: number, delete: boolean}>,
+    input_type: string,
+    output_type: string,
+    remote_secret: string,
+  }>();
+
+  @ViewChild('authorInput', { static: false })
   authorInput: ElementRef;
-  @ViewChild('tagInput')
+  @ViewChild('tagInput', { static: false })
   tagInput: ElementRef;
 
   jsonMode: boolean = false;
@@ -47,49 +71,65 @@ export class AlgorithmFormComponent implements OnInit {
   newAuthorName: string = '';
   newTagInput: boolean = false;
   newTagName: string = '';
+  newDataset: {name: string, link: string, license: string, id: number, delete: boolean} =
+  {
+    name: '',
+    link: '',
+    license: '',
+    id: -1,
+    delete: false
+  };
+  newParameter: {label: string, description: string, id: number, delete: boolean, variable: string} = 
+  {
+    label: '',
+    variable: '',
+    description: '',
+    id: -1,
+    delete: false
+  };
+  secret: string;
 
   algorithmJSON: string;
   jsonErrorToast: boolean = false;
 
-  constructor() { }
+  constructor(private algorithmService: AlgorithmService) { }
 
   ngOnInit() {
-    this.algorithmJSON = JSON.stringify(this.algorithmData, null, 4);
-  }
-
-  renderUnderLine(raw: string) {
-    raw = raw.replace(/&/g, '&amp;');
-    raw = raw.replace(/</g, '&lt;');
-    raw = raw.replace(/>/g, '&gt;');
-    raw = raw.replace(/\\_/g, '&lowbar;');
-    raw = raw.replace(/\\\\/g, '&bsol;');
-    raw.match(/_\S*_/g).forEach(match => {
-      let content = match.match(/_(\S*)_/)[1]
-      raw = raw.replace(match, '<u>' + content + '</u>');
-    });
-    return raw;
+    this.algorithmJSON = JSON.stringify(this.algorithmData, null, 4); 
   }
 
   switchEditMode(json: boolean) {
-    if (!json) {
-      try {
-        this.algorithmData = JSON.parse(this.algorithmJSON);
-      } catch {
-        this.jsonErrorToast = true;
-        return false;
-      }
-    } else {
-      this.algorithmJSON = JSON.stringify(this.algorithmData, null, 4);
+    if (this.newAuthorName) {
+      this.algorithmData.authors.push({name: this.newAuthorName, id: -1});
+      this.newAuthorName = '';
     }
-    this.jsonMode = json;
+    if (this.newTagName) {
+      this.algorithmData.tags.push({tag: this.newTagName, id: -1});
+      this.newTagName = '';
+    }
+    if (this.newDataset.name && this.newDataset.link && this.newDataset.license) {
+      this.newDatasetSubmit()
+    }
+    if (this.newParameter.label && this.newParameter.description) {
+      this.newParameterSubmit()
+    }
     return true;
   }
 
-  deleteAuthor(search: string | number) {
-    if (typeof(search) === 'string')
-      this.algorithmData.authors = this.algorithmData.authors.filter(e => e.name !== search);
-    else
-      this.algorithmData.authors = this.algorithmData.authors.filter(e => e.id !== search);
+  deleteFilter(data) {
+    if (data && data.length) {
+      return data.filter(e => !e.delete);
+    } else {
+      return [];
+    }
+  }
+
+  deleteAuthor(data) {
+    data.delete = true;
+  }
+
+  deleteItem(data) {
+    data.delete = true
   }
 
   newAuthor() {
@@ -102,7 +142,7 @@ export class AlgorithmFormComponent implements OnInit {
   newAuthorSubmit() {
     this.newAuthorInput = false;
     if (this.newAuthorName) {
-      // this.algorithmData.authors.push({name: this.newAuthorName, id: -1});
+      this.algorithmData.authors.push({name: this.newAuthorName, id: -1});
       this.newAuthorName = '';
       this.authorInput.nativeElement.focus(); 
     }
@@ -114,11 +154,8 @@ export class AlgorithmFormComponent implements OnInit {
     this.newAuthorName = '';
   }
 
-  deleteTag(search: string | number) {
-    if (typeof(search) === 'string')
-      this.algorithmData.tags = this.algorithmData.tags.filter(e => e.tag !== search);
-    else
-      this.algorithmData.tags = this.algorithmData.tags.filter(e => e.id !== search);
+  deleteTag(data) {
+    data.delete = true;
   }
 
   newTag() {
@@ -131,7 +168,7 @@ export class AlgorithmFormComponent implements OnInit {
   newTagSubmit() {
     this.newTagInput = false;
     if (this.newTagName) {
-      // this.algorithmData.tags.push({tag: this.newTagName, id: -1});
+      this.algorithmData.tags.push({tag: this.newTagName, id: -1});
       this.newTagName = '';
       this.tagInput.nativeElement.focus();
     }
@@ -141,6 +178,30 @@ export class AlgorithmFormComponent implements OnInit {
   newTagDiscard() {
     this.newTagInput = false;
     this.newTagName = '';
+  }
+
+  newDatasetSubmit() {
+    this.algorithmData.datasets.push(this.newDataset);
+    this.newDataset =
+    {
+      name: '',
+      link: '',
+      license: '',
+      id: -1,
+      delete: false
+    };
+  }
+
+  newParameterSubmit() {
+    this.algorithmData.parameters.push(this.newParameter);
+    this.newParameter =
+    {
+      label: '',
+      variable: '',
+      description: '',
+      id: -1,
+      delete: false
+    };
   }
 
   recoveryForm() {

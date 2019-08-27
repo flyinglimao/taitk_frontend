@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { MarkdownModule } from 'ngx-markdown';
 import { HttpClientModule }    from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -18,6 +19,7 @@ import { ItemComponent } from './tasks/item/item.component';
 import { LoginComponent } from './login/login.component';
 import { AlgorithmFormComponent } from './algorithms/form/form.component';
 import { FormsModule } from '@angular/forms';
+import { AlgorithmExampleComponent } from './algorithms/example/example.component';
 
 @NgModule({
   declarations: [
@@ -35,12 +37,14 @@ import { FormsModule } from '@angular/forms';
     AlgorithmFormComponent,
     ItemComponent,
     LoginComponent,
+    AlgorithmExampleComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    MarkdownModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

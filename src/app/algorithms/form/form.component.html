@@ -26,34 +26,47 @@
         </div>
         <div class="tile tile-centered">
             <div class="tile-content">
-                <div class="tile-title text-bold">作者</div>
+                <div class="tile-title text-bold">作者
+                    <button class="btn btn-link btn-action" (click)="newAuthor()" *ngIf="editing">
+              <i class="icon icon-plus"></i>
+            </button></div>
                 <div class="tile-subtitle">
-                    <span class="chip" *ngFor="let author of algorithmData.authors">
-            {{ author.name }}
-            <a aria-label="close" role="button" class="btn btn-clear" *ngIf="editing"
-              (click)="deleteAuthor(author)"></a>
-          </span>
+                    <ng-container *ngFor="let author of deleteFilter(algorithmData.authors)">
+                        <span class="chip" *ngIf="author.name.length">
+                            <ng-container *ngIf="!editing">{{ author.name }}</ng-container>
+                            <input class="chip-input" type="text" [(ngModel)]="author.name" placeholder="ex. Chih-Chuan Lu" *ngIf="editing">
+                            <a aria-label="close" role="button" class="btn btn-clear" *ngIf="editing"
+                                (click)="deleteAuthor(author)"></a>
+                        </span>
+                    </ng-container>
                     <span class="chip" *ngIf="newAuthorInput && editing">
-            <form (submit)="newAuthorSubmit()">
-              <input class="chip-input" autofocus type="text" [(ngModel)]="newAuthorName"
-                [ngModelOptions]="{standalone: true}" #authorInput placeholder="ex. Chih-Chuan Lu">
-                <a aria-label="close" role="button" class="btn btn-clear" *ngIf="editing"
-                  (click)="newAuthorDiscard()"></a>
-            </form>
-          </span>
+                        <form (submit)="newAuthorSubmit()">
+                        <input class="chip-input" autofocus type="text" [(ngModel)]="newAuthorName"
+                            [ngModelOptions]="{standalone: true}" #authorInput placeholder="ex. Chih-Chuan Lu">
+                            <a aria-label="close" role="button" class="btn btn-clear" *ngIf="editing"
+                            (click)="newAuthorDiscard()"></a>
+                        </form>
+                    </span>
                 </div>
-            </div>
-            <div class="tile-action" *ngIf="editing">
-                <button class="btn btn-link btn-action" (click)="newAuthor()">
-          <i class="icon icon-plus"></i>
-        </button>
             </div>
         </div>
         <div class="tile tile-centered">
             <div class="tile-content">
-                <div class="tile-title text-bold">標籤</div>
+                <div class="tile-title text-bold">單位</div>
+                <div class="tile-subtitle" *ngIf="!editing">{{ algorithmData.unit }}</div>
+                <div class="tile-subtitle" *ngIf="editing">
+                    <input type="text" class="form-input" [(ngModel)]="algorithmData.unit" placeholder="ex. SER">
+                </div>
+            </div>
+        </div>
+        <div class="tile tile-centered">
+            <div class="tile-content">
+                <div class="tile-title text-bold">標籤
+                    <button class="btn btn-link btn-action" (click)="newTag()" *ngIf="editing">
+              <i class="icon icon-plus"></i>
+            </button></div>
                 <div class="tile-subtitle">
-                    <span class="chip" *ngFor="let tag of algorithmData.tags">
+                    <span class="chip" *ngFor="let tag of deleteFilter(algorithmData.tags)">
             {{ tag.tag }}
             <a aria-label="close" role="button" class="btn btn-clear" *ngIf="editing"
               (click)="deleteTag(tag)"></a>
@@ -68,18 +81,11 @@
           </span>
                 </div>
             </div>
-            <div class="tile-action" *ngIf="editing">
-                <button class="btn btn-link btn-action" (click)="newTag()">
-          <i class="icon icon-plus"></i>
-        </button>
-            </div>
         </div>
         <div class="tile tile-centered">
             <div class="tile-content">
                 <div class="tile-title text-bold">功能描述</div>
-                <div class="tile-subtitle" *ngIf="!editing">
-                    {{ algorithmData.description }}
-                </div>
+                <div markdown class="tile-subtitle" *ngIf="!editing" [data]="algorithmData.description"></div>
                 <div class="tile-subtitle">
                     <textarea class="form-input" *ngIf="editing" [(ngModel)]="algorithmData.description" placeholder="Speech Emotion Recognition (SER) across diverse application domains is still challenging due to the …"></textarea>
                 </div>
@@ -106,46 +112,86 @@
         <div class="tile tile-centered">
             <div class="tile-content">
                 <div class="tile-title text-bold">參考連結</div>
-                <ng-container *ngFor="let link of algorithmData.links">
+                <ng-container *ngFor="let link of deleteFilter(algorithmData.links)">
                     <div class="tile-subtitle" *ngIf="!editing">{{ link.link }}</div>
                     <div class="tile-subtitle" *ngIf="editing">
-                        <input type="text" class="form-input" [(ngModel)]="link">
-                        <a aria-label="close" role="button" class="btn btn-clear" *ngIf="editing" (click)="deleteLink(link)"></a>
+                        <input type="text" class="form-input" [(ngModel)]="link.link" style="width: calc(100% - 22px);display: inline;">
+                        <a aria-label="close" role="button" class="btn btn-clear" *ngIf="editing" (click)="link.delete = true" style="display: inline;"></a>
                     </div>
                 </ng-container>
-                <div class="tile-subtitle" *ngIf="editing">
-                    <button class="btn btn-link btn-action" (click)="algorithmData.links.push({id: -1, link: ''})">新增</button>
+                <div class="tile-subtitle " *ngIf="editing ">
+                    <button class="btn btn-link btn-action " (click)="algorithmData.links.push({id: -1, link: ''}) ">新增</button>
                 </div>
             </div>
         </div>
-        <div class="tile tile-centered">
-            <div class="tile-content">
-                <div class="tile-title text-bold">資料集</div>
-                <div class="tile-content">
-                    <table class="table table-striped table-hover">
+        <div class="tile tile-centered ">
+            <div class="tile-content ">
+                <div class="tile-title text-bold ">資料集</div>
+                <div class="tile-content ">
+                    <table class="table table-striped table-hover ">
                         <thead>
                             <tr>
                                 <th>名稱</th>
-                                <th style="width: 60%;">連結</th>
+                                <th style="width: 60%; ">連結</th>
                                 <th>授權</th>
-                                <th *ngIf="editing">操作</th>
+                                <th *ngIf="editing ">操作</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>WordNet</td>
-                                <td>https://wordnet.princeton.edu/</td>
-                                <td>Free/Due</td>
-                                <td *ngIf="editing">
-                                    <button class="btn btn-sm btn-success"><i class="icon icon-edit"></i></button>
-                                    <button class="btn btn-sm btn-error"><i class="icon icon-delete"></i></button>
+                            <tr *ngFor="let dataset of deleteFilter(algorithmData.datasets)">
+                                <td *ngIf="!editing ">{{ dataset.name }}</td>
+                                <td *ngIf="editing "><input type="text" class="form-input " [(ngModel)]="dataset.name"></td>
+                                <td *ngIf="!editing ">{{ dataset.link }}</td>
+                                <td *ngIf="editing "><input type="text" class="form-input " [(ngModel)]="dataset.link"></td>
+                                <td *ngIf="!editing ">{{ dataset.license }}</td>
+                                <td *ngIf="editing "><input type="text" class="form-input " [(ngModel)]="dataset.license"></td>
+                                <td *ngIf="editing ">
+                                    <button class="btn btn-sm btn-error " (click)="dataset.delete = true"><i class="icon icon-delete "></i></button>
                                 </td>
                             </tr>
-                            <tr *ngIf="editing">
-                                <td><input type="text" class="form-input" placeholder="WordNet"></td>
-                                <td><input type="text" class="form-input" placeholder="http://www.cs.brandeis.edu/~clp/cdtb/"></td>
-                                <td><input type="text" class="form-input" placeholder="Free/Due"></td>
-                                <td><button class="btn btn-sm btn-success"><i class="icon icon-check"></i></button></td>
+                            <tr *ngIf="editing ">
+                                <td><input type="text " class="form-input " placeholder="WordNet " [(ngModel)]="newDataset.name"></td>
+                                <td><input type="text " class="form-input " placeholder="http://www.cs.brandeis.edu/~clp/cdtb/ " [(ngModel)]="newDataset.link"></td>
+                                <td><input type="text " class="form-input " placeholder="Free/Due " [(ngModel)]="newDataset.license"></td>
+                                <td><button class="btn btn-sm btn-success " (click)="newDatasetSubmit()"><i class="icon icon-check "></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="tile tile-centered ">
+            <div class="tile-content ">
+                <div class="tile-title text-bold ">參數</div>
+                <div class="tile-content ">
+                    <table class="table table-striped table-hover ">
+                        <thead>
+                            <tr>
+                                <th>名稱</th>
+                                <th>變數</th>
+                                <th style="width: 60%; ">說明</th>
+                                <th *ngIf="editing ">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let parameter of deleteFilter(algorithmData.parameters)">
+                                <td *ngIf="!editing">{{ parameter.label }}</td>
+                                <td *ngIf="editing"><input type="text" class="form-input" [(ngModel)]="parameter.label"></td>
+                                <td *ngIf="!editing">{{ parameter.variable }}</td>
+                                <td *ngIf="editing"><input type="text" class="form-input" [(ngModel)]="parameter.variable"></td>
+                                <td *ngIf="!editing">
+                                    <markdown [data]="parameter.description"></markdown>
+                                </td>
+                                <td *ngIf="editing"><textarea class="form-input " placeholder="可使用 Markdown " [(ngModel)]="parameter.description"></textarea></td>
+                                <td *ngIf="editing ">
+                                    <button class="btn btn-sm btn-error " (click)="parameter.delete =  true"><i class="icon icon-delete "></i></button>
+                                </td>
+                            </tr>
+                            <tr *ngIf="editing ">
+                                <td><input type="text " class="form-input " placeholder="--demo=_VAR_" [(ngModel)]="newParameter.label"></td>
+                                <td><input type="text " class="form-input " placeholder="" [(ngModel)]="newParameter.variable"></td>
+                                <td><textarea class="form-input " placeholder="可使用 Markdown " [(ngModel)]="newParameter.description"></textarea></td>
+                                <td><button class="btn btn-sm btn-success " (click)="newParameterSubmit()"><i class="icon icon-check "></i></button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -154,47 +200,22 @@
         </div>
         <div class="tile tile-centered">
             <div class="tile-content">
-                <div class="tile-title text-bold">參數</div>
-                <div class="tile-content">
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>標籤</th>
-                                <th style="width: 75%;">說明</th>
-                                <th *ngIf="editing">操作</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td [innerHTML]="renderUnderLine('--demo=_VAR_')"></td>
-                                <td>畫出HTML圖檔</td>
-                                <td *ngIf="editing">
-                                    <button class="btn btn-sm btn-success"><i class="icon icon-edit"></i></button>
-                                    <button class="btn btn-sm btn-error"><i class="icon icon-delete"></i></button>
-                                </td>
-                            </tr>
-                            <tr *ngIf="editing">
-                                <td><input type="text" class="form-input" placeholder="--demo=_VAR_"></td>
-                                <td><input type="text" class="form-input" placeholder="輸出示範。VAR：任意值"></td>
-                                <td><button class="btn btn-sm btn-success"><i class="icon icon-check"></i></button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <div class="tile-title text-bold">識別碼</div>
+                <div class="tile-subtitle">{{ algorithmData.remote_secret }}</div>
             </div>
         </div>
     </div>
 </div>
-<div class="panel bg-light" *ngIf="jsonMode">
-    <div class="panel-header"></div>
-    <div class="panel-body">
-        <div class="form-group">
-            <textarea [(ngModel)]="algorithmJSON" class="form-input json-textarea">
+<div class="panel bg-light " *ngIf="jsonMode ">
+    <div class="panel-header "></div>
+    <div class="panel-body ">
+        <div class="form-group ">
+            <textarea [(ngModel)]="algorithmJSON " class="form-input json-textarea ">
     </textarea>
         </div>
     </div>
-    <div class="panel-footer"></div>
+    <div class="panel-footer "></div>
 </div>
-<div class="toast toast-error json-error" *ngIf="jsonErrorToast">
-    <button class="btn btn-clear float-right" (click)="jsonErrorToast=false"></button> JSON 格式有誤，請檢查後重試。（或者 <a (click)="recoveryForm()">重設</a>）
+<div class="toast toast-error json-error " *ngIf="jsonErrorToast ">
+    <button class="btn btn-clear float-right " (click)="jsonErrorToast=false "></button> JSON 格式有誤，請檢查後重試。（或者 <a (click)="recoveryForm() ">重設</a>）
 </div>
