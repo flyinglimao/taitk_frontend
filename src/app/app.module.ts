@@ -20,6 +20,7 @@ import { LoginComponent } from './login/login.component';
 import { AlgorithmFormComponent } from './algorithms/form/form.component';
 import { FormsModule } from '@angular/forms';
 import { AlgorithmExampleComponent } from './algorithms/example/example.component';
+import { Dataset2019Component } from './dataset2019/dataset2019.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { AlgorithmExampleComponent } from './algorithms/example/example.componen
     ItemComponent,
     LoginComponent,
     AlgorithmExampleComponent,
+    Dataset2019Component,
   ],
   imports: [
     BrowserModule,

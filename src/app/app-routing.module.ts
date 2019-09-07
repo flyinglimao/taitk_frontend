@@ -6,8 +6,10 @@ import { TasksComponent } from './tasks/tasks.component';
 import { ProfileComponent } from './profile/profile.component';
 import { LoginComponent } from './login/login.component';
 import { NewsPostComponent } from './news/post/post.component';
+import { Dataset2019Component } from './dataset2019/dataset2019.component';
 
 const routes: Routes = [
+  { path: 'dataset2019', component: Dataset2019Component },
   { path: 'algorithms', component: AlgorithmsComponent },
   { path: 'algorithms/:algorithm', component: AlgorithmsComponent },
   { path: 'news', component: NewsComponent },
