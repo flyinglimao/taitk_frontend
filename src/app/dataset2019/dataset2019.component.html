@@ -1,6 +1,6 @@
 <div class="container">
   <div class="columns">
-      <div class="column col-8 col-xl-8 col-lg-8 col-md-10 col-sm-10 col-xs-10 col-mx-auto">
+      <div class="column col-8 col-xl-8 col-lg-8 col-md-10 col-sm-10 col-xs-10 col-mx-auto card p-2">
         <div class="form-group">
           <label class="form-label" for="name">資料集名稱</label>
           <input class="form-input" type="text" id="name" [(ngModel)]="name">
@@ -103,7 +103,7 @@
             <input type="radio" name="give-speach" [checked]="!giveSpeach"><i class="form-icon"></i> 不適合做簡報
           </label>
         </div>
-        <button (click)="test()"></button>
+        <button class="btn btn-primary" (click)="submit()">送出</button>
       </div>
   </div>
 </div>

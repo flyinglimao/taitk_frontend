@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-dataset2019',
@@ -34,12 +36,31 @@ export class Dataset2019Component implements OnInit {
   published: string = '';
   giveSpeach: boolean = false;
 
-  constructor() { }
+  constructor(private httpClient: HttpClient) { }
 
   ngOnInit() {
   }
 
-  test() {
-    console.log(this.categories);
+  submit() {
+    console.log('y')
+    let categories = Object.keys(this.categories).filter(c => this.categories[c]);
+    categories.splice(categories.indexOf('_other'), 1, this.otherCategories)
+    let request = this.httpClient.post(`${environment.api}/dataset2019`, {
+        name: this.name,
+        unit: this.unit,
+        holder: this.holder,
+        author: this.author,
+        project_belong: this.projectBelong,
+        categories: JSON.stringify(categories),
+        free: this.free,
+        open: this.open,
+        feature: this.feature,
+        methodology: this.methodology,
+        published: this.published,
+        give_speach: this.giveSpeach,
+    });
+    request.subscribe(data => {
+      console.log(data)
+    })
   }
 }
