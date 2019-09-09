@@ -1,109 +1,279 @@
 <div class="container">
   <div class="columns">
-      <div class="column col-8 col-xl-8 col-lg-8 col-md-10 col-sm-10 col-xs-10 col-mx-auto">
-        <div class="form-group">
-          <label class="form-label" for="name">資料集名稱</label>
-          <input class="form-input" type="text" id="name" [(ngModel)]="name">
+    <div class="column col-8 col-xl-8 col-lg-8 col-md-10 col-sm-10 col-xs-10 col-mx-auto">
+      <div class="container">
+        <div class="columns">
+          <div class="column">
+            <div class="text-center btn-group">
+              <a class="btn btn-success mt-1" (click)="ngOnInit();form = false">蒐集結果</a>
+              <br><br><br>
+              <a class="btn btn-primary mt-1" (click)="flush()">新增</a>
+            </div>
+            <ul class="menu menu-nav">
+              <li class="menu-item" *ngFor="let dataset of datasets">
+                <a (click)="show(dataset)">{{ dataset.name }}</a>
+              </li>
+            </ul>
+          </div>
+          <div class="divider-vert "></div>
+          <div class="column col-9 ">
+            <div class="flash" [ngClass]="{'flash-error': error, 'flash-success': success}" *ngIf="flash.length">{{ flash }}</div>
+            <div class="panel bg-light" *ngIf="form">
+              <div class="panel-header text-center">
+                <div class="panel-title h3">AI專案年度國暨研討會暨成果展</div>
+                <div class="panel-subtitle h5">AI之泉 - DataSet 收集彙整調查</div>
+              </div>
+              <p class="help-text">*. 收集到的資料集, 將於11/14(四) & 11/15(五)於交大博愛校區展示<br>
+                  *. 展示方式: 簡報(10min ~15min) or 海報 (方式由主辦方決定) <br>
+                  *. 1個資料集 請填 1份 表單 <br>
+                  *. 本網頁無法更新，請勿刪除他人資料，刪除請小心 <br>
+                </p>
+              <div class="panel-body">
+                <div class="form-group">
+                  <label class="form-label" for="name">一、資料集名稱</label>
+                  <input class="form-input" type="text" id="name" [(ngModel)]="name">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="unit">二、收集單位（多個單位請使用 ; 區隔）</label>
+                  <input class="form-input" type="text" id="unit" [(ngModel)]="unit">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="holder">三、計畫主持人（Co-PI請用括弧區隔）</label>
+                  <input class="form-input" type="text" id="unit" [(ngModel)]="holder">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="author">四、作者（多個作者請使用 ; 區隔）</label>
+                  <input class="form-input" type="text" id="unit" [(ngModel)]="author">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="project-belong">五、計畫隸屬於</label>
+                  <select class="form-select" [(ngModel)]="projectBelong" id="project-belong">
+                    <option>a. 科技部人工智慧技術暨全幅健康照護聯合研究中心-台大人工智慧中心</option>
+                    <option>b. 科技部人工智慧製造系統研究中心-清大人工智慧中心</option>
+                    <option>c. 科技部人工智慧普適研究中心-交大人工智慧中心</option>
+                    <option>d. 科技部人工智慧生技醫療-成大人工智慧中心</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">六、資料集類別</label>
+                  <label class="form-checkbox form-inline">
+                    <input type="checkbox" [(ngModel)]="categories['NLP']"><i class="form-icon"></i> NLP </label>
+                  <label class="form-checkbox form-inline">
+                    <input type="checkbox" [(ngModel)]="categories['Speech Recognition']"><i class="form-icon"></i>
+                    Speech
+                    Recognition </label>
+                  <label class="form-checkbox form-inline">
+                    <input type="checkbox" [(ngModel)]="categories['Image Processing']"><i class="form-icon"></i> Image
+                    Processing
+                  </label><br>
+                  <label class="form-checkbox form-inline">
+                    <input type="checkbox" [(ngModel)]="categories['機器學習']"><i class="form-icon"></i> 機器學習
+                  </label>
+                  <label class="form-checkbox form-inline">
+                    <input type="checkbox" [(ngModel)]="categories['多媒體檢索']"><i class="form-icon"></i> 多媒體檢索
+                  </label>
+                  <label class="form-checkbox form-inline">
+                    <input type="checkbox" [(ngModel)]="categories['決策分析']"><i class="form-icon"></i> 決策分析
+                  </label><br>
+                  <label class="form-checkbox form-inline">
+                    <input type="checkbox" [(ngModel)]="categories['群眾行為分析']"><i class="form-icon"></i> 群眾行為分析
+                  </label>
+                  <label class="form-checkbox form-inline">
+                    <input type="checkbox" [(ngModel)]="categories['多組學分析']"><i class="form-icon"></i> 多組學分析
+                  </label>
+                  <label class="form-checkbox form-inline">
+                    <input type="checkbox" [(ngModel)]="categories['智慧用藥']"><i class="form-icon"></i> 智慧用藥
+                  </label><br>
+                  <label class="form-checkbox form-inline">
+                    <input type="checkbox" [(ngModel)]="categories['精神照護']"><i class="form-icon"></i> 精神照護
+                  </label>
+                  <label class="form-checkbox form-inline">
+                    <input type="checkbox" [(ngModel)]="categories['醫療影像']"><i class="form-icon"></i> 醫療影像
+                  </label><br>
+                  <label class="form-checkbox form-inline">
+                    <input type="checkbox" [(ngModel)]="categories['_other']"><i class="form-icon"></i> 其他
+                  </label>
+                  <input class="form-input input-sm d-inline-block" style="width: 150px" type="text"
+                    [(ngModel)]="otherCategories">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">七、是否免費使用</label>
+                  <label class="form-radio form-inline">
+                    <input type="radio" name="free" [(ngModel)]="free" value="1"><i class="form-icon"></i> 是
+                  </label>
+                  <label class="form-radio form-inline">
+                    <input type="radio" name="free" [(ngModel)]="free" value="0"><i class="form-icon"></i> 否
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">八、是否開放授權</label>
+                  <label class="form-radio form-inline">
+                    <input type="radio" name="open" [(ngModel)]="open" value="1"><i class="form-icon"></i> 是
+                  </label>
+                  <label class="form-radio form-inline">
+                    <input type="radio" name="open" [(ngModel)]="open" value="0"><i class="form-icon"></i> 否（有版權問題）
+                  </label>
+                  <label class="form-label" *ngIf="open == 1">可被下載的資料集 URL or GitHub Link: </label>
+                  <input class="form-input" type="text" id="resource" [(ngModel)]="resource" *ngIf="open == 1">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="feature">九、資料集特性說明</label>
+                  <textarea class="form-input" id="feature" rows="3" [(ngModel)]="feature"></textarea>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="methodology">十、資料集規模 (Size)/ 收集方式介紹</label>
+                  <textarea class="form-input" id="methodology" rows="3" [(ngModel)]="methodology"></textarea>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="published">十一、DataSet 成果有發表於 Conference/Journal （請列出）</label>
+                  <textarea class="form-input" id="published" rows="3" [(ngModel)]="published"></textarea>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">十二、針對此資料集, PI或Co-PI 有意願於 2019AI專案年度國暨研討會暨成果展, 做10~15分鐘的簡報？</label>
+                  <label class="form-radio form-inline">
+                    <input type="radio" name="give-speach" [(ngModel)]="giveSpeach" value="1"><i class="form-icon"></i> 願意
+                  </label>
+                  <label class="form-radio form-inline">
+                    <input type="radio" name="give-speach" [(ngModel)]="giveSpeach" value="0"><i class="form-icon"></i> 不適合做簡報
+                  </label>
+                </div>
+                <button class="btn btn-primary mb-2" style="width: 100%" (click)="submit()" *ngIf="showing.length === 0">送出</button>
+                <button class="btn btn-error mb-2" style="width: 100%" (click)="delete()" *ngIf="showing.length !== 0">刪除</button>
+              </div>
+            </div>
+            <div class="panel bg-light" *ngIf="!form">
+              <div class="panel-header text-center">
+                <div class="panel-title h3">蒐集結果</div>
+              </div>
+              <div class="panel-body">
+                <div class="panel-title h3">台大人工智慧中心</div>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>名稱</th>
+                      <th>計畫主持人</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let dataset of datasetByUnit('a. 科技部人工智慧技術暨全幅健康照護聯合研究中心-台大人工智慧中心')">
+                      <td>{{ dataset['name'] }}</td>
+                      <td>{{ dataset['holder'] }}</td>
+                    </tr>
+                  </tbody>
+                </table>                  
+                <div class="panel-title h5 pt-2">有意願演講者</div>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>名稱</th>
+                      <th>計畫主持人</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let dataset of datasetByUnit('a. 科技部人工智慧技術暨全幅健康照護聯合研究中心-台大人工智慧中心', true)">
+                      <td>{{ dataset['name'] }}</td>
+                      <td>{{ dataset['holder'] }}</td>
+                    </tr>
+                  </tbody>
+                </table>                  
+                <hr>
+                <div class="panel-title h3">清大人工智慧中心</div>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>名稱</th>
+                      <th>計畫主持人</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let dataset of datasetByUnit('b. 科技部人工智慧製造系統研究中心-清大人工智慧中心')">
+                      <td>{{ dataset['name'] }}</td>
+                      <td>{{ dataset['holder'] }}</td>
+                    </tr>
+                  </tbody>
+                </table>                  
+                <div class="panel-title h5 pt-2">有意願演講者</div>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>名稱</th>
+                      <th>計畫主持人</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let dataset of datasetByUnit('b. 科技部人工智慧製造系統研究中心-清大人工智慧中心', true)">
+                      <td>{{ dataset['name'] }}</td>
+                      <td>{{ dataset['holder'] }}</td>
+                    </tr>
+                  </tbody>
+                </table>                  
+                <hr>
+                <div class="panel-title h3">交大人工智慧中心</div>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>名稱</th>
+                      <th>計畫主持人</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let dataset of datasetByUnit('c. 科技部人工智慧普適研究中心-交大人工智慧中心')">
+                      <td>{{ dataset['name'] }}</td>
+                      <td>{{ dataset['holder'] }}</td>
+                    </tr>
+                  </tbody>
+                </table>                  
+                <div class="panel-title h5 pt-2">有意願演講者</div>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>名稱</th>
+                      <th>計畫主持人</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let dataset of datasetByUnit('c. 科技部人工智慧普適研究中心-交大人工智慧中心', true)">
+                      <td>{{ dataset['name'] }}</td>
+                      <td>{{ dataset['holder'] }}</td>
+                    </tr>
+                  </tbody>
+                </table>                  
+                <hr>
+                <div class="panel-title h3">成大人工智慧中心</div>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>名稱</th>
+                      <th>計畫主持人</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let dataset of datasetByUnit('d. 科技部人工智慧生技醫療-成大人工智慧中心')">
+                      <td>{{ dataset['name'] }}</td>
+                      <td>{{ dataset['holder'] }}</td>
+                    </tr>
+                  </tbody>
+                </table>                  
+                <div class="panel-title h5 pt-2">有意願演講者</div>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>名稱</th>
+                      <th>計畫主持人</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let dataset of datasetByUnit('d. 科技部人工智慧生技醫療-成大人工智慧中心', true)">
+                      <td>{{ dataset['name'] }}</td>
+                      <td>{{ dataset['holder'] }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="form-group">
-          <label class="form-label" for="unit">收集單位（多個單位請使用 ; 區隔）</label>
-          <input class="form-input" type="text" id="unit" [(ngModel)]="unit">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="holder">計畫主持人（Co-PI請用括弧區隔）</label>
-          <input class="form-input" type="text" id="unit" [(ngModel)]="holder">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="author">作者（多個作者請使用 ; 區隔）</label>
-          <input class="form-input" type="text" id="unit" [(ngModel)]="author">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="project-belong">計畫隸屬於</label>
-          <select class="form-select" [(ngModel)]="projectBelong" id="project-belong">
-            <option>a. 科技部人工智慧技術暨全幅健康照護聯合研究中心-台大人工智慧中心</option>
-            <option>b. 科技部人工智慧製造系統研究中心-清大人工智慧中心</option>
-            <option>c. 科技部人工智慧普適研究中心-交大人工智慧中心</option>
-            <option>d. 科技部人工智慧生技醫療-成大人工智慧中心</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">資料集類別</label>
-          <label class="form-checkbox form-inline">
-            <input type="checkbox" [(ngModel)]="categories['NLP']"><i class="form-icon"></i> NLP </label>
-          <label class="form-checkbox form-inline">
-            <input type="checkbox" [(ngModel)]="categories['Speech Recognition']"><i class="form-icon"></i> Speech Recognition </label>
-          <label class="form-checkbox form-inline">
-            <input type="checkbox" [(ngModel)]="categories['Image Processing']"><i class="form-icon"></i> Image Processing
-          </label>
-          <label class="form-checkbox form-inline">
-            <input type="checkbox" [(ngModel)]="categories['機器學習']"><i class="form-icon"></i> 機器學習
-          </label>
-          <label class="form-checkbox form-inline">
-            <input type="checkbox" [(ngModel)]="categories['多媒體檢索']"><i class="form-icon"></i> 多媒體檢索
-          </label>
-          <label class="form-checkbox form-inline">
-            <input type="checkbox" [(ngModel)]="categories['決策分析']"><i class="form-icon"></i> 決策分析
-          </label>
-          <label class="form-checkbox form-inline">
-            <input type="checkbox" [(ngModel)]="categories['群眾行為分析']"><i class="form-icon"></i> 群眾行為分析
-          </label>
-          <label class="form-checkbox form-inline">
-            <input type="checkbox" [(ngModel)]="categories['多組學分析']"><i class="form-icon"></i> 多組學分析
-          </label>
-          <label class="form-checkbox form-inline">
-            <input type="checkbox" [(ngModel)]="categories['智慧用藥']"><i class="form-icon"></i> 智慧用藥
-          </label>
-          <label class="form-checkbox form-inline">
-            <input type="checkbox" [(ngModel)]="categories['精神照護']"><i class="form-icon"></i> 群眾行為分析
-          </label>
-          <label class="form-checkbox form-inline">
-            <input type="checkbox" [(ngModel)]="categories['醫療影像']"><i class="form-icon"></i> 醫療影像
-          </label>
-          <label class="form-checkbox form-inline">
-            <input type="checkbox" [(ngModel)]="categories['_other']"><i class="form-icon"></i> 其他
-          </label>
-          <input class="form-input input-sm d-inline-block" style="width: 150px" type="text" [(ngModel)]="otherCategories">
-        </div>
-        <div class="form-group">
-          <label class="form-label">是否免費使用</label>
-          <label class="form-radio form-inline">
-            <input type="radio" name="free" [(ngModel)]="free"><i class="form-icon"></i> 是
-          </label>
-          <label class="form-radio form-inline">
-            <input type="radio" name="free" [checked]="!free"><i class="form-icon"></i> 否
-          </label>
-        </div>
-        <div class="form-group">
-          <label class="form-label">是否開放授權</label>
-          <label class="form-radio form-inline">
-            <input type="radio" name="open" [(ngModel)]="open"><i class="form-icon"></i> 是
-          </label>
-          <label class="form-radio form-inline">
-            <input type="radio" name="open" [checked]="!open"><i class="form-icon"></i> 否（有版權問題）
-          </label>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="feature">資料集特性說明</label>
-          <textarea class="form-input" id="feature" rows="3" [(ngModel)]="feature"></textarea>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="methodology">資料集規模 (Size)/ 收集方式介紹</label>
-          <textarea class="form-input" id="methodology" rows="3" [(ngModel)]="methodology"></textarea>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="published">DataSet 成果有發表於 Conference/Journal （請列出）</label>
-          <textarea class="form-input" id="published" rows="3" [(ngModel)]="published"></textarea>
-        </div>
-        <div class="form-group">
-          <label class="form-label">是否免費使用</label>
-          <label class="form-radio form-inline">
-            <input type="radio" name="give-speach" [(ngModel)]="giveSpeach"><i class="form-icon"></i> 願意 
-          </label>
-          <label class="form-radio form-inline">
-            <input type="radio" name="give-speach" [checked]="!giveSpeach"><i class="form-icon"></i> 不適合做簡報
-          </label>
-        </div>
-        <button (click)="test()"></button>
       </div>
+    </div>
   </div>
 </div>
