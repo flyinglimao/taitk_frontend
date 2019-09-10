@@ -1,0 +1,36 @@
+
+.panel {
+    background: white;
+    margin-bottom: 16px;
+}
+.btn-group {
+    width: 100%;
+}
+.btn-group > .btn {
+    width: 100%;
+    border-radius: 99px;
+}
+.help-text {
+    padding-left: 1.2em;
+}
+.flash {
+    width: 100%;
+    margin-bottom: 2em;
+    border-width: 1px;
+    border-radius: 16px;
+    border-style: solid;
+    padding: 8px 12px;
+}
+.flash-success {
+    background: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+.flash-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+hr {
+    margin: 4em 0;
+}
