@@ -76,6 +76,7 @@ export class Dataset2019Component implements OnInit {
     this.form = true;
     let request = this.httpClient.get(`https://taitk.org/api/dataset2019/${dataset.id}`);
     request.subscribe((dataset: any) => {
+      this.flush();
       this.showing = dataset.id;
       this.name = dataset.name;
       this.unit = dataset.unit;
