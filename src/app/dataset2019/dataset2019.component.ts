@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-<<<<<<< HEAD
-import { environment } from '../../environments/environment';
-=======
->>>>>>> d962ae9c9648b1d2c32f38ed74d30fd072e63c39
 
 @Component({
   selector: 'app-dataset2019',
@@ -39,7 +35,8 @@ export class Dataset2019Component implements OnInit {
   methodology: string = '';
   published: string = '';
   resource: string = '';
-  giveSpeach: string = '0';
+  giveSpeach: boolean = true;
+  email: string = '';
 
   success: boolean = false;
   error: boolean = false;
@@ -64,16 +61,7 @@ export class Dataset2019Component implements OnInit {
   }
 
   delete() {
-    if (confirm('你確定要刪除這筆資料嗎？')) {
-      let request = this.httpClient.delete(`https://taitk.org/api/dataset2019/${this.showing}`);
-      request.subscribe(_ => {
-        location.reload()
-      }, _ => {
-        this.error = true;
-        this.flash = '刪除失敗，請重試或通報。';
-        window.scroll(0, 0);    
-      });
-    }
+    alert('請 mail 管理員\n告知欲刪除之 "資料集名稱" ');
   }
 
   show(dataset) {
@@ -85,6 +73,7 @@ export class Dataset2019Component implements OnInit {
       this.unit = dataset.unit;
       this.holder = dataset.holder;
       this.author = dataset.author;
+      this.email = dataset.email;
       this.projectBelong = dataset.project_belong;
       let categories = JSON.parse(dataset.categories);
       categories.forEach(cate => {
@@ -101,7 +90,7 @@ export class Dataset2019Component implements OnInit {
       this.methodology = dataset.methodology;
       this.published = dataset.published;
       this.resource = dataset.resource;
-      this.giveSpeach = ''+dataset.give_speach;
+      this.giveSpeach = !!dataset.give_speach;
     })
   }
 
@@ -112,6 +101,7 @@ export class Dataset2019Component implements OnInit {
     this.unit = '';
     this.holder = '';
     this.author = '';
+    this.email = '';
     this.projectBelong = '';
     this.categories = {
       'NLP': false,
@@ -134,7 +124,7 @@ export class Dataset2019Component implements OnInit {
     this.methodology = '';
     this.published = '';
     this.resource = '';
-    this.giveSpeach = '0';
+    this.giveSpeach = true;
   }
   submit() {
     let categories = Object.keys(this.categories).filter(c => this.categories[c]);
@@ -146,6 +136,7 @@ export class Dataset2019Component implements OnInit {
       unit: this.unit,
       holder: this.holder,
       author: this.author,
+      email: this.email,
       project_belong: this.projectBelong,
       categories: JSON.stringify(categories),
       free: this.free,
@@ -154,7 +145,7 @@ export class Dataset2019Component implements OnInit {
       methodology: this.methodology,
       published: this.published,
       resource: this.resource,
-      give_speach: this.giveSpeach,
+      give_speach: this.giveSpeach ? '1' : '0',
     });
     request.subscribe(data => {
       this.success = true;
@@ -163,6 +154,7 @@ export class Dataset2019Component implements OnInit {
       this.unit = '';
       this.holder = '';
       this.author = '';
+      this.email = '';
       this.projectBelong = '';
       this.categories = {
         'NLP': false,
@@ -185,7 +177,7 @@ export class Dataset2019Component implements OnInit {
       this.methodology = '';
       this.published = '';
       this.resource = '';
-      this.giveSpeach = '0';
+      this.giveSpeach = true;
       this.showing = '';
       window.scroll(0, 0);
       this.ngOnInit();
@@ -197,31 +189,7 @@ export class Dataset2019Component implements OnInit {
     });
   }
 
-<<<<<<< HEAD
-  submit() {
-    console.log('y')
-    let categories = Object.keys(this.categories).filter(c => this.categories[c]);
-    categories.splice(categories.indexOf('_other'), 1, this.otherCategories)
-    let request = this.httpClient.post(`${environment.api}/dataset2019`, {
-        name: this.name,
-        unit: this.unit,
-        holder: this.holder,
-        author: this.author,
-        project_belong: this.projectBelong,
-        categories: JSON.stringify(categories),
-        free: this.free,
-        open: this.open,
-        feature: this.feature,
-        methodology: this.methodology,
-        published: this.published,
-        give_speach: this.giveSpeach,
-    });
-    request.subscribe(data => {
-      console.log(data)
-    })
-=======
   datasetByUnit(unit, speach = false) {
     return this.datasets.filter(d => d['project_belong'] === unit && (!speach || d['give_speach'] == '1'));
->>>>>>> d962ae9c9648b1d2c32f38ed74d30fd072e63c39
   }
 }
