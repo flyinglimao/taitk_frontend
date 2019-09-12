@@ -119,7 +119,7 @@
                     <input type="radio" name="open" [(ngModel)]="open" value="0"><i class="form-icon"></i> 否（有版權問題）
                   </label>
                   <label class="form-label" *ngIf="open == 1">可被下載的資料集 URL or GitHub Link: </label>
-                  <input class="form-input" type="text" id="resource" [(ngModel)]="resource" *ngIf="open == 1">
+                  <textarea class="form-input" id="resource" rows="3" [(ngModel)]="resource" *ngIf="open == 1"></textarea>
                 </div>
                 <div class="form-group">
                   <label class="form-label" for="feature">十、資料集特性說明</label>
