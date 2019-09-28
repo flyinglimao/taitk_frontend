@@ -14,31 +14,15 @@ export class AlgorithmsComponent implements OnInit {
 
   editing: boolean = false;
   discardPrompt: boolean = false;
-  jsonMode: boolean = false;
   example: boolean = false;
   algorithms: Array<{id: number, abbreviation: string}> = [];
-  algorithm: {
-    id: number,
-    abbreviation: string,
-    title: string,
-    category: string,
-    authors: Array<{name: string, id: number, algorithm_id: number}>,
-    unit: string,
-    tags: Array<{tag: string, id: number, algorithm_id: number}>,
-    features: string,
-    links: Array<{link: string, description: string, id: number, algorithm_id: number}>,
-    parameters: Array<{label: string, description: string, id: number, algorithm_id: number}>,
-    datasets: Array<{name: string, link: string, license: string, id: number, algorithm_id: number}>,
-    input_type: string,
-    output_type: string,
-    remote_secret: string,
-  } = {
+  algorithm = {
     id: -1,
     abbreviation: '',
     title: '',
-    category: '',
+    categories: [],
     authors: [],
-    unit: '',
+    units: [],
     tags: [],
     features: '',
     links: [],
@@ -47,29 +31,15 @@ export class AlgorithmsComponent implements OnInit {
     input_type: '',
     output_type: '',
     remote_secret: '',
+    email: '',
   };
-  algorithmBackup: {
-    id: number,
-    abbreviation: string,
-    title: string,
-    category: string,
-    authors: Array<{name: string, id: number, algorithm_id: number}>,
-    unit: string,
-    tags: Array<{tag: string, id: number, algorithm_id: number}>,
-    features: string,
-    links: Array<{link: string, description: string, id: number, algorithm_id: number}>,
-    parameters: Array<{label: string, description: string, id: number, algorithm_id: number, variable: string}>,
-    datasets: Array<{name: string, link: string, license: string, id: number, algorithm_id: number}>,
-    input_type: string,
-    output_type: string,
-    remote_secret: string,
-  } = {
+  algorithmBackup = {
     id: -1,
     abbreviation: '',
     title: '',
-    category: '',
+    categories: [],
     authors: [],
-    unit: '',
+    units: [],
     tags: [],
     features: '',
     links: [],
@@ -78,6 +48,7 @@ export class AlgorithmsComponent implements OnInit {
     input_type: '',
     output_type: '',
     remote_secret: '',
+    email: '',
   };
 
   @ViewChild('form', { static: true })
@@ -126,9 +97,9 @@ export class AlgorithmsComponent implements OnInit {
         id: -1,
         abbreviation: '',
         title: '',
-        category: '',
+        categories: [],
         authors: [],
-        unit: '',
+        units: [],
         tags: [],
         features: '',
         links: [],
@@ -137,6 +108,7 @@ export class AlgorithmsComponent implements OnInit {
         input_type: '',
         output_type: '',
         remote_secret: '',
+        email: '',
       };
     } else {
       Object.assign(this.algorithmBackup, this.algorithm);
@@ -145,7 +117,7 @@ export class AlgorithmsComponent implements OnInit {
   }
 
   async finishEdit() {
-    if (!this.form.switchEditMode(false)) return;
+    if (!this.form.switchEditMode()) return;
     if (this.algorithm.id === -1) {
       try {
         let id = await this.algorithmService.create(this.algorithm);
@@ -160,13 +132,11 @@ export class AlgorithmsComponent implements OnInit {
         console.log('done')
       });
     }
-    this.jsonMode = false;
     this.editing = false;
   }
   
   discardEdit() {
     this.discardPrompt = true;
-    Object.assign(this.algorithm, this.algorithmBackup);
   }
 
   discardEditCancel() {
@@ -176,18 +146,16 @@ export class AlgorithmsComponent implements OnInit {
   discardEditConfirm() {
     this.discardPrompt = false;
     this.editing = false;
-    this.jsonMode = false;
-    // TODO: recovery data
-    this.form.recoveryForm();
-    this.form.switchEditMode(false);
+    Object.assign(this.algorithm, this.algorithmBackup);
+    this.form.switchEditMode();
   }
 
-  switchEditMode(json: boolean = false) {
-    if(!this.form.switchEditMode(json)) return;
-    this.jsonMode = json;
+  switchEditMode() {
+    if(!this.form.switchEditMode()) return;
   }
 
   toggleExample() {
+    console.log(this.algorithm)
     this.example = true;
   }
 

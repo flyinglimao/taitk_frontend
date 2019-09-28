@@ -48,6 +48,8 @@ export class AlgorithmService {
       let request = self.httpClient.get(api, {headers});
       request.subscribe(
         function (data) {
+          data['data']['units'] = data['data']['unit'].split('、');
+          data['data']['categories'] = data['data']['category'].split(', ');
           resolve(data);
         },
         function (err) {
@@ -61,6 +63,8 @@ export class AlgorithmService {
     let self = this;
     let api = `${environment.api}algorithms`;
     input['token'] = this.userService.token;
+    input['unit'] = input['units'].join('、');
+    input['category'] = input['categories'].join(', ');
     
     return new Promise(function (resolve, reject) {
       let request = self.httpClient.post(api, input);
@@ -88,6 +92,8 @@ export class AlgorithmService {
     let api = `${environment.api}algorithms/${data.id}`;
     let oldData = (await this.get(data.id))['data'];
     data['token'] = this.userService.token;
+    data['unit'] = data['units'].join('、');
+    data['category'] = data['categories'].join(', ');
     return new Promise(function (resolve, reject) {
       let request = self.httpClient.patch(api, data);
       self.handleAuthors(data['id'], data['authors'], oldData['authors']);
@@ -169,7 +175,8 @@ export class AlgorithmService {
         if (dataset['delete']) {
           self.deleteAttribute('datasets', id, dataset.id);
         }
-        else if (dataset.link !== oldData[index].link || dataset.name !== oldData[index].name || dataset.license !== oldData[index].license) {
+        else if (dataset.description !== oldData[index].description || dataset.link !== oldData[index].link
+            || dataset.name !== oldData[index].name || dataset.license !== oldData[index].license) {
           self.updateAttribute('datasets', id, dataset.id, dataset);
         } 
       }

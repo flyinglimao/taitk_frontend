@@ -6,8 +6,6 @@
                     <div class="column">
                         <div class="text-center">
                             <a class="btn btn-primary edit-action mt-1" *ngIf="!editing" [routerLink]="'/algorithms/new'">新增</a>
-                            <a class="btn edit-action mt-1 " *ngIf="editing && !jsonMode " (click)="switchEditMode(true) ">JSON 模式</a>
-                            <a class="btn edit-action mt-1 " *ngIf="editing && jsonMode " (click)="switchEditMode(false) ">表單模式</a>
                             <a class="btn edit-action mt-1 " *ngIf="!editing " (click)="startEdit() ">編輯</a>
                             <a class="btn edit-action mt-1 " *ngIf="editing " (click)="toggleExample() ">檢視範例</a>
                             <a class="btn btn-success edit-action mt-1 " *ngIf="editing " (click)="finishEdit() ">完成</a>

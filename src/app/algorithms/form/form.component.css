@@ -45,3 +45,8 @@ table td {
 .form-input {
     margin-top: 3px;
 }
+.tile.tile-centered .tile-subtitle {
+    text-overflow: unset;
+    white-space: unset;
+    word-break: break-word;
+}
