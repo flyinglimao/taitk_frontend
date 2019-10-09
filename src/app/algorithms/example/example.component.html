@@ -1,84 +1,152 @@
 <div class="panel bg-light">
     <a class="btn btn-clear" (click)="exampleChange.emit(false)"></a>
     <div class="panel-header text-center">
-        <div class="panel-title h3">AV-SpNET</div>
+        <div class="panel-title h3">Discourse</div>
     </div>
     <div class="panel-body">
         <div class="tile tile-centered">
             <div class="tile-content">
-                <div class="tile-title text-bold">完整標題</div>
-                <div class="tile-subtitle">Arousal Valence Speech Front-End Network</div>
+                <div class="tile-title text-bold">1. 完整 App 標題</div>
+                <div class="tile-subtitle">A Unified RvNN Framework for End-to-End Chinese Discourse Parsing</div>
             </div>
         </div>
         <div class="tile tile-centered">
             <div class="tile-content">
-                <div class="tile-title text-bold">類別</div>
-                <div class="tile-subtitle">SER</div>
+                <div class="tile-title text-bold">2. App 縮寫</div>
+                <div class="tile-subtitle">Discourse</div>
             </div>
         </div>
         <div class="tile tile-centered">
             <div class="tile-content">
-                <div class="tile-title text-bold">作者</div>
+                <div class="tile-title text-bold">3. 作者</div>
                 <div class="tile-subtitle">
                     <span class="chip">
-                    Chih-Chuan Lu
+                    Chuan-An Lin
+                    </span>
+                    <span class="chip">
+                    Hen-Hsen Huang
+                    </span>
+                    <span class="chip">
+                    Zi-Yuan Chen
+                    </span>
+                    <span class="chip">
+                    Hsin-Hsi Chen
                     </span>
                 </div>
             </div>
         </div>
         <div class="tile tile-centered">
             <div class="tile-content">
-                <div class="tile-title text-bold">標籤</div>
+                <div class="tile-title text-bold">4. 單位</div>
                 <div class="tile-subtitle">
                     <span class="chip">
-                      Speech Emotion Recognition
+                    台灣大學資訊系
                     </span>
                 </div>
             </div>
         </div>
         <div class="tile tile-centered">
             <div class="tile-content">
-                <div class="tile-title text-bold">功能描述</div>
-                <div class="tile-subtitle">
-                    Speech Emotion Recognition (SER) across diverse application domains is still challenging due to the …
+                <div class="tile-title text-bold">5. 問題回報聯絡 Email</div>
+                <div class="tile-subtitle">hhhuang@nlg.csie.ntu.edu.tw</div>
+            </div>
+        </div>
+        <div class="tile tile-centered">
+            <div class="tile-content">
+                <div class="tile-title text-bold">6. 功能描述</div>
+                <div markdown class="tile-subtitle">
+                中文語篇剖析有四項子任務，包含初級語篇單元分割、 剖析樹建立、主次關係識別、語篇關係辨識等。 本文展示一個點對點中文語篇剖析器，並提出一套統一架構， 可以對輸入之中文篇章直接產生完整的中文語篇剖析結果。 我們的剖析器以遞迴類神經網路為基礎，同時對四項子任務進行學習， 在中文語篇樹庫(CDTB)資料集上，達到最先進的效能。 我們釋出了這個剖析器的原始碼與預先訓練完成的模型， 立即可用。據我們所知，這是第一個開放原始碼的中文剖析工具集， 而且這套獨立的工具集不須依賴外部資源(如句法剖析器)， 便於下游應用的整合。 
                 </div>
             </div>
         </div>
         <div class="tile tile-centered">
             <div class="tile-content">
-                <div class="tile-title text-bold">輸入類型</div>
-                <div class="tile-subtitle"><code>audio/*</code></div>
+                <div class="tile-title text-bold">7. Keyword</div>
+                <div class="tile-subtitle">
+                    <span class="chip">
+                    Chinese discourse parser 
+                    </span>
+                    <span class="chip">
+                    中文語篇剖析器
+                    </span>
+                </div>
             </div>
         </div>
         <div class="tile tile-centered">
             <div class="tile-content">
-                <div class="tile-title text-bold">輸出類型</div>
-                <div class="tile-subtitle"><code>text/json</code></div>
+                <div class="tile-title text-bold">8. 程式會使用到的 NN(Neural Network) Toolkit & NN類別 </div>
+                <div class="tile-subtitle">
+                    <span class="chip">
+                    NLP 
+                    </span>
+                    <span class="chip">
+                    遞迴類神經網路
+                    </span>
+                    <span class="chip">
+                    Discourse
+                    </span>
+                </div>
             </div>
         </div>
         <div class="tile tile-centered">
             <div class="tile-content">
-                <div class="tile-title text-bold">參考連結</div>
-                <div class="tile-subtitle">https://csie.ntu.edu.tw/some/one</div>
+                <div class="tile-title text-bold">9. 參考連結 URL/GitHub </div>
+                <div class="tile-subtitle">http://nlg18.csie.ntu.edu.tw/discourse_parser</div>
+                <div class="tile-subtitle">http://aclweb.org/anthology/C18-2016</div>
+                <div class="tile-subtitle">https://github.com/abccaba2000/discourse-parser</div>
             </div>
         </div>
-        <div class="tile tile-centered">
-            <div class="tile-content">
-                <div class="tile-title text-bold">資料集</div>
-                <div class="tile-content">
-                    <table class="table table-striped table-hover">
+        <div class="tile tile-centered ">
+            <div class="tile-content ">
+                <div class="tile-title text-bold ">
+                10. 程式會使用到的資料集（可參考範例）
+                </div>
+                <div class="tile-content ">
+                    <div class="card my-2">
+                        <div class="card-body">
+                            <p>名稱：中文語篇樹庫（CDTB）</p>
+                            <p>連結：www.cs.brandeis.edu/~clp/cdtb/</p>
+                            <span>描述：</span>
+                            <markdown></markdown>
+                            <p>授權：free</p>
+                        </div>
+                        <div class="card-body">
+                            <p>名稱：WordNet</p>
+                            <p>連結：https://wordnet.princeton.edu/</p>
+                            <span>描述：</span>
+                            <markdown></markdown>
+                            <p>授權：free</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tile tile-centered ">
+            <div class="tile-content ">
+                <div class="tile-title text-bold ">11. 可供程式 (App) 選擇的參數</div>
+                <div class="tile-content ">
+                    <table class="table table-striped table-hover ">
                         <thead>
                             <tr>
                                 <th>名稱</th>
-                                <th style="width: 60%;">連結</th>
-                                <th>授權</th>
+                                <th>變數</th>
+                                <th style="width: 60%; ">說明</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>WordNet</td>
-                                <td>https://wordnet.princeton.edu/</td>
-                                <td>Free/Due</td>
+                                <td>demo</td>
+                                <td></td>
+                                <td>
+                                    <markdown>畫出HTML圖檔</markdown>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>r</td>
+                                <td></td>
+                                <td>
+                                    <markdown>調整樹的深度</markdown>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -87,23 +155,14 @@
         </div>
         <div class="tile tile-centered">
             <div class="tile-content">
-                <div class="tile-title text-bold">參數</div>
-                <div class="tile-content">
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>標籤</th>
-                                <th style="width: 75%;">說明</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td [innerHTML]="renderUnderLine('--底線=_VAR_')"></td>
-                                <td>畫出HTML圖檔</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <div class="tile-title text-bold">12. 程式 (App) 輸入格式（image, text, speech or ...)</div>
+                <div class="tile-subtitle"><code>text/plain</code></div>
+            </div>
+        </div>
+        <div class="tile tile-centered">
+            <div class="tile-content">
+                <div class="tile-title text-bold">13. 程式 (App) 輸出格式（image, text, speech or ...)</div>
+                <div class="tile-subtitle"><code>text/html</code></div>
             </div>
         </div>
     </div>

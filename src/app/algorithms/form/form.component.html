@@ -15,10 +15,11 @@
                 </div>
             </div>
         </div>
-        <div class="tile tile-centered" *ngIf="editing">
+        <div class="tile tile-centered">
             <div class="tile-content">
                 <div class="tile-title text-bold">2. App 縮寫</div>
-                <div class="tile-subtitle">
+                <div class="tile-subtitle" *ngIf="!editing">{{ algorithmData.abbreviation }}</div>
+                <div class="tile-subtitle" *ngIf="editing">
                     <input type="text" class="form-input" [(ngModel)]="algorithmData.abbreviation" placeholder="簡稱 ex. AV-SpNET">
                 </div>
             </div>
@@ -27,20 +28,21 @@
             <div class="tile-content">
                 <div class="tile-title text-bold">3. 作者
                     <button class="btn btn-link btn-action" (click)="newAuthor()" *ngIf="editing">
-              <i class="icon icon-plus"></i>
-            </button></div>
+                        <i class="icon icon-plus"></i>
+                    </button>
+                </div>
                 <div class="tile-subtitle">
                     <ng-container *ngFor="let author of deleteFilter(algorithmData.authors)">
                         <span class="chip" *ngIf="author.name.length">
                             <ng-container *ngIf="!editing">{{ author.name }}</ng-container>
                             <input class="chip-input" type="text" [(ngModel)]="author.name" placeholder="ex. Chih-Chuan Lu" *ngIf="editing">
                             <a aria-label="close" role="button" class="btn btn-clear" *ngIf="editing"
-                                (click)="deleteAuthor(author)"></a>
+                            (click)="deleteAuthor(author)"></a>
                         </span>
                     </ng-container>
                     <span class="chip" *ngIf="newAuthorInput && editing">
                         <form (submit)="newAuthorSubmit()">
-                        <input class="chip-input" autofocus type="text" [(ngModel)]="newAuthorName"
+                            <input class="chip-input" autofocus type="text" [(ngModel)]="newAuthorName"
                             [ngModelOptions]="{standalone: true}" #authorInput placeholder="ex. Chih-Chuan Lu">
                             <a aria-label="close" role="button" class="btn btn-clear" *ngIf="editing"
                             (click)="newAuthorDiscard()"></a>
@@ -53,20 +55,21 @@
             <div class="tile-content">
                 <div class="tile-title text-bold">4. 單位
                     <button class="btn btn-link btn-action" (click)="newUnit()" *ngIf="editing">
-              <i class="icon icon-plus"></i>
-            </button></div>
+                        <i class="icon icon-plus"></i>
+                    </button>
+                </div>
                 <div class="tile-subtitle">
                     <ng-container *ngFor="let unit of algorithmData.units">
                         <span class="chip" *ngIf="unit.length">
                             <ng-container *ngIf="!editing">{{ unit }}</ng-container>
                             <input class="chip-input" type="text" [(ngModel)]="unit" placeholder="ex. 台灣大學資工系" *ngIf="editing">
                             <a aria-label="close" role="button" class="btn btn-clear" *ngIf="editing"
-                                (click)="deleteUnit(unit)"></a>
+                            (click)="deleteUnit(unit)"></a>
                         </span>
                     </ng-container>
                     <span class="chip" *ngIf="newUnitInput && editing">
                         <form (submit)="newUnitSubmit()">
-                        <input class="chip-input" autofocus type="text" [(ngModel)]="newUnitName"
+                            <input class="chip-input" autofocus type="text" [(ngModel)]="newUnitName"
                             [ngModelOptions]="{standalone: true}" #unitInput placeholder="ex. 台灣大學資工系">
                             <a aria-label="close" role="button" class="btn btn-clear" *ngIf="editing"
                             (click)="newUnitDiscard()"></a>
@@ -97,43 +100,45 @@
             <div class="tile-content">
                 <div class="tile-title text-bold">7. Keyword
                     <button class="btn btn-link btn-action" (click)="newTag()" *ngIf="editing">
-              <i class="icon icon-plus"></i>
-            </button></div>
+                        <i class="icon icon-plus"></i>
+                    </button>
+                </div>
                 <div class="tile-subtitle">
                     <span class="chip" *ngFor="let tag of deleteFilter(algorithmData.tags)">
-            {{ tag.tag }}
-            <a aria-label="close" role="button" class="btn btn-clear" *ngIf="editing"
-              (click)="deleteTag(tag)"></a>
-          </span>
+                        {{ tag.tag }}
+                        <a aria-label="close" role="button" class="btn btn-clear" *ngIf="editing"
+                        (click)="deleteTag(tag)"></a>
+                    </span>
                     <span class="chip" *ngIf="newTagInput && editing">
-            <form (submit)="newTagSubmit()">
-              <input class="chip-input" autofocus type="text" [(ngModel)]="newTagName"
-                [ngModelOptions]="{standalone: true}" #tagInput placeholder="ex. Speech Emotion Recognition">
-                <a aria-label="close" role="button" class="btn btn-clear" *ngIf="editing"
-                  (click)="newTagDiscard()"></a>
-            </form>
-          </span>
+                        <form (submit)="newTagSubmit()">
+                            <input class="chip-input" autofocus type="text" [(ngModel)]="newTagName"
+                            [ngModelOptions]="{standalone: true}" #tagInput placeholder="ex. Speech Emotion Recognition">
+                            <a aria-label="close" role="button" class="btn btn-clear" *ngIf="editing"
+                            (click)="newTagDiscard()"></a>
+                        </form>
+                    </span>
                 </div>
             </div>
         </div>
         <div class="tile tile-centered">
             <div class="tile-content">
-                <div class="tile-title text-bold">8. Neural Network 類別
+                <div class="tile-title text-bold">8. 程式會使用到的 NN(Neural Network) Toolkit & NN類別
                     <button class="btn btn-link btn-action" (click)="newCategory()" *ngIf="editing">
-              <i class="icon icon-plus"></i>
-            </button></div>
+                        <i class="icon icon-plus"></i>
+                    </button>
+                </div>
                 <div class="tile-subtitle">
                     <ng-container *ngFor="let category of algorithmData.categories">
                         <span class="chip" *ngIf="category.length">
                             <ng-container *ngIf="!editing">{{ category }}</ng-container>
                             <input class="chip-input" type="text" [(ngModel)]="category" placeholder="ex. 台灣大學資工系" *ngIf="editing">
                             <a aria-label="close" role="button" class="btn btn-clear" *ngIf="editing"
-                                (click)="deleteCategory(category)"></a>
+                            (click)="deleteCategory(category)"></a>
                         </span>
                     </ng-container>
                     <span class="chip" *ngIf="newCategoryInput && editing">
                         <form (submit)="newCategorySubmit()">
-                        <input class="chip-input" autofocus type="text" [(ngModel)]="newCategoryName"
+                            <input class="chip-input" autofocus type="text" [(ngModel)]="newCategoryName"
                             [ngModelOptions]="{standalone: true}" #categoryInput placeholder="ex. 台灣大學資工系">
                             <a aria-label="close" role="button" class="btn btn-clear" *ngIf="editing"
                             (click)="newCategoryDiscard()"></a>
@@ -144,22 +149,29 @@
         </div>
         <div class="tile tile-centered">
             <div class="tile-content">
-                <div class="tile-title text-bold">9. 參考連結 URL/GitHub</div>
+                <div class="tile-title text-bold">9. 參考連結 URL/GitHub
+                    <button class="btn btn-link btn-action " (click)="algorithmData.links.push({id: -1, link: ''}) " *ngIf="editing">
+                        <i class="icon icon-plus"></i>
+                    </button>
+                </div>
                 <ng-container *ngFor="let link of deleteFilter(algorithmData.links)">
                     <div class="tile-subtitle" *ngIf="!editing">{{ link.link }}</div>
                     <div class="tile-subtitle" *ngIf="editing">
-                        <input type="text" class="form-input" [(ngModel)]="link.link" style="width: calc(100% - 22px);display: inline;">
+                        <input type="text" class="form-input" [(ngModel)]="link.link" style="display: inline;">
                         <a aria-label="close" role="button" class="btn btn-clear" *ngIf="editing" (click)="link.delete = true" style="display: inline;"></a>
                     </div>
                 </ng-container>
                 <div class="tile-subtitle " *ngIf="editing ">
-                    <button class="btn btn-link btn-action " (click)="algorithmData.links.push({id: -1, link: ''}) ">新增</button>
                 </div>
             </div>
         </div>
         <div class="tile tile-centered ">
             <div class="tile-content ">
-                <div class="tile-title text-bold ">10. 程式會使用到的資料集</div>
+                <div class="tile-title text-bold ">10. 程式會使用到的資料集（可參考範例）
+                    <button class="btn btn-link btn-action" (click)="algorithmData.datasets.push({id: -1})" *ngIf="editing">
+                        <i class="icon icon-plus"></i>
+                    </button>
+                </div>
                 <div class="tile-content ">
                     <div class="card my-2" *ngFor="let dataset of deleteFilter(algorithmData.datasets)">
                         <div class="card-body" *ngIf="!editing">
@@ -241,7 +253,7 @@
         </div>
         <div class="tile tile-centered">
             <div class="tile-content">
-                <div class="tile-title text-bold">識別碼</div>
+                <div class="tile-title text-bold">14. 識別碼</div>
                 <div class="tile-subtitle">{{ algorithmData.remote_secret }}</div>
             </div>
         </div>

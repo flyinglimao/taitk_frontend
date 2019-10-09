@@ -65,14 +65,6 @@ export class AlgorithmFormComponent implements OnInit {
   newCategoryName: string = '';
   newTagInput: boolean = false;
   newTagName: string = '';
-  newDataset: {name: string, link: string, license: string, id: number, delete: boolean} =
-  {
-    name: '',
-    link: '',
-    license: '',
-    id: -1,
-    delete: false
-  };
   newParameter: {label: string, description: string, id: number, delete: boolean, variable: string} = 
   {
     label: '',
@@ -96,9 +88,6 @@ export class AlgorithmFormComponent implements OnInit {
     if (this.newTagName) {
       this.algorithmData.tags.push({tag: this.newTagName, id: -1});
       this.newTagName = '';
-    }
-    if (this.newDataset.name && this.newDataset.link && this.newDataset.license) {
-      this.newDatasetSubmit()
     }
     if (this.newParameter.label && this.newParameter.description) {
       this.newParameterSubmit()
@@ -214,18 +203,6 @@ export class AlgorithmFormComponent implements OnInit {
   newTagDiscard() {
     this.newTagInput = false;
     this.newTagName = '';
-  }
-
-  newDatasetSubmit() {
-    this.algorithmData.datasets.push(this.newDataset);
-    this.newDataset =
-    {
-      name: '',
-      link: '',
-      license: '',
-      id: -1,
-      delete: false
-    };
   }
 
   newParameterSubmit() {
