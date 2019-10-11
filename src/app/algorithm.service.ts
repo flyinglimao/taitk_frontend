@@ -90,9 +90,10 @@ export class AlgorithmService {
   }
 
   public async update(data) {
+    console.log('eqw')
     let self = this;
     let api = `${environment.api}algorithms/${data.id}`;
-    let oldData = (await this.get(data.id))['data'];
+    let oldData = (await this.get(data.id));
     data['token'] = this.userService.token;
     data['unit'] = data['units'].join('、');
     data['category'] = data['categories'].join(', ');

@@ -58,7 +58,7 @@ export class AlgorithmFormComponent implements OnInit {
       this.algorithmData.tags.push({tag: this.newTagName, id: -1, delete: false});
       this.newTagName = '';
     }
-    if (this.newParameter.label && this.newParameter.description) {
+    if (this.newParameter.variable && this.newParameter.description) {
       this.newParameterSubmit()
     }
     if (this.newUnitName) {

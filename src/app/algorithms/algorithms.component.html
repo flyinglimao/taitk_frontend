@@ -4,7 +4,7 @@
             <div class="container">
                 <div class="columns">
                     <div class="column">
-                        <div class="text-center" *ngIf="logined">
+                        <div class="text-center" *ngIf="!full">
                             <a class="btn btn-primary edit-action mt-1" *ngIf="!editing" [routerLink]="'/algorithms/new'">新增</a>
                             <a class="btn edit-action mt-1 " *ngIf="!editing " (click)="startEdit() ">編輯</a>
                             <a class="btn edit-action mt-1 " *ngIf="editing " (click)="toggleExample() ">檢視範例</a>

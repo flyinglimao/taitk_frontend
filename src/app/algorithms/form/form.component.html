@@ -228,7 +228,7 @@
                                 [checked]="dataset.open === 0"
                                 (change)="dataset.open = 0"><i class="form-icon"></i> 否（有版權問題）
                               </label>
-                              <label class="form-label" *ngIf="open == 1">可被下載的資料集 URL or GitHub Link: </label>
+                              <label class="form-label" *ngIf="dataset.open == 1">可被下載的資料集 URL or GitHub Link: </label>
                               <textarea class="form-input" id="resource" rows="3" [(ngModel)]="dataset.resource" *ngIf="dataset.open == 1"></textarea>
                             </div>
                         </div>
@@ -264,7 +264,7 @@
                                 </td>
                             </tr>
                             <tr *ngIf="editing ">
-                                <td><input type="text " class="form-input " placeholder="" [(ngModel)]="newParameter.variable"></td>
+                                <td><input type="text " class="form-input " placeholder="--demo" [(ngModel)]="newParameter.variable"></td>
                                 <td><textarea class="form-input " placeholder="可使用 Markdown " [(ngModel)]="newParameter.description"></textarea></td>
                                 <td><button class="btn btn-sm btn-success " (click)="newParameterSubmit()"><i class="icon icon-check "></i></button></td>
                             </tr>
