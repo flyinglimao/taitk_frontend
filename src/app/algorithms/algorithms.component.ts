@@ -64,6 +64,10 @@ export class AlgorithmsComponent implements OnInit {
     private route: ActivatedRoute,
   ) { }
 
+  get logined () {
+    return this.userService.logined;
+  }
+  
   ngOnInit() {
     let self = this;
     this.userService.registerInitedCallback(()=> {
