@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserService } from './user.service';
+import { Algorithm } from './algorithm.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class AlgorithmService {
 
   constructor(
@@ -28,7 +30,7 @@ export class AlgorithmService {
     return new Promise(function (resolve, reject) {
       let request = self.httpClient.get(api);
       request.subscribe(
-        function (data) {
+        function (data: Array<any>) {
           resolve(data);
         },
         function (err) {
@@ -50,7 +52,7 @@ export class AlgorithmService {
         function (data) {
           data['data']['units'] = data['data']['unit'].split('、');
           data['data']['categories'] = data['data']['category'].split(', ');
-          resolve(data);
+          resolve(new Algorithm(data['data']));
         },
         function (err) {
           reject(err);
@@ -176,7 +178,8 @@ export class AlgorithmService {
           self.deleteAttribute('datasets', id, dataset.id);
         }
         else if (dataset.description !== oldData[index].description || dataset.link !== oldData[index].link
-            || dataset.name !== oldData[index].name || dataset.license !== oldData[index].license) {
+            || dataset.name !== oldData[index].name || dataset.free !== oldData[index].free
+            || dataset.open !== oldData[index].open  || dataset.resource !== oldData[index].resource) {
           self.updateAttribute('datasets', id, dataset.id, dataset);
         } 
       }

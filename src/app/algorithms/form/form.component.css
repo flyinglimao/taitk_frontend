@@ -45,6 +45,12 @@ table td {
 .form-input {
     margin-top: 3px;
 }
+
+.form-input::placeholder {
+    content: '';
+    color: green;
+}
+
 .tile.tile-centered .tile-subtitle {
     text-overflow: unset;
     white-space: unset;

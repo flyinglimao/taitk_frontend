@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: 'tasks', component: TasksComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'login', component: LoginComponent },
-  { path: '', redirectTo: 'news', pathMatch: 'full' }
+  { path: '', redirectTo: 'algorithms/all', pathMatch: 'full' }
 ];
 
 @NgModule({

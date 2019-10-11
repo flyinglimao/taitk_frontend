@@ -11,3 +11,8 @@
     right: 4px;
     top: 4px;
 }
+.tile.tile-centered .tile-subtitle {
+    text-overflow: unset;
+    white-space: unset;
+    word-break: break-word;
+}

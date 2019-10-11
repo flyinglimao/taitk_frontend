@@ -4,6 +4,7 @@ import { UserService } from '../user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlgorithmService } from '../algorithm.service';
 import { variable } from '@angular/compiler/src/output/output_ast';
+import { Algorithm } from '../algorithm.model';
 
 @Component({
   selector: 'app-algorithms',
@@ -16,7 +17,7 @@ export class AlgorithmsComponent implements OnInit {
   discardPrompt: boolean = false;
   example: boolean = false;
   algorithms: Array<{id: number, abbreviation: string}> = [];
-  algorithm = {
+  algorithm: Algorithm = {
     id: -1,
     abbreviation: '',
     title: '',
@@ -32,8 +33,9 @@ export class AlgorithmsComponent implements OnInit {
     output_type: '',
     remote_secret: '',
     email: '',
+    belong_to: '',
   };
-  algorithmBackup = {
+  algorithmBackup: Algorithm = {
     id: -1,
     abbreviation: '',
     title: '',
@@ -49,6 +51,7 @@ export class AlgorithmsComponent implements OnInit {
     output_type: '',
     remote_secret: '',
     email: '',
+    belong_to: '',
   };
 
   @ViewChild('form', { static: true })
@@ -64,28 +67,36 @@ export class AlgorithmsComponent implements OnInit {
   ngOnInit() {
     let self = this;
     this.userService.registerInitedCallback(()=> {
-      if (!self.userService.logined) {
-        self.router.navigateByUrl('/login');
-      }
-      self.algorithmService.list().then((data: Array<{id: number, abbreviation: string}>) => {
-        self.algorithms = [...data];
-        self.route.paramMap.subscribe(e => {
-          let params = e['params'];
-          if (params['algorithm'] === 'new') {
-            self.startEdit(true);
-          } else if (+params['algorithm']) {
-            self.loadAlgorithm(+params['algorithm']);
-          } else {
-            self.loadAlgorithm(+data[0].id);
-          }
-        });
+      self.route.paramMap.subscribe(e => {
+        let params = e['params'];
+        if (!self.userService.logined) {
+          self.algorithmService.list().then((data: Array<{id: number, abbreviation: string}>) => {
+            self.algorithms = [...data];
+            if (+params['algorithm']) {
+              self.loadAlgorithm(+params['algorithm']);
+            } else {
+              self.loadAlgorithm(+data[0].id);
+            }
+          });
+        } else {
+          self.algorithmService.list().then((data: Array<{id: number, abbreviation: string}>) => {
+            self.algorithms = [...data];
+            if (params['algorithm'] === 'new') {
+              self.startEdit(true);
+            } else if (+params['algorithm']) {
+              self.loadAlgorithm(+params['algorithm']);
+            } else {
+              self.loadAlgorithm(+data[0].id);
+            }
+          });
+        }
       });
     })
   }
 
   loadAlgorithm(id: number) {
-    this.algorithmService.get(id).then(data => {
-      Object.assign(this.algorithm, data['data']);
+    this.algorithmService.get(id).then((data: Algorithm) => {
+      this.algorithm = data;
     }).catch(_ => {
       this.router.navigate(['/algorithms/', this.algorithms[0].id]);
     });
@@ -109,6 +120,7 @@ export class AlgorithmsComponent implements OnInit {
         output_type: '',
         remote_secret: '',
         email: '',
+        belong_to: '',
       };
     } else {
       Object.assign(this.algorithmBackup, this.algorithm);

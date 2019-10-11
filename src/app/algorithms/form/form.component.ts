@@ -1,5 +1,6 @@
 import { EventEmitter, Component, OnInit, Input, ViewChild, ElementRef, Output } from '@angular/core';
 import { AlgorithmService } from 'src/app/algorithm.service';
+import { Algorithm } from '../../algorithm.model';
 
 @Component({
   selector: 'app-algorithm-form',
@@ -10,43 +11,11 @@ export class AlgorithmFormComponent implements OnInit {
   @Input()
   editing: boolean;
   @Input()
-  algorithmData = {
-    id: -1,
-    abbreviation: '',
-    title: '',
-    categories: [],
-    authors: [],
-    units: [],
-    tags: [],
-    features: '',
-    links: [],
-    parameters: [],
-    datasets: [],
-    input_type: '',
-    output_type: '',
-    remote_secret: '',
-    email: '',
-  };
+  algorithmData: Algorithm;
 
   @Output()
   @Input()
-  algorithmDataChange = new EventEmitter<{
-    id: number,
-    abbreviation: string,
-    title: string,
-    categories: Array<string>,
-    authors: Array<{name: string, id: number, delete: boolean}>,
-    units: Array<string>,
-    tags: Array<{tag: string, id: number, delete: boolean}>,
-    features: string,
-    links: Array<{link: string, description: string, id: number, delete: boolean}>,
-    parameters: Array<{label: string, description: string, id: number, delete: boolean, variable: string}>,
-    datasets: Array<{name: string, link: string, license: string, id: number, delete: boolean}>,
-    input_type: string,
-    output_type: string,
-    remote_secret: string,
-    email: string,
-  }>();
+  algorithmDataChange = new EventEmitter<Algorithm>();
 
   @ViewChild('authorInput', { static: false })
   authorInput: ElementRef;
@@ -82,11 +51,11 @@ export class AlgorithmFormComponent implements OnInit {
 
   switchEditMode() {
     if (this.newAuthorName) {
-      this.algorithmData.authors.push({name: this.newAuthorName, id: -1});
+      this.algorithmData.authors.push({name: this.newAuthorName, id: -1, delete: false});
       this.newAuthorName = '';
     }
     if (this.newTagName) {
-      this.algorithmData.tags.push({tag: this.newTagName, id: -1});
+      this.algorithmData.tags.push({tag: this.newTagName, id: -1, delete: false});
       this.newTagName = '';
     }
     if (this.newParameter.label && this.newParameter.description) {
@@ -146,7 +115,7 @@ export class AlgorithmFormComponent implements OnInit {
   newAuthorSubmit() {
     this.newAuthorInput = false;
     if (this.newAuthorName) {
-      this.algorithmData.authors.push({name: this.newAuthorName, id: -1});
+      this.algorithmData.authors.push({name: this.newAuthorName, id: -1, delete: false});
       this.newAuthorName = '';
       this.authorInput.nativeElement.focus(); 
     }
@@ -193,7 +162,7 @@ export class AlgorithmFormComponent implements OnInit {
   newTagSubmit() {
     this.newTagInput = false;
     if (this.newTagName) {
-      this.algorithmData.tags.push({tag: this.newTagName, id: -1});
+      this.algorithmData.tags.push({tag: this.newTagName, id: -1, delete: false});
       this.newTagName = '';
       this.tagInput.nativeElement.focus();
     }

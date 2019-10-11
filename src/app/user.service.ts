@@ -54,6 +54,9 @@ export class UserService {
           self.initedCallback.forEach(cb => cb())
         }
       );
+    } else {
+      this.inited = true;
+      this.initedCallback.forEach(cb => cb())
     }
   }
 
