@@ -9,12 +9,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  public username: string = '';
+  public group: string = '';
   public email: string = '';
-  public password: string = '';
-  public passwordCheck: string = '';
-  public website: string = '';
-  public avatar: string = '';
   public remeber: boolean;
   public errorToast: string;
   public formType: string = 'login';
@@ -26,16 +22,16 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.email = localStorage.getItem('email');
-    this.password = localStorage.getItem('password');
+    this.group = localStorage.getItem('group');
     this.remeber = localStorage.getItem('remeber') === 'true';
   }
 
   login() {
     let self = this;
-    this.userService.login(this.email, this.password).then(function (name: string) {
+    this.userService.login(this.email, this.group).then(function (name: string) {
       if (self.remeber) {
         localStorage.setItem('email', self.email);
-        localStorage.setItem('password', self.password);
+        localStorage.setItem('group', self.group);
         localStorage.setItem('remeber', 'true');
       }
       self.router.navigateByUrl('/algorithms');
@@ -48,11 +44,7 @@ export class LoginComponent implements OnInit {
     let self = this;
     this.userService.register({
       email: this.email,
-      password: this.password,
-      password_confirmation: this.passwordCheck,
-      name: this.username,
-      website: this.website,
-      avatar: this.avatar,
+      group: this.group,
     }).then(function (name: string) {
       self.router.navigateByUrl('/algorithms');
     }).catch (function (reason) {

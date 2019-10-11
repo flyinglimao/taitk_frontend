@@ -13,7 +13,8 @@
                         </div>
                         <ul class="menu menu-nav" *ngIf="!editing">
                             <li class="menu-item " *ngFor="let algorithm of algorithms;">
-                                <a [routerLink]=" '/algorithms/' + algorithm.id ">{{ algorithm.abbreviation }}</a>
+                                <a [routerLink]=" '/algorithms/' + algorithm.id" fragment="all" *ngIf="full">{{ algorithm.abbreviation }}</a>
+                                <a [routerLink]=" '/algorithms/' + algorithm.id " *ngIf="!full">{{ algorithm.abbreviation }}</a>
                             </li>
                         </ul>
                     </div>

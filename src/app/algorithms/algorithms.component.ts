@@ -12,7 +12,7 @@ import { Algorithm } from '../algorithm.model';
   styleUrls: ['./algorithms.component.css']
 })
 export class AlgorithmsComponent implements OnInit {
-
+  full: boolean = false;
   editing: boolean = false;
   discardPrompt: boolean = false;
   example: boolean = false;
@@ -69,27 +69,32 @@ export class AlgorithmsComponent implements OnInit {
     this.userService.registerInitedCallback(()=> {
       self.route.paramMap.subscribe(e => {
         let params = e['params'];
-        if (!self.userService.logined) {
-          self.algorithmService.list().then((data: Array<{id: number, abbreviation: string}>) => {
-            self.algorithms = [...data];
-            if (+params['algorithm']) {
-              self.loadAlgorithm(+params['algorithm']);
-            } else {
-              self.loadAlgorithm(+data[0].id);
-            }
-          });
-        } else {
-          self.algorithmService.list().then((data: Array<{id: number, abbreviation: string}>) => {
-            self.algorithms = [...data];
-            if (params['algorithm'] === 'new') {
-              self.startEdit(true);
-            } else if (+params['algorithm']) {
-              self.loadAlgorithm(+params['algorithm']);
-            } else {
-              self.loadAlgorithm(+data[0].id);
-            }
-          });
-        }
+        this.route.fragment.subscribe((fragment: string) => {
+          if (!self.userService.logined || fragment === 'all' ) {
+            self.full = true;
+            self.algorithmService.list(null, true).then((data: Array<{id: number, abbreviation: string}>) => {
+              self.algorithms = [...data];
+              if (+params['algorithm']) {
+                self.loadAlgorithm(+params['algorithm']);
+              } else {
+                self.loadAlgorithm(+data[0].id);
+              }
+            });
+          } else {
+            self.algorithmService.list().then((data: Array<{id: number, abbreviation: string}>) => {
+              self.algorithms = [...data];
+              if (params['algorithm'] === 'new') {
+                self.startEdit(true);
+              } else if (+params['algorithm']) {
+                self.loadAlgorithm(+params['algorithm']);
+              } else if (data[0]) {
+                self.loadAlgorithm(+data[0].id);
+              } else {
+                self.router.navigate(['/algorithms/new']);
+              }
+            });
+          }
+        })
       });
     })
   }

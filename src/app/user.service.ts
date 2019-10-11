@@ -7,13 +7,13 @@ import { environment } from '../environments/environment';
 })
 export class UserService {
   private _token: string = '';
-  private _name: string = '';
+  private _email: string = '';
   private _logined: boolean = false;
   private inited: boolean = false;
   private initedCallback: Array<Function> = [];
 
-  get name() {
-    return this._name;
+  get email() {
+    return this._email;
   }
 
   get logined() {
@@ -34,12 +34,12 @@ export class UserService {
         function (data: {
           success: boolean,
           error: string,
-          name: string,
+          email: string,
         }) {
           if (data.success) {
             self._token = localStorage.getItem('token');
             self._logined = true;
-            self._name = data.name;
+            self._email = data.email;
           } else {
             console.log(data);
             localStorage.removeItem('token');
@@ -65,22 +65,22 @@ export class UserService {
     else this.initedCallback.push(callback)
   }
 
-  public login(email: string, password: string) {
+  public login(email: string, group: string) {
     let self = this;
     return new Promise(function (resolve, reject) {
-      let request = self.httpClient.post(`${environment.api}auth/login`, { email: email, password: password });
+      let request = self.httpClient.post(`${environment.api}auth/login`, { email: email, group: group });
       request.subscribe(function (data: {
         success: boolean,
         reason: string,
         token: string,
-        name: string,
+        email: string,
       }) {
         if (data.success) {
           self._token = data.token;
           self._logined = true;
-          self._name = data.name;
+          self._email = data.email;
           localStorage.setItem('token', data.token);
-          resolve(data.name);
+          resolve(data.email);
         } else {
           reject(data.reason);
         }
@@ -100,7 +100,7 @@ export class UserService {
         if (data.success) {
           self._token = '';
           self._logined = false;
-          self._name = '';
+          self._email = '';
           resolve(true);
         } else {
           reject(false);
@@ -117,13 +117,13 @@ export class UserService {
         success: boolean,
         reason: string,
         token: string,
-        name: string,
+        email: string,
       }) {
         if (data.success) {
           self._token = data.token;
           self._logined = true;
-          self._name = data.name;
-          resolve(data.name);
+          self._email = data.email;
+          resolve(data.email);
         } else {
           reject(data.reason);
         }
