@@ -168,6 +168,7 @@ export class AlgorithmsComponent implements OnInit {
     this.discardPrompt = false;
     this.editing = false;
     Object.assign(this.algorithm, this.algorithmBackup);
+    this.router.navigate(['/algorithms/']);
     this.form.switchEditMode();
   }
 
