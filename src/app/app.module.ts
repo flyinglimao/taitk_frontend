@@ -21,6 +21,7 @@ import { AlgorithmFormComponent } from './algorithms/form/form.component';
 import { FormsModule } from '@angular/forms';
 import { AlgorithmExampleComponent } from './algorithms/example/example.component';
 import { Dataset2019Component } from './dataset2019/dataset2019.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { Dataset2019Component } from './dataset2019/dataset2019.component';
     LoginComponent,
     AlgorithmExampleComponent,
     Dataset2019Component,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

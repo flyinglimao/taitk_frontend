@@ -85,6 +85,7 @@ export class AlgorithmsComponent implements OnInit {
               }
             });
           } else {
+            self.full = false;
             self.algorithmService.list().then((data: Array<{id: number, abbreviation: string}>) => {
               self.algorithms = [...data];
               if (params['algorithm'] === 'new') {
@@ -134,6 +135,7 @@ export class AlgorithmsComponent implements OnInit {
     } else {
       Object.assign(this.algorithmBackup, this.algorithm);
     }
+    this.form.startEdit();
     this.editing = true;
   }
 
@@ -149,8 +151,8 @@ export class AlgorithmsComponent implements OnInit {
         alert('err')
       }
     } else {
-      this.algorithmService.update(this.algorithm).then(_ => {
-        console.log('done')
+      this.algorithmService.update(this.algorithm).then((id: number) => {
+        this.loadAlgorithm(id);
       });
     }
     this.editing = false;
@@ -167,9 +169,9 @@ export class AlgorithmsComponent implements OnInit {
   discardEditConfirm() {
     this.discardPrompt = false;
     this.editing = false;
+    this.form.switchEditMode();
     Object.assign(this.algorithm, this.algorithmBackup);
     this.router.navigate(['/algorithms/']);
-    this.form.switchEditMode();
   }
 
   switchEditMode() {

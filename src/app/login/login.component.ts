@@ -28,10 +28,9 @@ export class LoginComponent implements OnInit {
 
   login() {
     let self = this;
-    this.userService.login(this.email, this.group).then(function (name: string) {
+    this.userService.login(this.email).then(function (name: string) {
       if (self.remeber) {
         localStorage.setItem('email', self.email);
-        localStorage.setItem('group', self.group);
         localStorage.setItem('remeber', 'true');
       }
       self.router.navigateByUrl('/algorithms');

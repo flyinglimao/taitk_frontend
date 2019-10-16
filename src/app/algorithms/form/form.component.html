@@ -103,30 +103,22 @@
                 <div class="tile-title text-bold">7. 功能描述</div>
                 <div markdown class="tile-subtitle" *ngIf="!editing" [data]="algorithmData.description"></div>
                 <div class="tile-subtitle">
-                    <textarea class="form-input" *ngIf="editing" [(ngModel)]="algorithmData.description" placeholder="(......)" rows="4"></textarea>
+                    <textarea class="form-input" *ngIf="editing" [(ngModel)]="algorithmData.description" placeholder="(可用 Markdown 語法))" rows="4"></textarea>
                 </div>
             </div>
         </div>
         <div class="tile tile-centered">
             <div class="tile-content">
-                <div class="tile-title text-bold">8. Keyword
-                    <button class="btn btn-link btn-action" (click)="newTag()" *ngIf="editing">
-                        <i class="icon icon-plus"></i>
-                    </button>
-                </div>
-                <div class="tile-subtitle">
+                <div class="tile-title text-bold">8. Keyword</div>
+                <small *ngIf="editing">Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</small>
+                <select class="form-select" multiple *ngIf="editing" (change)="updateTags($event)">
+                    <optgroup [label]="label.key" *ngFor="let label of tagOptions | keyvalue:keepOriginalOrder">
+                        <option *ngFor="let option of label.value" [selected]="tags.indexOf(option) !== -1">{{ option }}</option>
+                    </optgroup>
+                </select>
+                <div class="tile-subtitle" *ngIf="!editing">
                     <span class="chip" *ngFor="let tag of deleteFilter(algorithmData.tags)">
                         {{ tag.tag }}
-                        <a aria-label="close" role="button" class="btn btn-clear" *ngIf="editing"
-                        (click)="deleteTag(tag)"></a>
-                    </span>
-                    <span class="chip" *ngIf="newTagInput && editing">
-                        <form (submit)="newTagSubmit()">
-                            <input class="chip-input" autofocus type="text" [(ngModel)]="newTagName"
-                            [ngModelOptions]="{standalone: true}" #tagInput placeholder="(Image Processing ...)">
-                            <a aria-label="close" role="button" class="btn btn-clear" *ngIf="editing"
-                            (click)="newTagDiscard()"></a>
-                        </form>
                     </span>
                 </div>
             </div>
@@ -191,11 +183,11 @@
                             <span>描述：</span>
                             <markdown [data]="dataset.description"></markdown>
                             <div class="form-group">
-                              <label class="form-label">是否免費使用：{{ dataset.free ? '是' : '否' }}</label>
+                                <label class="form-label">是否免費使用：{{ dataset.free ? '是' : '否' }}</label>
                             </div>
                             <div class="form-group">
-                              <label class="form-label">是否開放授權：{{ dataset.open ? '是' : '否' }}</label>
-                              <markdown [data]="dataset.resource" *ngIf="dataset.open == 1"></markdown>
+                                <label class="form-label">是否開放授權：{{ dataset.open ? '是' : '否' }}</label>
+                                <markdown [data]="dataset.resource" *ngIf="dataset.open == 1"></markdown>
                             </div>
                         </div>
                         <div class="card-body" *ngIf="editing">
@@ -204,32 +196,32 @@
                             <span>描述：</span>
                             <textarea class="form-input " placeholder="可使用 Markdown " [(ngModel)]="dataset.description" rows="4"></textarea>
                             <div class="form-group">
-                              <label class="form-label">是否免費使用</label>
-                              <label class="form-radio form-inline">
-                                <input type="radio" name="free"
-                                [checked]="dataset.free === 1"
-                                (change)="dataset.free = 1"><i class="form-icon"></i> 是
-                              </label>
-                              <label class="form-radio form-inline">
-                                <input type="radio" name="free"
-                                [checked]="dataset.free === 0"
-                                (change)="dataset.free = 0"><i class="form-icon"></i> 否
-                              </label>
+                                <label class="form-label">是否免費使用</label>
+                                <label class="form-radio form-inline">
+                                    <input type="radio" name="free"
+                                    [checked]="dataset.free === 1"
+                                    (change)="dataset.free = 1"><i class="form-icon"></i> 是
+                                </label>
+                                <label class="form-radio form-inline">
+                                    <input type="radio" name="free"
+                                    [checked]="dataset.free === 0"
+                                    (change)="dataset.free = 0"><i class="form-icon"></i> 否
+                                </label>
                             </div>
                             <div class="form-group">
-                              <label class="form-label">是否開放授權</label>
-                              <label class="form-radio form-inline">
-                                <input type="radio" name="open" 
+                                <label class="form-label">是否開放授權</label>
+                                <label class="form-radio form-inline">
+                                    <input type="radio" name="open" 
                                     [checked]="dataset.open === 1"
                                     (change)="dataset.open = 1"><i class="form-icon"></i> 是
-                              </label>
-                              <label class="form-radio form-inline">
-                                <input type="radio" name="open" 
-                                [checked]="dataset.open === 0"
-                                (change)="dataset.open = 0"><i class="form-icon"></i> 否（有版權問題）
-                              </label>
-                              <label class="form-label" *ngIf="dataset.open == 1">可被下載的資料集 URL or GitHub Link: </label>
-                              <textarea class="form-input" id="resource" rows="3" [(ngModel)]="dataset.resource" *ngIf="dataset.open == 1"></textarea>
+                                </label>
+                                <label class="form-radio form-inline">
+                                    <input type="radio" name="open" 
+                                    [checked]="dataset.open === 0"
+                                    (change)="dataset.open = 0"><i class="form-icon"></i> 否（有版權問題）
+                                </label>
+                                <label class="form-label" *ngIf="dataset.open == 1">可被下載的資料集 URL or GitHub Link: </label>
+                                <textarea class="form-input" id="resource" rows="3" [(ngModel)]="dataset.resource" *ngIf="dataset.open == 1"></textarea>
                             </div>
                         </div>
                         <div class="card-footer" *ngIf="editing">

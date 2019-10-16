@@ -65,10 +65,10 @@ export class UserService {
     else this.initedCallback.push(callback)
   }
 
-  public login(email: string, group: string) {
+  public login(email: string) {
     let self = this;
     return new Promise(function (resolve, reject) {
-      let request = self.httpClient.post(`${environment.api}auth/login`, { email: email, group: group });
+      let request = self.httpClient.post(`${environment.api}auth/login`, { email: email});
       request.subscribe(function (data: {
         success: boolean,
         reason: string,
@@ -123,6 +123,7 @@ export class UserService {
           self._token = data.token;
           self._logined = true;
           self._email = data.email;
+          localStorage.setItem('token', data.token);
           resolve(data.email);
         } else {
           reject(data.reason);

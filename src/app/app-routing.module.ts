@@ -7,6 +7,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { LoginComponent } from './login/login.component';
 import { NewsPostComponent } from './news/post/post.component';
 import { Dataset2019Component } from './dataset2019/dataset2019.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   { path: 'dataset2019', component: Dataset2019Component },
@@ -17,7 +18,8 @@ const routes: Routes = [
   { path: 'tasks', component: TasksComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'login', component: LoginComponent },
-  { path: '', redirectTo: 'algorithms/all', pathMatch: 'full' }
+  { path: 'home', component: HomeComponent },
+  { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
 
 @NgModule({

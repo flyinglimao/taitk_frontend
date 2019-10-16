@@ -90,7 +90,6 @@ export class AlgorithmService {
   }
 
   public async update(data) {
-    console.log('eqw')
     let self = this;
     let api = `${environment.api}algorithms/${data.id}`;
     let oldData = (await this.get(data.id));
