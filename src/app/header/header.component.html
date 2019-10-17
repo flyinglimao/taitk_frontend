@@ -10,7 +10,7 @@
           <a routerLink="algorithms" *ngIf="!userService.logined"></a>
         </section>
         <section class="navbar-section" *ngIf="userService.logined">
-          <a routerLink="algorithms" class="btn btn-link text-light">{{ userService.email }}</a>
+          <a routerLink="algorithms" class="btn btn-link text-light">{{ userService.group }}</a>
           <a (click)="logout()" class="btn btn-link text-light">登出</a>
         </section>
       </header>

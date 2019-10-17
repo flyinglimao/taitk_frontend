@@ -7,13 +7,13 @@ import { environment } from '../environments/environment';
 })
 export class UserService {
   private _token: string = '';
-  private _email: string = '';
+  private _group: string = '';
   private _logined: boolean = false;
   private inited: boolean = false;
   private initedCallback: Array<Function> = [];
 
-  get email() {
-    return this._email;
+  get group() {
+    return this._group;
   }
 
   get logined() {
@@ -34,12 +34,12 @@ export class UserService {
         function (data: {
           success: boolean,
           error: string,
-          email: string,
+          group: string,
         }) {
           if (data.success) {
             self._token = localStorage.getItem('token');
             self._logined = true;
-            self._email = data.email;
+            self._group = data.group;
           } else {
             console.log(data);
             localStorage.removeItem('token');
@@ -73,14 +73,14 @@ export class UserService {
         success: boolean,
         reason: string,
         token: string,
-        email: string,
+        group: string,
       }) {
         if (data.success) {
           self._token = data.token;
           self._logined = true;
-          self._email = data.email;
+          self._group = data.group;
           localStorage.setItem('token', data.token);
-          resolve(data.email);
+          resolve(data.group);
         } else {
           reject(data.reason);
         }
@@ -100,7 +100,7 @@ export class UserService {
         if (data.success) {
           self._token = '';
           self._logined = false;
-          self._email = '';
+          self._group = '';
           resolve(true);
         } else {
           reject(false);
@@ -117,14 +117,14 @@ export class UserService {
         success: boolean,
         reason: string,
         token: string,
-        email: string,
+        group: string,
       }) {
         if (data.success) {
           self._token = data.token;
           self._logined = true;
-          self._email = data.email;
+          self._group = data.group;
           localStorage.setItem('token', data.token);
-          resolve(data.email);
+          resolve(data.group);
         } else {
           reject(data.reason);
         }

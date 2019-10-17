@@ -125,7 +125,7 @@
         </div>
         <div class="tile tile-centered">
             <div class="tile-content">
-                <div class="tile-title text-bold">9. 程式會使用到的 NN(Neural Network) Toolkit & NN類別
+                <div class="tile-title text-bold">9. 使用到的 Toolkit, NN類別 or 其他關鍵字
                     <button class="btn btn-link btn-action" (click)="newCategory()" *ngIf="editing">
                         <i class="icon icon-plus"></i>
                     </button>
@@ -152,7 +152,7 @@
         </div>
         <div class="tile tile-centered">
             <div class="tile-content">
-                <div class="tile-title text-bold">10. 參考連結 URL/GitHub
+                <div class="tile-title text-bold">10. 參考連結 URL, GitHub or PaperSite
                     <button class="btn btn-link btn-action " (click)="algorithmData.links.push({id: -1, link: ''}) " *ngIf="editing">
                         <i class="icon icon-plus"></i>
                     </button>
@@ -171,15 +171,14 @@
         <div class="tile tile-centered ">
             <div class="tile-content ">
                 <div class="tile-title text-bold ">11. 程式會使用到的資料集（可參考範例）
-                    <button class="btn btn-link btn-action" (click)="algorithmData.datasets.push({id: -1, name: '', link: '', description: '', free: 1, open: 1})" *ngIf="editing">
+                    <button class="btn btn-link btn-action" (click)="algorithmData.datasets.push({id: -1, name: '', link: 'null', description: '', free: 1, open: 1})" *ngIf="editing">
                         <i class="icon icon-plus"></i>
                     </button>
                 </div>
                 <div class="tile-content ">
-                    <div class="card my-2" *ngFor="let dataset of deleteFilter(algorithmData.datasets)">
+                    <div class="card my-2" *ngFor="let dataset of deleteFilter(algorithmData.datasets);let index = index">
                         <div class="card-body" *ngIf="!editing">
                             <p>名稱：{{ dataset.name }}</p>
-                            <p>連結：{{ dataset.link }}</p>
                             <span>描述：</span>
                             <markdown [data]="dataset.description"></markdown>
                             <div class="form-group">
@@ -192,18 +191,17 @@
                         </div>
                         <div class="card-body" *ngIf="editing">
                             <p>名稱：<input type="text" class="form-input " [(ngModel)]="dataset.name"></p>
-                            <p>連結：<input type="text" class="form-input " [(ngModel)]="dataset.link"></p>
                             <span>描述：</span>
                             <textarea class="form-input " placeholder="可使用 Markdown " [(ngModel)]="dataset.description" rows="4"></textarea>
                             <div class="form-group">
                                 <label class="form-label">是否免費使用</label>
                                 <label class="form-radio form-inline">
-                                    <input type="radio" name="free"
+                                    <input type="radio" [name]="'free'+index"
                                     [checked]="dataset.free === 1"
-                                    (change)="dataset.free = 1"><i class="form-icon"></i> 是
+                                    (change)="dataset.free = 1" [id]="'dataset-'"><i class="form-icon"></i> 是
                                 </label>
                                 <label class="form-radio form-inline">
-                                    <input type="radio" name="free"
+                                    <input type="radio" [name]="'free'+index"
                                     [checked]="dataset.free === 0"
                                     (change)="dataset.free = 0"><i class="form-icon"></i> 否
                                 </label>
@@ -211,12 +209,12 @@
                             <div class="form-group">
                                 <label class="form-label">是否開放授權</label>
                                 <label class="form-radio form-inline">
-                                    <input type="radio" name="open" 
+                                    <input type="radio" [name]="'open'+index" 
                                     [checked]="dataset.open === 1"
                                     (change)="dataset.open = 1"><i class="form-icon"></i> 是
                                 </label>
                                 <label class="form-radio form-inline">
-                                    <input type="radio" name="open" 
+                                    <input type="radio" [name]="'open'+index"
                                     [checked]="dataset.open === 0"
                                     (change)="dataset.open = 0"><i class="form-icon"></i> 否（有版權問題）
                                 </label>
