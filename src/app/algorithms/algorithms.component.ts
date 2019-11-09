@@ -12,6 +12,7 @@ import { Algorithm } from '../algorithm.model';
   styleUrls: ['./algorithms.component.css']
 })
 export class AlgorithmsComponent implements OnInit {
+  locked: boolean = false;
   full: boolean = false;
   editing: boolean = false;
   discardPrompt: boolean = false;
@@ -33,6 +34,7 @@ export class AlgorithmsComponent implements OnInit {
     output_type: '',
     remote_secret: '',
     email: '',
+    description: '',
     belong_to: '',
   };
   algorithmBackup: Algorithm = {
@@ -52,6 +54,7 @@ export class AlgorithmsComponent implements OnInit {
     remote_secret: '',
     email: '',
     belong_to: '',
+    description: '',
   };
 
   @ViewChild('form', { static: true })
@@ -118,6 +121,7 @@ export class AlgorithmsComponent implements OnInit {
         id: -1,
         abbreviation: '',
         title: '',
+        description: '',
         categories: [],
         authors: [],
         units: [],
@@ -143,19 +147,30 @@ export class AlgorithmsComponent implements OnInit {
     if (!this.form.switchEditMode()) return;
     if (this.algorithm.id === -1) {
       try {
-        let id = await this.algorithmService.create(this.algorithm);
-        this.algorithms.push({id: +id, abbreviation: this.algorithm.abbreviation});
-        this.algorithm.id = +id;
-        this.router.navigate(['/algorithms/', id]);
+        if (!this.locked) {
+          this.locked = true
+          this.algorithmService.create(this.algorithm).then(id => {
+            this.algorithms.push({id: +id, abbreviation: this.algorithm.abbreviation});
+            this.algorithm.id = +id;
+            this.router.navigate(['/algorithms/', id]);
+            this.locked = false;
+            this.editing = false;
+          });
+        }
       } catch (e) {
-        alert('err')
+        alert('遭遇未預期錯誤，請協助通報')
+        console.log(e)
       }
     } else {
-      this.algorithmService.update(this.algorithm).then((id: number) => {
-        this.loadAlgorithm(id);
-      });
+      if (!this.locked) {
+        this.locked = true
+        this.algorithmService.update(this.algorithm).then((id: number) => {
+          this.loadAlgorithm(id);
+          this.locked = false;
+          this.editing = false;
+        });
+      }
     }
-    this.editing = false;
   }
   
   discardEdit() {

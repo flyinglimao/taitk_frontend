@@ -56,3 +56,17 @@ table td {
     white-space: unset;
     word-break: break-word;
 }
+
+markdown::ng-deep table, div[markdown]::ng-deep table {
+    border-collapse: collapse;
+}
+
+markdown::ng-deep th, markdown::ng-deep td, div[markdown]::ng-deep th, div[markdown]::ng-deep td {
+    border: 1px solid black;
+    padding: 3px 6px;
+}
+
+markdown::ng-deep thead, div[markdown]::ng-deep thead {
+    font-weight: bold;
+    border-bottom: 2px solid black;
+}

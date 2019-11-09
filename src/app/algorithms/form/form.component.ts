@@ -13,9 +13,6 @@ export class AlgorithmFormComponent implements OnInit {
   @Input()
   algorithmData: Algorithm;
   
-  @Output()
-  algorithmDataChange = new EventEmitter<Algorithm>();
-  
   @ViewChild('authorInput', { static: false })
   authorInput: ElementRef;
   @ViewChild('tagInput', { static: false })
@@ -92,6 +89,18 @@ export class AlgorithmFormComponent implements OnInit {
   }
   
   switchEditMode() {
+    if (!this.algorithmData.abbreviation) {
+      alert('縮寫為必填項目。')
+      return false
+    }
+    if (!this.algorithmData.title) {
+      alert('標題為必填項目。')
+      return false
+    }
+    if (!this.algorithmData.description) {
+      alert('功能敘述為必填項目。')
+      return false
+    }
     if (this.newAuthorName) {
       this.algorithmData.authors.push({name: this.newAuthorName, id: -1, delete: false});
       this.newAuthorName = '';

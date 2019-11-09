@@ -95,132 +95,139 @@ export class AlgorithmService {
     let oldData = (await this.get(data.id));
     data['token'] = this.userService.token;
     data['unit'] = data['units'].join('、');
-    data['category'] = data['categories'].join(', ');
-    return new Promise(function (resolve, reject) {
+    data['category'] = [... new Set(data['categories'])].join(', ');
+    return new Promise((resolve, reject) => {
       let request = self.httpClient.patch(api, data);
-      self.handleAuthors(data['id'], data['authors'], oldData['authors']);
-      self.handleTags(data['id'], data['tags'], oldData['tags']);
-      self.handleLinks(data['id'], data['links'], oldData['links']);
-      self.handleDatasets(data['id'], data['datasets'], oldData['datasets']);
-      self.handleParameters(data['id'], data['parameters'], oldData['parameters']);
-      request.subscribe(async function (data) {
-        if (data['success']) {
-          resolve(data['data']['id']);
-        } else {
-          reject(data['reason']);
-        }
-      }, function (err) {
-        console.error(err);
-        reject(err);
-      })
+      let x = 
+      [
+       ...self.handleAuthors(data['id'], data['authors'], oldData['authors']),
+       ...self.handleTags(data['id'], data['tags'], oldData['tags']),
+       ...self.handleLinks(data['id'], data['links'], oldData['links']),
+       ...self.handleDatasets(data['id'], data['datasets'], oldData['datasets']),
+       ...self.handleParameters(data['id'], data['parameters'], oldData['parameters']),
+      ]
+      Promise.all(x).then(_ => {
+          request.subscribe(function (data) {
+            if (data['success']) {
+              resolve(data['data']['id']);
+            } else {
+              reject(data['reason']);
+            }
+          }, function (err) {
+            reject(err);
+          })
+        } 
+      );
     })
   }
 
   private handleTags(id, data, oldData) {
     let self = this;
+    let old
     let api = `${environment.api}algorithms/${id}/tags`;
-    data.forEach((tag, index) => {
+    return data.map((tag, index) => {
       tag['token'] = this.userService.token;
       if (tag.id === -1) {
-        self.httpClient.post(api, tag).subscribe();
+        return self.httpClient.post(api, tag).toPromise();
       } else if (tag.delete || !tag.tag.length) {
-        self.deleteAttribute('tags', id, tag.id);
-      } else if (tag.tag !== oldData[index].tag) {
-        self.updateAttribute('tags', id, tag.id, tag);
+        return self.deleteAttribute('tags', id, tag.id);
+      } else if (oldData.filter(e => e.id === tag.id)[0].tag === tag.tag) {
+        return self.updateAttribute('tags', id, tag.id, tag);
       }
-    });
+    })
   }
 
   private handleAuthors(id, data, oldData) {
     let self = this;
-    data.forEach((author, index) => {
+    return data.map(author => {
       if (author.id === -1) {
-        self.createAttribute('authors', id, author);
-      } else {
-        if (author.name.length) {
-          if (author.name !== oldData[index].name)
-          self.updateAttribute('authors', id, author.id, author);
-        } else {
-          self.deleteAttribute('authors', id, author.id);
-        }
+        if (!author.delete)
+          return self.createAttribute('authors', id, author);
+      } else if (author.delete) {
+          return self.deleteAttribute('authors', id, author.id);
+      } else if (oldData.filter(e => e.id === author.id)[0].name !== author.name) {
+        return self.updateAttribute('authors', id, author.id, author);
       }
-    });
+    })
   }
 
   private handleLinks(id, data, oldData) {
     let self = this;
     let api = `${environment.api}algorithms/${id}/links`;
-    data.forEach((link, index) => {
+    return data.map((link, index) => {
       link['token'] = this.userService.token;
       link['description'] = 'none';
       if (link.id === -1) {
-        self.httpClient.post(api, link).subscribe();
+        return self.httpClient.post(api, link).toPromise();
       } else {
         if (link['delete']) {
-          self.deleteAttribute('links', id, link.id);
+          return self.deleteAttribute('links', id, link.id)
         }
-        else if (link.link !== oldData[index].link || link.description !== oldData[index].description) {
-          self.updateAttribute('links', id, link.id, link);
+        else if (link.link !== oldData[index].link 
+          || link.description !== oldData[index].description) {
+          return self.updateAttribute('links', id, link.id, link)
         } 
       }
-    });
+    })
   }
 
   private handleDatasets(id, data, oldData) {
     let self = this;
     let api = `${environment.api}algorithms/${id}/datasets`;
-    data.forEach((dataset, index) => {
+    return data.map((dataset, index) => {
       dataset['token'] = this.userService.token;
       if (dataset.id === -1) {
-        self.httpClient.post(api, dataset).subscribe();
+        return self.httpClient.post(api, dataset).toPromise();
       } else {
         if (dataset['delete']) {
-          self.deleteAttribute('datasets', id, dataset.id);
+          return self.deleteAttribute('datasets', id, dataset.id);
         }
-        else if (dataset.description !== oldData[index].description || dataset.link !== oldData[index].link
-            || dataset.name !== oldData[index].name || dataset.free !== oldData[index].free
-            || dataset.open !== oldData[index].open  || dataset.resource !== oldData[index].resource) {
-          self.updateAttribute('datasets', id, dataset.id, dataset);
+        else if (dataset.description !== oldData[index].description 
+          || dataset.link !== oldData[index].link
+          || dataset.name !== oldData[index].name 
+          || dataset.free !== oldData[index].free
+          || dataset.open !== oldData[index].open  
+          || dataset.resource !== oldData[index].resource) {
+          return self.updateAttribute('datasets', id, dataset.id, dataset);
         } 
       }
-    });
+    })
   }
 
   private handleParameters(id, data, oldData) {
     let self = this;
     let api = `${environment.api}algorithms/${id}/parameters`;
-    data.forEach((dataset, index) => {
-      dataset['token'] = this.userService.token;
-      if (dataset.id === -1) {
-        self.httpClient.post(api, dataset).subscribe();
+    return data.map((params, index) => {
+      params['token'] = this.userService.token;
+      if (params.id === -1) {
+        return self.httpClient.post(api, params).toPromise();
       } else {
-        if (dataset['delete']) {
-          self.deleteAttribute('parameters', id, dataset.id);
+        if (params['delete']) {
+          return self.deleteAttribute('parameters', id, params.id);
         }
-        else if (dataset.label !== oldData[index].label || dataset.description !== oldData[index].description || dataset.variable !== oldData[index].variable) {
-          self.updateAttribute('parameters', id, dataset.id, dataset);
+        else if (params.label !== oldData[index].label
+          || params.description !== oldData[index].description 
+          || params.variable !== oldData[index].variable) {
+          return self.updateAttribute('parameters', id, params.id, params);
         } 
       }
-    });
+    })
   }
 
   public createAttribute(attr, id, data) {
-    if (data.delete) {
-      return;
-    }
     let api = `${environment.api}algorithms/${id}/${attr}`;
     data['token'] = this.userService.token;
-    this.httpClient.post(api, data).subscribe();
+    return this.httpClient.post(api, data).toPromise();
   }
 
   public updateAttribute(attr, id, subid, data) {
     let api = `${environment.api}algorithms/${id}/${attr}/${subid}`;
     data['token'] = this.userService.token;
-    this.httpClient.patch(api, data).subscribe();
+    return this.httpClient.patch(api, data).toPromise();
   }
 
   public deleteAttribute(attr, id, subid) {
     let api = `${environment.api}algorithms/${id}/${attr}/${subid}`;
-    this.httpClient.delete(api, {params: {'token': this.userService.token}}).subscribe();
+    return this.httpClient.delete(api, {params: {'token': this.userService.token}}).toPromise();
   }
 }

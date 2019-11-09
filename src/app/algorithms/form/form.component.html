@@ -231,9 +231,11 @@
         </div>
         <div class="tile tile-centered ">
             <div class="tile-content ">
-                <div class="tile-title text-bold ">12. 可供程式 (App) 選擇的參數</div>
+                <div class="tile-title text-bold ">12. App 可被執行</div>
                 <div class="tile-content ">
-                    <table class="table table-striped table-hover ">
+                    <small *ngIf="editing">如不可執行請留空，可執行則請填可供程式App選擇的參數</small>
+                    <small *ngIf="!editing && !algorithmData.parameters.length">無法執行</small>
+                    <table class="table table-striped table-hover " *ngIf="algorithmData.parameters.length">
                         <thead>
                             <tr>
                                 <th>變數名稱</th>

@@ -19,4 +19,5 @@ export class Algorithm {
   public remote_secret: string;
   public email: string;
   public belong_to: string;
+  public description: string;
 }

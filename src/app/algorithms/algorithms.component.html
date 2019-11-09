@@ -37,4 +37,8 @@
         </div>
     </div>
 </div>
+<div class="modal active" [class.active]="locked">
+    <a class="modal-overlay "></a>
+    <div class="lds-hourglass"></div>
+</div>
 <app-algorithm-example draggable="true " [style.left.%]="example ? 0 : -40 " [(example)]="example "></app-algorithm-example>

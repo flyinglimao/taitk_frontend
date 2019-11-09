@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  api: 'http://taitk.this/',
+  api: 'http://taitk.test/',
 };
 
 /*
