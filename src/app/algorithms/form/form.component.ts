@@ -22,15 +22,11 @@ export class AlgorithmFormComponent implements OnInit {
   @ViewChild('categoryInput', { static: false })
   categoryInput: ElementRef;
   
-  newAuthorInput: boolean = false;
   newAuthorName: string = '';
-  newUnitInput: boolean = false;
   newUnitName: string = '';
-  newCategoryInput: boolean = false;
   newCategoryName: string = '';
-  newTagInput: boolean = false;
   newTagName: string = '';
-  newParameter: {label: string, description: string, id: number, delete: boolean, variable: string} = 
+  newParameter = 
   {
     label: '',
     variable: '',
@@ -160,28 +156,24 @@ export class AlgorithmFormComponent implements OnInit {
   }
   
   newAuthor() {
-    if (this.newAuthorInput && this.newAuthorName) {
+    if (this.newAuthorName) {
       this.newAuthorSubmit();
     }
-    this.newAuthorInput = true;
   }
   
   newUnit() {
-    if (this.newUnitInput && this.newUnitName) {
+    if (this.newUnitName) {
       this.newUnitSubmit();
     }
-    this.newUnitInput = true;
   }
   
   newCategory() {
-    if (this.newCategoryInput && this.newCategoryName) {
+    if (this.newCategoryName) {
       this.newCategorySubmit();
     }
-    this.newCategoryInput = true;
   }
   
   newAuthorSubmit() {
-    this.newAuthorInput = false;
     if (this.newAuthorName) {
       this.algorithmData.authors.push({name: this.newAuthorName, id: -1, delete: false});
       this.newAuthorName = '';
@@ -191,7 +183,6 @@ export class AlgorithmFormComponent implements OnInit {
   }
   
   newUnitSubmit() {
-    this.newUnitInput = false;
     if (this.newUnitName) {
       this.algorithmData.units.push(this.newUnitName);
       this.newUnitName = '';
@@ -201,7 +192,6 @@ export class AlgorithmFormComponent implements OnInit {
   }
   
   newCategorySubmit() {
-    this.newCategoryInput = false;
     if (this.newCategoryName) {
       this.algorithmData.categories.push(this.newCategoryName);
       this.newCategoryName = ''; 
@@ -211,7 +201,6 @@ export class AlgorithmFormComponent implements OnInit {
   }
   
   newAuthorDiscard() {
-    this.newAuthorInput = false;
     this.newAuthorName = '';
   }
     

@@ -73,12 +73,17 @@ export class AlgorithmService {
       request.subscribe(function (data) {
         if (data['success']) {
           data = data['data']
-          self.handleAuthors(data['id'], input['authors'], null);
-          self.handleTags(data['id'], input['tags'], null);
-          self.handleLinks(data['id'], input['links'], null);
-          self.handleDatasets(data['id'], input['datasets'], null);
-          self.handleParameters(data['id'], input['parameters'], null);
-          resolve(data['id']);
+          let x = 
+          [
+          ...self.handleAuthors(data['id'], input['authors'], null),
+          ...self.handleTags(data['id'], input['tags'], null),
+          ...self.handleLinks(data['id'], input['links'], null),
+          ...self.handleDatasets(data['id'], input['datasets'], null),
+          ...self.handleParameters(data['id'], input['parameters'], null),
+          ]
+          Promise.all(x)
+           .then(_ => resolve(data['id']))
+           .catch(reject);
         } else {
           reject(data['reason']);
         }
@@ -95,7 +100,7 @@ export class AlgorithmService {
     let oldData = (await this.get(data.id));
     data['token'] = this.userService.token;
     data['unit'] = data['units'].join('、');
-    data['category'] = [... new Set(data['categories'])].join(', ');
+    data['category'] = Array.from(new Set<string>(data['categories'])).join(', ');
     return new Promise((resolve, reject) => {
       let request = self.httpClient.patch(api, data);
       let x = 

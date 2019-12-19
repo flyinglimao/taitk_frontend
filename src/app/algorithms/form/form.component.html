@@ -37,7 +37,7 @@
                             (click)="deleteAuthor(author)"></a>
                         </span>
                     </ng-container>
-                    <span class="chip" *ngIf="newAuthorInput && editing">
+                    <span class="chip" *ngIf="editing">
                         <form (submit)="newAuthorSubmit()">
                             <input class="chip-input" autofocus type="text" [(ngModel)]="newAuthorName"
                             [ngModelOptions]="{standalone: true}" #authorInput placeholder="(First Name Last Name)">
@@ -64,7 +64,7 @@
                             (click)="deleteUnit(unit)"></a>
                         </span>
                     </ng-container>
-                    <span class="chip" *ngIf="newUnitInput && editing">
+                    <span class="chip" *ngIf="editing">
                         <form (submit)="newUnitSubmit()">
                             <input class="chip-input" autofocus type="text" [(ngModel)]="newUnitName"
                             [ngModelOptions]="{standalone: true}" #unitInput placeholder="(台灣大學資工系)">
@@ -139,7 +139,7 @@
                             (click)="deleteCategory(category)"></a>
                         </span>
                     </ng-container>
-                    <span class="chip" *ngIf="newCategoryInput && editing">
+                    <span class="chip" *ngIf="editing">
                         <form (submit)="newCategorySubmit()">
                             <input class="chip-input" autofocus type="text" [(ngModel)]="newCategoryName"
                             [ngModelOptions]="{standalone: true}" #categoryInput placeholder="(BERT)">
@@ -231,11 +231,11 @@
         </div>
         <div class="tile tile-centered ">
             <div class="tile-content ">
-                <div class="tile-title text-bold ">12. App 可被執行</div>
+                <div class="tile-title text-bold ">12. App 可否被執行：(No: 可忽略)</div>
                 <div class="tile-content ">
-                    <small *ngIf="editing">如不可執行請留空，可執行則請填可供程式App選擇的參數</small>
-                    <small *ngIf="!editing && !algorithmData.parameters.length">無法執行</small>
-                    <table class="table table-striped table-hover " *ngIf="algorithmData.parameters.length">
+                    <small *ngIf="!editing && !algorithmData.parameters.length && !algorithmData.input_type && !algorithmData.output_type">無法執行</small>
+                    <small *ngIf="!editing && !algorithmData.parameters.length && (algorithmData.input_type || algorithmData.output_type)">無參數，可執行</small>
+                    <table class="table table-striped table-hover " *ngIf="algorithmData.parameters.length || editing">
                         <thead>
                             <tr>
                                 <th>變數名稱</th>

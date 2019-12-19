@@ -17,7 +17,7 @@ export class AlgorithmsComponent implements OnInit {
   editing: boolean = false;
   discardPrompt: boolean = false;
   example: boolean = false;
-  algorithms: Array<{id: number, abbreviation: string}> = [];
+  algorithms: Array<{id: number, abbreviation: string, belong_to: string}> = [];
   algorithm: Algorithm = {
     id: -1,
     abbreviation: '',
@@ -27,7 +27,7 @@ export class AlgorithmsComponent implements OnInit {
     units: [],
     tags: [],
     features: '',
-    links: [],
+    links: [{id: -1, link: '', description:'', delete: false}],
     parameters: [],
     datasets: [],
     input_type: '',
@@ -46,7 +46,7 @@ export class AlgorithmsComponent implements OnInit {
     units: [],
     tags: [],
     features: '',
-    links: [],
+    links: [{id: -1, link: '', description:'', delete: false}],
     parameters: [],
     datasets: [],
     input_type: '',
@@ -70,6 +70,19 @@ export class AlgorithmsComponent implements OnInit {
   get logined () {
     return this.userService.logined;
   }
+
+  get sortedAlgorithms () {
+    let obj: Object = {}
+    this.algorithms.forEach(algorithm => {
+      if (!obj[algorithm.belong_to]) {
+        obj[algorithm.belong_to] = []
+      }
+      obj[algorithm.belong_to].push(algorithm)
+    })
+    obj['無所屬'] = obj['']
+    delete obj['']
+    return obj
+  }
   
   ngOnInit() {
     let self = this;
@@ -79,7 +92,7 @@ export class AlgorithmsComponent implements OnInit {
         this.route.fragment.subscribe((fragment: string) => {
           if (!self.userService.logined || fragment === 'all' ) {
             self.full = true;
-            self.algorithmService.list(null, true).then((data: Array<{id: number, abbreviation: string}>) => {
+            self.algorithmService.list(null, true).then((data: Array<{id: number, abbreviation: string, belong_to: string}>) => {
               self.algorithms = [...data];
               if (+params['algorithm']) {
                 self.loadAlgorithm(+params['algorithm']);
@@ -89,7 +102,7 @@ export class AlgorithmsComponent implements OnInit {
             });
           } else {
             self.full = false;
-            self.algorithmService.list().then((data: Array<{id: number, abbreviation: string}>) => {
+            self.algorithmService.list().then((data: Array<{id: number, abbreviation: string, belong_to: string}>) => {
               self.algorithms = [...data];
               if (params['algorithm'] === 'new') {
                 self.startEdit(true);
@@ -127,7 +140,7 @@ export class AlgorithmsComponent implements OnInit {
         units: [],
         tags: [],
         features: '',
-        links: [],
+        links: [{id: -1, link: '', description:'', delete: false}],
         parameters: [],
         datasets: [],
         input_type: '',
@@ -150,7 +163,7 @@ export class AlgorithmsComponent implements OnInit {
         if (!this.locked) {
           this.locked = true
           this.algorithmService.create(this.algorithm).then(id => {
-            this.algorithms.push({id: +id, abbreviation: this.algorithm.abbreviation});
+            this.algorithms.push({id: +id, abbreviation: this.algorithm.abbreviation, belong_to: this.algorithm.belong_to});
             this.algorithm.id = +id;
             this.router.navigate(['/algorithms/', id]);
             this.locked = false;
@@ -184,9 +197,8 @@ export class AlgorithmsComponent implements OnInit {
   discardEditConfirm() {
     this.discardPrompt = false;
     this.editing = false;
-    this.form.switchEditMode();
+    if (this.algorithm.id === -1) this.router.navigate(['/algorithms/']);
     Object.assign(this.algorithm, this.algorithmBackup);
-    this.router.navigate(['/algorithms/']);
   }
 
   switchEditMode() {
@@ -194,7 +206,6 @@ export class AlgorithmsComponent implements OnInit {
   }
 
   toggleExample() {
-    console.log(this.algorithm)
     this.example = true;
   }
 
