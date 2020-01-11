@@ -13,7 +13,7 @@ export class Algorithm {
   public features: string;
   public links: Array<{link: string, description: string, id: number, delete: boolean}>;
   public parameters: Array<{label: string, description: string, id: number, delete: boolean, variable: string}>;
-  public datasets: Array<{name: string, link: string, free: number, open: number, resource?: string, id: number, delete: boolean}>;
+  public datasets: Array<{name: string, link: string, free: number, open: number, resource?: string, source?: Array<string>, id: number, delete: boolean}>;
   public input_type: string;
   public output_type: string;
   public remote_secret: string;

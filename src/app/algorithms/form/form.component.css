@@ -29,6 +29,10 @@ table td {
     height: calc(70vh - 150px);
 }
 
+.chip {
+    max-width: unset;
+}
+
 .chip-input {
     border: none;
     background: none;

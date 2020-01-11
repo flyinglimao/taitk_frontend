@@ -74,10 +74,10 @@ export class AlgorithmsComponent implements OnInit {
   get sortedAlgorithms () {
     let obj: Object = {}
     this.algorithms.forEach(algorithm => {
-      if (!obj[algorithm.belong_to]) {
-        obj[algorithm.belong_to] = []
+      if (!obj[algorithm.belong_to.substr(-8)]) {
+        obj[algorithm.belong_to.substr(-8)] = []
       }
-      obj[algorithm.belong_to].push(algorithm)
+      obj[algorithm.belong_to.substr(-8)].push(algorithm)
     })
     obj['無所屬'] = obj['']
     delete obj['']

@@ -216,7 +216,13 @@ export class AlgorithmFormComponent implements OnInit {
     };
   }
 
-  updateTags(evt) {
+  updateTags (evt) {
     this.tags = Array.from(evt.target.selectedOptions).map((e: any) => e.value)
+  }
+
+  datasetSourceToggle (set, val) {
+    if (!set.source) set.source = []
+    if (set.source.indexOf(val) === -1) set.source.push(val)
+    else set.source.splice(set.source.indexOf(val), 1)
   }
 }

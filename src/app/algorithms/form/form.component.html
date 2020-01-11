@@ -186,8 +186,11 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-label">是否開放授權：{{ dataset.open ? '是' : '否' }}</label>
-                                <markdown [data]="dataset.resource" *ngIf="dataset.open == 1"></markdown>
                             </div>
+                            <div class="form-group" *ngIf="dataset.source">
+                                <label class="form-label">是否為自行蒐集：{{ dataset.source.join(', ') }}</label>
+                            </div>
+                            <markdown [data]="dataset.resource" *ngIf="dataset.open == 1"></markdown>
                         </div>
                         <div class="card-body" *ngIf="editing">
                             <p>名稱：<input type="text" class="form-input " [(ngModel)]="dataset.name"></p>
@@ -218,6 +221,21 @@
                                     [checked]="dataset.open === 0"
                                     (change)="dataset.open = 0"><i class="form-icon"></i> 否（有版權問題）
                                 </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">是否為自行蒐集：</label>
+                                <label class="form-checkbox form-inline">
+                                    <input type="checkbox" [name]="'source'+index" 
+                                    [checked]="dataset.source && dataset.source.indexOf('自行蒐集') !== -1"
+                                    (change)="datasetSourceToggle(dataset, '自行蒐集')"><i class="form-icon"></i> 自行蒐集
+                                </label>
+                                <label class="form-checkbox form-inline">
+                                    <input type="checkbox" [name]="'source'+index"
+                                    [checked]="dataset.source && dataset.source.indexOf('Open Source') !== -1"
+                                    (change)="datasetSourceToggle(dataset, 'Open Source')"><i class="form-icon"></i> Open Source
+                                </label>
+                            </div>                            
+                            <div class="from-group">
                                 <label class="form-label" *ngIf="dataset.open == 1">可被下載的資料集 URL or GitHub Link: </label>
                                 <textarea class="form-input" id="resource" rows="3" [(ngModel)]="dataset.resource" *ngIf="dataset.open == 1"></textarea>
                             </div>

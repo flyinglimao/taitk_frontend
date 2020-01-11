@@ -192,6 +192,7 @@ export class AlgorithmService {
           || dataset.name !== oldData[index].name 
           || dataset.free !== oldData[index].free
           || dataset.open !== oldData[index].open  
+          || dataset.source !== oldData[index].source  
           || dataset.resource !== oldData[index].resource) {
           return self.updateAttribute('datasets', id, dataset.id, dataset);
         } 
