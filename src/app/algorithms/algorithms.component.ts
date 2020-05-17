@@ -37,6 +37,7 @@ export class AlgorithmsComponent implements OnInit {
     description: '',
     belong_to: '',
     executable: '',
+    created_at: '1970-01-01 00:00:00',
   };
   algorithmBackup: Algorithm = {
     id: -1,
@@ -57,7 +58,10 @@ export class AlgorithmsComponent implements OnInit {
     belong_to: '',
     description: '',
     executable: '',
+    created_at: '1970-01-01 00:00:00',
   };
+  year: string = '2020';
+  years: string[] = ['2018', '2019', '2020'];
 
   @ViewChild('form', { static: true })
   private form: AlgorithmFormComponent;
@@ -151,6 +155,7 @@ export class AlgorithmsComponent implements OnInit {
         email: '',
         belong_to: '',
         executable: '',
+        created_at: '1970-01-01 00:00:00',
       };
     } else {
       Object.assign(this.algorithmBackup, this.algorithm);

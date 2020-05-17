@@ -21,4 +21,5 @@ export class Algorithm {
   public belong_to: string;
   public description: string;
   public executable: string;
+  public created_at: string;
 }
