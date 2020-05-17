@@ -2,7 +2,7 @@ export class Algorithm {
   constructor (obj) {
     Object.assign(this, obj);
   }
-  
+
   public id: number;
   public abbreviation: string;
   public title: string;
@@ -20,4 +20,5 @@ export class Algorithm {
   public email: string;
   public belong_to: string;
   public description: string;
+  public executable: string;
 }

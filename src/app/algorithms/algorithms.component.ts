@@ -36,6 +36,7 @@ export class AlgorithmsComponent implements OnInit {
     email: '',
     description: '',
     belong_to: '',
+    executable: '',
   };
   algorithmBackup: Algorithm = {
     id: -1,
@@ -55,6 +56,7 @@ export class AlgorithmsComponent implements OnInit {
     email: '',
     belong_to: '',
     description: '',
+    executable: '',
   };
 
   @ViewChild('form', { static: true })
@@ -83,7 +85,7 @@ export class AlgorithmsComponent implements OnInit {
     delete obj['']
     return obj
   }
-  
+
   ngOnInit() {
     let self = this;
     this.userService.registerInitedCallback(()=> {
@@ -148,6 +150,7 @@ export class AlgorithmsComponent implements OnInit {
         remote_secret: '',
         email: '',
         belong_to: '',
+        executable: '',
       };
     } else {
       Object.assign(this.algorithmBackup, this.algorithm);
@@ -185,7 +188,7 @@ export class AlgorithmsComponent implements OnInit {
       }
     }
   }
-  
+
   discardEdit() {
     this.discardPrompt = true;
   }

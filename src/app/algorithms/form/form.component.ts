@@ -71,7 +71,9 @@ export class AlgorithmFormComponent implements OnInit {
       '倫理法律與社會衝擊',
     ]
   }
-  
+
+  datasetModal: any = null;
+
   constructor(private algorithmService: AlgorithmService) { }
   public keepOriginalOrder = (a, _) => a.key;
 
@@ -224,5 +226,16 @@ export class AlgorithmFormComponent implements OnInit {
     if (!set.source) set.source = []
     if (set.source.indexOf(val) === -1) set.source.push(val)
     else set.source.splice(set.source.indexOf(val), 1)
+  }
+  
+  updateDataset () {
+    let i = 0
+    if (this.datasetModal.id === -1) {
+      this.algorithmData.datasets.push(this.datasetModal)
+    } else {
+      for (; this.algorithmData.datasets[i].id !== this.datasetModal.id; i++) continue
+      this.algorithmData.datasets[i] = this.datasetModal
+    }
+    this.datasetModal = null
   }
 }
