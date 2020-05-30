@@ -17,7 +17,7 @@ export class AlgorithmsComponent implements OnInit {
   editing: boolean = false;
   discardPrompt: boolean = false;
   example: boolean = false;
-  algorithms: Array<{id: number, abbreviation: string, belong_to: string}> = [];
+  algorithms: Array<{id: number, abbreviation: string, belong_to: string, created_at: string}> = [];
   algorithm: Algorithm = {
     id: -1,
     abbreviation: '',
@@ -62,6 +62,7 @@ export class AlgorithmsComponent implements OnInit {
   };
   year: string = '2020';
   years: string[] = ['2018', '2019', '2020'];
+  collaction = false;
 
   @ViewChild('form', { static: true })
   private form: AlgorithmFormComponent;
@@ -98,7 +99,7 @@ export class AlgorithmsComponent implements OnInit {
         this.route.fragment.subscribe((fragment: string) => {
           if (!self.userService.logined || fragment === 'all' ) {
             self.full = true;
-            self.algorithmService.list(null, true).then((data: Array<{id: number, abbreviation: string, belong_to: string}>) => {
+            self.algorithmService.list(null, true).then((data: Array<{id: number, abbreviation: string, belong_to: string, created_at: string}>) => {
               self.algorithms = [...data];
               if (+params['algorithm']) {
                 self.loadAlgorithm(+params['algorithm']);
@@ -108,7 +109,7 @@ export class AlgorithmsComponent implements OnInit {
             });
           } else {
             self.full = false;
-            self.algorithmService.list().then((data: Array<{id: number, abbreviation: string, belong_to: string}>) => {
+            self.algorithmService.list().then((data: Array<{id: number, abbreviation: string, belong_to: string, created_at: string}>) => {
               self.algorithms = [...data];
               if (params['algorithm'] === 'new') {
                 self.startEdit(true);
@@ -171,7 +172,7 @@ export class AlgorithmsComponent implements OnInit {
         if (!this.locked) {
           this.locked = true
           this.algorithmService.create(this.algorithm).then(id => {
-            this.algorithms.push({id: +id, abbreviation: this.algorithm.abbreviation, belong_to: this.algorithm.belong_to});
+            this.algorithms.push({id: +id, abbreviation: this.algorithm.abbreviation, belong_to: this.algorithm.belong_to, created_at: '-1'});
             this.algorithm.id = +id;
             this.router.navigate(['/algorithms/', id]);
             this.locked = false;
@@ -217,4 +218,12 @@ export class AlgorithmsComponent implements OnInit {
     this.example = true;
   }
 
+  algorithmBelongToFilter(belong_to) {
+    return this.algorithms.filter(e => e.created_at.slice(0, 4) === this.year).filter(e => e.belong_to.substr(-8) === belong_to);
+  }
+
+  algorithmAuthorFormatter(authors) {
+    if (authors) return authors.map(e => e.name).join('、');
+    else return '';
+  }
 }

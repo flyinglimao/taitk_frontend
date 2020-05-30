@@ -4,45 +4,55 @@
             <div class="container">
                 <div class="columns">
                     <div class="column">
-                        <div class="text-center" *ngIf="!full">
-                            <a class="btn btn-primary edit-action mt-1" *ngIf="!editing" [routerLink]="'/algorithms/new'" (click)="startEdit(1)">新增</a>
-                            <a class="btn edit-action mt-1 " *ngIf="!editing " (click)="startEdit()">編輯</a>
+                        <div class="text-center">
+                            <ng-container *ngIf="!editing">
+                                <a class="btn btn-secondary btn-year" [class.active]="year === select" tabindex="0" *ngFor="let select of years" (click)="year = select">{{ select }}</a>
+                            </ng-container>
+                            <a class="btn btn-success edit-action mt-1" *ngIf="full && !editing" (click)="collaction = !collaction">{{ collaction ? '返回' : '蒐集結果' }}</a>
+                            <ng-container *ngIf="!full && !editing">
+                                <a class="btn btn-primary edit-action mt-1" [routerLink]="'/algorithms/new'" (click)="startEdit(1)">新增</a>
+                                <a class="btn edit-action mt-1 " (click)="startEdit()">編輯</a>
+                            </ng-container>
+                            <ng-container *ngIf="!collaction && !editing">
+                                <details class="accordion" *ngFor="let group of sortedAlgorithms | keyvalue" open>
+                                    <summary class="accordion-header">
+                                        <i class="icon icon-arrow-right mr-1"></i>
+                                        {{ group.key }}
+                                    </summary>
+                                    <div class="accordion-body">
+                                        <ul class="menu menu-nav">
+                                            <li class="menu-item" [hidden]="algorithm.created_at.slice(0, 4) !== year" *ngFor="let algorithm of group.value">
+                                                <a [routerLink]=" '/algorithms/' + algorithm.id" fragment="all" *ngIf="full">{{ algorithm.abbreviation }}</a>
+                                                <a [routerLink]=" '/algorithms/' + algorithm.id " *ngIf="!full">{{ algorithm.abbreviation }}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </details>
+                            </ng-container>
+                        </div>
+                        <ng-container *ngIf="editing">
                             <a class="btn edit-action mt-1 " *ngIf="editing " (click)="toggleExample() ">檢視範例</a>
                             <a class="btn btn-success edit-action mt-1 " *ngIf="editing " (click)="finishEdit() ">完成</a>
                             <a class="btn btn-error edit-action mt-1 " *ngIf="editing " (click)="discardEdit() ">放棄</a>
-                        </div>
-                        <ng-container *ngIf="!editing">
-                            <div class="dropdown">
-                              <a class="btn btn-link dropdown-toggle" tabindex="0">
-                                篩選年份（{{ year }}） <i class="icon icon-caret"></i>
-                              </a>
-                              <!-- menu component -->
-                              <ul class="menu">
-                                <li *ngFor="let select of years">
-                                    <a (click)="year = select">{{ select }}</a>
-                                </li>
-                              </ul>
-                            </div>
-                            <div class="accordion" *ngFor="let group of sortedAlgorithms | keyvalue">
-                                <input type="checkbox" [id]="'accordion-group-' + group.key" name="accordion-checkbox" hidden>
-                                <label class="accordion-header" [for]="'accordion-group-' + group.key">
-                                    <i class="icon icon-arrow-right mr-1"></i>
-                                    {{ group.key }}
-                                </label>
-                                <div class="accordion-body">
-                                    <ul class="menu menu-nav">
-                                        <li class="menu-item" [hidden]="algorithm.created_at.slice(0, 4) === year" *ngFor="let algorithm of group.value">
-                                            <a [routerLink]=" '/algorithms/' + algorithm.id" fragment="all" *ngIf="full">{{ algorithm.abbreviation }}</a>
-                                            <a [routerLink]=" '/algorithms/' + algorithm.id " *ngIf="!full">{{ algorithm.abbreviation }}</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
                         </ng-container>
                     </div>
                     <div class="divider-vert "></div>
-                    <div class="column col-9 ">
-                        <app-algorithm-form [editing]="editing " [(algorithmData)]="algorithm " #form></app-algorithm-form>
+                    <div class="column col-9">
+                        <app-algorithm-form [editing]="editing" [(algorithmData)]="algorithm " #form [hidden]="collaction"></app-algorithm-form>
+                        <div class="panel bg-light" [hidden]="!collaction">
+                          <div class="panel-header text-center">
+                            <div class="panel-title h3">蒐集結果</div>
+                          </div>
+                          <div class="panel-body">
+                            <div class="panel-title h3">台大人工智慧中心</div>
+                            <div class="py-2" *ngFor="let algorithm of algorithmBelongToFilter('台大人工智慧中心')">
+                              名稱：{{ algorithm['abbreviation'] }}<br>
+                              單位：{{ algorithm['unit'] }}<br>
+                              作者：{{ algorithmAuthorFormatter(algorithm['authors']) }}<br>
+                              聯絡 Email：{{ algorithm['email'] }}<br>
+                            </div>
+                          </div>
+                        </div>
                     </div>
                 </div>
             </div>

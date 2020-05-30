@@ -22,7 +22,7 @@ export class AlgorithmService {
       api += `token=${this.userService.token}&`
     }
     if (full) {
-      api += `full=true&`
+      api += `full=true&detail=true&`
     }
     if (page) {
       api += `page=${page}`
@@ -67,13 +67,13 @@ export class AlgorithmService {
     input['token'] = this.userService.token;
     input['unit'] = input['units'].join('、');
     input['category'] = input['categories'].join(', ');
-    
+
     return new Promise(function (resolve, reject) {
       let request = self.httpClient.post(api, input);
       request.subscribe(function (data) {
         if (data['success']) {
           data = data['data']
-          let x = 
+          let x =
           [
           ...self.handleAuthors(data['id'], input['authors'], null),
           ...self.handleTags(data['id'], input['tags'], null),
@@ -103,7 +103,7 @@ export class AlgorithmService {
     data['category'] = Array.from(new Set<string>(data['categories'])).join(', ');
     return new Promise((resolve, reject) => {
       let request = self.httpClient.patch(api, data);
-      let x = 
+      let x =
       [
        ...self.handleAuthors(data['id'], data['authors'], oldData['authors']),
        ...self.handleTags(data['id'], data['tags'], oldData['tags']),
@@ -121,7 +121,7 @@ export class AlgorithmService {
           }, function (err) {
             reject(err);
           })
-        } 
+        }
       );
     })
   }
@@ -168,10 +168,10 @@ export class AlgorithmService {
         if (link['delete']) {
           return self.deleteAttribute('links', id, link.id)
         }
-        else if (link.link !== oldData[index].link 
+        else if (link.link !== oldData[index].link
           || link.description !== oldData[index].description) {
           return self.updateAttribute('links', id, link.id, link)
-        } 
+        }
       }
     })
   }
@@ -187,15 +187,15 @@ export class AlgorithmService {
         if (dataset['delete']) {
           return self.deleteAttribute('datasets', id, dataset.id);
         }
-        else if (dataset.description !== oldData[index].description 
+        else if (dataset.description !== oldData[index].description
           || dataset.link !== oldData[index].link
-          || dataset.name !== oldData[index].name 
+          || dataset.name !== oldData[index].name
           || dataset.free !== oldData[index].free
-          || dataset.open !== oldData[index].open  
-          || dataset.source !== oldData[index].source  
+          || dataset.open !== oldData[index].open
+          || dataset.source !== oldData[index].source
           || dataset.resource !== oldData[index].resource) {
           return self.updateAttribute('datasets', id, dataset.id, dataset);
-        } 
+        }
       }
     })
   }
@@ -212,10 +212,10 @@ export class AlgorithmService {
           return self.deleteAttribute('parameters', id, params.id);
         }
         else if (params.label !== oldData[index].label
-          || params.description !== oldData[index].description 
+          || params.description !== oldData[index].description
           || params.variable !== oldData[index].variable) {
           return self.updateAttribute('parameters', id, params.id, params);
-        } 
+        }
       }
     })
   }
