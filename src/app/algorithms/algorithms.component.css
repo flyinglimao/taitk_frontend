@@ -1,8 +1,13 @@
-.btn-year {
-  opacity: 0.6;
+.flex-btns {
+  display: flex;
 }
 
-.btn-year.active, .btn-year:hover {
+.btn-select {
+  opacity: 0.6;
+  flex: 1;
+}
+
+.btn-select.active, .btn-select:hover {
   opacity: 1;
 }
 

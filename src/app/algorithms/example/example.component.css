@@ -10,6 +10,7 @@
     position: absolute;
     right: 4px;
     top: 4px;
+    scale: 2;
 }
 .tile.tile-centered .tile-subtitle {
     text-overflow: unset;

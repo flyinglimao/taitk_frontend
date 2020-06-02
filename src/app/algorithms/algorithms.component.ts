@@ -61,8 +61,8 @@ export class AlgorithmsComponent implements OnInit {
     created_at: '1970-01-01 00:00:00',
   };
   year: string = '2020';
-  years: string[] = ['2018', '2019', '2020'];
-  collaction = false;
+  years: string[] = ['2020', '2019', '2018'];
+  collection = false;
 
   @ViewChild('form', { static: true })
   private form: AlgorithmFormComponent;

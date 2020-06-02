@@ -5,15 +5,19 @@
                 <div class="columns">
                     <div class="column">
                         <div class="text-center">
-                            <ng-container *ngIf="!editing">
-                                <a class="btn btn-secondary btn-year" [class.active]="year === select" tabindex="0" *ngFor="let select of years" (click)="year = select">{{ select }}</a>
-                            </ng-container>
-                            <a class="btn btn-success edit-action mt-1" *ngIf="full && !editing" (click)="collaction = !collaction">{{ collaction ? '返回' : '蒐集結果' }}</a>
+                            <div *ngIf="!editing" class="flex-btns mb-1">
+                                <a class="btn btn-secondary btn-select" [class.active]="full" routerLink="/algorithms" fragment="all">所有人</a>
+                                <a class="btn btn-secondary btn-select" [class.active]="!full" routerLink="/algorithms" fragment="">僅自己</a>
+                            </div>
+                            <div *ngIf="!editing" class="flex-btns">
+                                <a class="btn btn-secondary btn-select" [class.active]="year === select" tabindex="0" *ngFor="let select of years" (click)="year = select">{{ select }}</a>
+                            </div>
+                            <a class="btn btn-success edit-action mt-1" *ngIf="full && !editing" (click)="collection = !collection">{{ collection ? '返回' : '蒐集結果' }}</a>
                             <ng-container *ngIf="!full && !editing">
                                 <a class="btn btn-primary edit-action mt-1" [routerLink]="'/algorithms/new'" (click)="startEdit(1)">新增</a>
                                 <a class="btn edit-action mt-1 " (click)="startEdit()">編輯</a>
                             </ng-container>
-                            <ng-container *ngIf="!collaction && !editing">
+                            <ng-container *ngIf="!collection && !editing">
                                 <details class="accordion" *ngFor="let group of sortedAlgorithms | keyvalue" open>
                                     <summary class="accordion-header">
                                         <i class="icon icon-arrow-right mr-1"></i>
@@ -38,8 +42,8 @@
                     </div>
                     <div class="divider-vert "></div>
                     <div class="column col-9">
-                        <app-algorithm-form [editing]="editing" [(algorithmData)]="algorithm " #form [hidden]="collaction"></app-algorithm-form>
-                        <div class="panel bg-light" [hidden]="!collaction">
+                        <app-algorithm-form [editing]="editing" [(algorithmData)]="algorithm" #form [hidden]="collection"></app-algorithm-form>
+                        <div class="panel bg-light" *ngIf="collection">
                           <div class="panel-header text-center">
                             <div class="panel-title h3">蒐集結果</div>
                           </div>
