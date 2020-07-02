@@ -112,8 +112,11 @@
                 <div class="tile-title text-bold">8. Keyword</div>
                 <small *ngIf="editing">Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</small>
                 <select class="form-select" multiple *ngIf="editing" (change)="updateTags($event)">
-                    <optgroup [label]="label.key" *ngFor="let label of tagOptions | keyvalue:keepOriginalOrder">
-                        <option *ngFor="let option of label.value" [selected]="tags.indexOf(option) !== -1">{{ option }}</option>
+                  <optgroup label="—(類別)—">
+                      <option *ngFor="let option of tagCategories[algorithmData.belong_to.slice(-8)]" [selected]="tags.indexOf(option) !== -1">{{ option }}</option>
+                  </optgroup>
+                    <optgroup label="—(關鍵字)—">
+                        <option *ngFor="let option of tagKeywords" [selected]="tags.indexOf(option) !== -1">{{ option }}</option>
                     </optgroup>
                 </select>
                 <div class="tile-subtitle" *ngIf="!editing">
