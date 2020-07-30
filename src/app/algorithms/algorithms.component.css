@@ -21,6 +21,14 @@
     border-radius: 99px;
 }
 
+.scope-toggle .btn:first-child {
+  border-radius: 99px 0 0 99px;
+}
+
+.scope-toggle .btn:last-child {
+  border-radius: 0 99px 99px 0;
+}
+
 .hide {
     display: none;
 }

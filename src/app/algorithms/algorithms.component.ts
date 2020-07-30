@@ -118,7 +118,7 @@ export class AlgorithmsComponent implements OnInit {
               } else if (data[0]) {
                 self.loadAlgorithm(+data[0].id);
               } else {
-                self.router.navigate(['/algorithms/new']);
+                // self.router.navigate(['/algorithms/new']);
               }
             });
           }
