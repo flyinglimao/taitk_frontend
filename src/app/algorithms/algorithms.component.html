@@ -7,7 +7,7 @@
                         <div class="text-center">
                             <div *ngIf="!editing" class="flex-btns scope-toggle">
                                 <a class="btn btn-secondary btn-select" [class.active]="full" routerLink="/algorithms" fragment="all">All Datasets</a>
-                                <a class="btn btn-secondary btn-select" [class.active]="!full" routerLink="/algorithms" fragment="">Personal Datasets</a>
+                                <a class="btn btn-secondary btn-select" [class.active]="!full" routerLink="/algorithms" fragment="">Team Datasets</a>
                             </div>
                             <div *ngIf="!editing" class="flex-btns" style="margin-top: 1em;" >
                                 <a class="btn btn-secondary btn-select" [class.active]="year === select" tabindex="0" *ngFor="let select of years" (click)="year = select">{{ select }}</a>
