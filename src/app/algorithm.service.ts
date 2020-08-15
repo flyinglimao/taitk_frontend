@@ -84,6 +84,7 @@ export class AlgorithmService {
           Promise.all(x)
            .then(_ => resolve(data['id']))
            .catch(reject);
+          location.href = '/algorithms/' + data['id'];
         } else {
           reject(data['reason']);
         }
