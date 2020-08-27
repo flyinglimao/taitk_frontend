@@ -7,14 +7,14 @@
           <a href="readme.html" target="_blank" class="navbar-brand mr-2 text-secondary">Read Me</a>
           <a href="/resource_demo/datasource3.html" target="_blank" rel="noopener noreferrer" class="navbar-brand mr-2 text-secondary">機器學習資料集</a>
         </section>
-        <section class="navbar-section" *ngIf="!userService.logined">
+        <div class="float-right" *ngIf="!userService.logined">
           <a routerLink="login" class="btn btn-link text-light">登入</a>
           <a routerLink="algorithms" *ngIf="!userService.logined"></a>
-        </section>
-        <section class="navbar-section" *ngIf="userService.logined">
+        </div>
+        <div class="float-right" *ngIf="userService.logined">
           <a routerLink="algorithms" class="btn btn-link text-light">{{ userService.group }}</a>
           <a (click)="logout()" class="btn btn-link text-light">登出</a>
-        </section>
+        </div>
       </header>
     </div>
   </div>

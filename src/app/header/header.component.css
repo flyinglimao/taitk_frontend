@@ -1,6 +1,16 @@
+.btn-link {
+    font-size: 1.15rem;
+    padding-top: 0;
+    border-width: 0;
+    line-height: 1.5;
+}
 .navbar-section {
-    align-items: end;
+    align-items: start;
 }
 .container {
     margin-bottom: 18px;
+}
+.navbar-brand {
+    font-size: 1.15rem;
+    margin-right: 1.4rem !important;
 }
