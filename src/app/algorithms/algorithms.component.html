@@ -55,6 +55,27 @@
                               作者：{{ algorithmAuthorFormatter(algorithm['authors']) }}<br>
                               聯絡 Email：{{ algorithm['email'] }}<br>
                             </div>
+                            <div class="panel-title h3">清大人工智慧中心</div>
+                            <div class="py-2" *ngFor="let algorithm of algorithmBelongToFilter('清大人工智慧中心')">
+                              名稱：{{ algorithm['abbreviation'] }}<br>
+                              單位：{{ algorithm['unit'] }}<br>
+                              作者：{{ algorithmAuthorFormatter(algorithm['authors']) }}<br>
+                              聯絡 Email：{{ algorithm['email'] }}<br>
+                            </div>
+                            <div class="panel-title h3">交大人工智慧中心</div>
+                            <div class="py-2" *ngFor="let algorithm of algorithmBelongToFilter('交大人工智慧中心')">
+                              名稱：{{ algorithm['abbreviation'] }}<br>
+                              單位：{{ algorithm['unit'] }}<br>
+                              作者：{{ algorithmAuthorFormatter(algorithm['authors']) }}<br>
+                              聯絡 Email：{{ algorithm['email'] }}<br>
+                            </div>
+                            <div class="panel-title h3">成大人工智慧中心</div>
+                            <div class="py-2" *ngFor="let algorithm of algorithmBelongToFilter('成大人工智慧中心')">
+                              名稱：{{ algorithm['abbreviation'] }}<br>
+                              單位：{{ algorithm['unit'] }}<br>
+                              作者：{{ algorithmAuthorFormatter(algorithm['authors']) }}<br>
+                              聯絡 Email：{{ algorithm['email'] }}<br>
+                            </div>
                           </div>
                         </div>
                     </div>
