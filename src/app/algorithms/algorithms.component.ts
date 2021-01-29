@@ -61,7 +61,7 @@ export class AlgorithmsComponent implements OnInit {
     created_at: '1970-01-01 00:00:00',
   };
   year: string = '2020';
-  years: string[] = ['2020', '2019', '2018'];
+  years: string[] = ['2021', '2020', '2019', '2018'];
   collection = false;
 
   @ViewChild('form', { static: true })
@@ -79,7 +79,9 @@ export class AlgorithmsComponent implements OnInit {
   }
 
   get sortedAlgorithms () {
-    let obj: Object = {}
+    let obj: Object = {
+      '清大人工智慧中心': []
+    }
     this.algorithms.forEach(algorithm => {
       if (!obj[algorithm.belong_to.substr(-8)]) {
         obj[algorithm.belong_to.substr(-8)] = []
