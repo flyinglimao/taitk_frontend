@@ -188,13 +188,16 @@ export class AlgorithmService {
         if (dataset['delete']) {
           return self.deleteAttribute('datasets', id, dataset.id);
         }
-        else if (dataset.description !== oldData[index].description
+        else if (
+          dataset.description !== oldData[index].description
           || dataset.link !== oldData[index].link
           || dataset.name !== oldData[index].name
           || dataset.free !== oldData[index].free
           || dataset.open !== oldData[index].open
           || dataset.source !== oldData[index].source
-          || dataset.resource !== oldData[index].resource) {
+          || dataset.resource !== oldData[index].resource
+          || dataset.publish_in !== oldData[index].publish_in
+        ) {
           return self.updateAttribute('datasets', id, dataset.id, dataset);
         }
       }

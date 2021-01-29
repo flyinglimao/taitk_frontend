@@ -239,6 +239,7 @@
                 <label class="form-label">是否為自行蒐集：{{ datasetModal.source.join(', ') }}</label>
             </div>
             <markdown [data]="datasetModal.resource" *ngIf="datasetModal.open == 1"></markdown>
+            <p *ngIf="datasetModal.publish_in">發表此 Dataset 的論文名稱：{{ datasetModal.publish_in }}</p>
         </div>
         <div class="modal-body" *ngIf="editing">
             <p>名稱：<input type="text" class="form-input " [(ngModel)]="datasetModal.name"></p>
@@ -286,6 +287,10 @@
             <div class="from-group">
                 <label class="form-label" *ngIf="datasetModal.open == 1">可被下載的資料集 URL or GitHub Link: </label>
                 <textarea class="form-input" id="resource" rows="3" [(ngModel)]="datasetModal.resource" *ngIf="datasetModal.open == 1"></textarea>
+            </div>
+            <div class="from-group">
+                <label class="form-label">發表此 Dataset 的論文名稱：</label>
+                <input type="text" class="form-input " [(ngModel)]="datasetModal.publish_in">
             </div>
         </div>
         <div class="modal-footer">
