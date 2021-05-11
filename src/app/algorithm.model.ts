@@ -16,6 +16,8 @@ export class Algorithm {
   public datasets: Array<{name: string, link: string, free: number, open: number, resource?: string, source?: Array<string>, publish_in?: string, id: number, delete: boolean}>;
   public input_type: string;
   public output_type: string;
+  public type: string;
+  public cited_link: string;
   public remote_secret: string;
   public email: string;
   public belong_to: string;
