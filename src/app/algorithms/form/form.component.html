@@ -216,28 +216,19 @@
         </div>
         <div class="tile tile-centered">
             <div class="tile-content">
-                <div class="tile-title text-bold">15. 識別碼</div>
-                <div class="tile-subtitle">{{ algorithmData.remote_secret }}</div>
-            </div>
-        </div>
-        <div class="tile tile-centered">
-            <div class="tile-content">
-                <div class="tile-title text-bold">16. 引用連結</div>
-                <div class="tile-subtitle" *ngIf="!editing">{{ algorithmData.cited_link }}</div>
-                <div class="tile-subtitle" *ngIf="editing">
-                    <input type="text" class="form-input" [(ngModel)]="algorithmData.cited_link">
-                </div>
-            </div>
-        </div>
-        <div class="tile tile-centered">
-            <div class="tile-content">
-                <div class="tile-title text-bold">17. 主類別</div>
+                <div class="tile-title text-bold">15. 主類別</div>
                 <div class="tile-subtitle" *ngIf="!editing">{{ algorithmData.type }}</div>
                 <select class="form-select" [(ngModel)]="algorithmData.type" *ngIf="editing">
                     <option>NLP Toolkit</option>
                     <option>Speech Tooklit</option>
-                    <option>? Toolkit</option>
+                    <option>Visual Toolkit</option>
                 </select>
+            </div>
+        </div>
+        <div class="tile tile-centered" style="display: none">
+            <div class="tile-content">
+                <div class="tile-title text-bold">16. 識別碼</div>
+                <div class="tile-subtitle">{{ algorithmData.remote_secret }}</div>
             </div>
         </div>
     </div>
